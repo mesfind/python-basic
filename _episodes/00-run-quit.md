@@ -2,10 +2,7 @@
 title: Running and Quitting
 teaching: 15
 exercises: 0
----
-
-::::::::::::::::::::::::::::::::::::::: objectives
-
+objectives:
 - Launch the JupyterLab server.
 - Create a new Python script.
 - Create a Jupyter notebook.
@@ -13,14 +10,16 @@ exercises: 0
 - Understand the difference between a Python script and a Jupyter notebook.
 - Create Markdown cells in a notebook.
 - Create and run Python cells in a notebook.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::: questions
-
+questions: 
 - How can I run Python programs?
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+keypoints:
+- Python scripts are plain text files.
+- Use the Jupyter Notebook for editing and running Python.
+- The Notebook has Command and Edit modes.
+- Use the keyboard and mouse to select and edit cells.
+- The Notebook will turn Markdown into pretty-printed documentation.
+- Markdown does most of what HTML does.
+---
 
 To run Python, we are going to use [Jupyter Notebooks][jupyter] via [JupyterLab][jupyterlab] for the remainder of this workshop. Jupyter notebooks are common in data science and visualization and serve as a convenient common-denominator experience for running Python code interactively where we can easily view and share the results of our Python code.
 
@@ -479,55 +478,46 @@ Now go back to the cell and use <kbd>Esc</kbd> then <kbd>m</kbd> to switch the c
 and "run" it with <kbd>Shift</kbd>\+<kbd>Return</kbd>.
 What happened and how might this be useful?
 
-:::::::::::::::  solution
-
-## Solution
-
-The Python code gets treated like Markdown text.
-The lines appear as if they are part of one contiguous paragraph.
-This could be useful to temporarily turn on and off cells in notebooks that get used for multiple purposes.
-
-```python
-x = 6 * 7 + 12 print(x)
-```
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Equations
-
-Standard Markdown (such as we're using for these notes) won't render equations,
-but the Notebook will.
-Create a new Markdown cell
-and enter the following:
-
-```
-$\sum_{i=1}^{N} 2^{-i} \approx 1$
-```
-
-(It's probably easier to copy and paste.)
-What does it display?
-What do you think the underscore, `_`, circumflex, `^`, and dollar sign, `$`, do?
-
-:::::::::::::::  solution
-
-## Solution
-
-The notebook shows the equation as it would be rendered from LaTeX equation syntax.
-The dollar sign, `$`, is used to tell Markdown that the text in between is a LaTeX equation.
-If you're not familiar with LaTeX,  underscore, `_`, is used for subscripts and circumflex, `^`, is used for superscripts.
-A pair of curly braces, `{` and `}`, is used to group text together so that the statement `i=1` becomes the subscript and `N` becomes the superscript.
-Similarly, `-i` is in curly braces to make the whole statement the superscript for `2`.
-`\sum` and `\approx` are LaTeX commands for "sum over" and "approximate" symbols.
 
 
+> ## Solution
+> 
+> The Python code gets treated like Markdown text.
+> The lines appear as if they are part of one contiguous paragraph.
+> This could be useful to temporarily turn on and off cells in notebooks that get used for multiple purposes.
+> 
+> ```python
+> x = 6 * 7 + 12 print(x)
+> ```
+> {: .solution}
 
-:::::::::::::::::::::::::
+> ## Equations
+>
+> Standard Markdown (such as we're using for these notes) won't render equations, but the Notebook will.
+> Create a new Markdown cell
+> and enter the following:
+>
+> ```
+> $\sum_{i=1}^{N} 2^{-i} \approx 1$
+> ```
+>
+> (It's probably easier to copy and paste.)
+> What does it display?
+> What do you think the underscore, `_`, circumflex, `^`, and dollar sign, `$`, do?
+> 
+> {: .challenge}
 
-::::::::::::::::::::::::::::::::::::::::::::::::::
+> ## Solution
+> 
+> The notebook shows the equation as it would be rendered from LaTeX equation syntax.
+> The dollar sign, `$`, is used to tell Markdown that the text in between is a LaTeX equation.
+> If you're not familiar with LaTeX,  underscore, `_`, is used for subscripts and circumflex, `^`, is used for superscripts.
+> A pair of curly braces, `{` and `}`, is used to group text together so that the statement `i=1` becomes the subscript and `N` becomes the superscript.
+> Similarly, `-i` is in curly braces to make the whole statement the superscript for `2`.
+> `\sum` and `\approx` are LaTeX commands for "sum over" and "approximate" symbols.
+> {: .solution}
+
+
 
 ## Closing JupyterLab
 
@@ -538,14 +528,13 @@ Similarly, `-i` is in curly braces to make the whole statement the superscript f
 $ jupyter lab
 ```
 
-:::::::::::::::::::::::::::::::::::::::  challenge
+{: .challenge}
 
 ## Closing JupyterLab
 
 Practice closing and restarting the JupyterLab server.
 
 
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 
 
@@ -553,17 +542,4 @@ Practice closing and restarting the JupyterLab server.
 [jupyterlab-ui]: https://jupyterlab.readthedocs.io/en/stable/user/interface.html
 [jupyterlab-notebook-docs]: https://jupyterlab.readthedocs.io/en/stable/user/notebook.html
 [markdown]: https://en.wikipedia.org/wiki/Markdown
-
-
-:::::::::::::::::::::::::::::::::::::::: keypoints
-
-- Python scripts are plain text files.
-- Use the Jupyter Notebook for editing and running Python.
-- The Notebook has Command and Edit modes.
-- Use the keyboard and mouse to select and edit cells.
-- The Notebook will turn Markdown into pretty-printed documentation.
-- Markdown does most of what HTML does.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
 
