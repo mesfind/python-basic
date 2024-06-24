@@ -3,7 +3,7 @@ layout: lesson
 root: .
 ---
 
-# Welcome to Machine Learning for Physical Sciences
+# Welcome to Programming with Python
 
 
 ## Why Python?
