@@ -146,20 +146,20 @@ menus are included by default.
 - **Settings:** Common JupyterLab settings can be configured using this menu. There is also an *Advanced Settings Editor* option in the dropdown menu that provides more fine-grained control of JupyterLab settings and configuration options.
 - **Help:** A list of JupyterLab and kernel help links.
 
-:::::::::::::::::::::::::::::::::::::::::  callout
 
-## Kernels
 
-The JupyterLab [docs](https://jupyterlab.readthedocs.io/en/stable/user/documents_kernels.html)
-define kernels as "separate processes started by the server that runs your code in different programming languages and environments."
-When we open a Jupyter Notebook, that starts a kernel - a process - that is going to run the code.
-In this lesson, we'll be using the Jupyter ipython kernel which lets us run Python 3 code interactively.
-
-Using other Jupyter [kernels for other programming languages](https://github.com/jupyter/jupyter/wiki/Jupyter-kernels) would let us
-write and execute code in other programming languages in the same JupyterLab interface, like R, Java, Julia, Ruby, JavaScript, Fortran,
+> ## Kernels
+>
+> The JupyterLab [docs](https://jupyterlab.readthedocs.io/en/stable/user/documents_kernels.html)
+> define kernels as "separate processes started by the server that runs your code in different programming languages and environments."
+> When we open a Jupyter Notebook, that starts a kernel - a process - that is going to run the code.
+> In this lesson, we'll be using the Jupyter ipython kernel which lets us run Python 3 code interactively.
+> 
+> Using other Jupyter [kernels for other programming languages](https://github.com/jupyter/jupyter/wiki/Jupyter-kernels) would let us
+> write and execute code in other programming languages in the same JupyterLab interface, like R, Java, Julia, Ruby, JavaScript, Fortran,
 etc.
+> {: .callout}
 
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 A screenshot of the default Menu Bar is provided below.
 
@@ -218,58 +218,49 @@ more details, then see the [official notebook documentation][jupyterlab-notebook
 <p align='center'>   <img alt="Example Jupyter Notebook" src="../fig/0_jupyterlab_notebook_screenshot.png" width="750"/>
 </p>
 
-:::::::::::::::::::::::::::::::::::::::::  callout
 
-## How It's Stored
+> ## How It's Stored
+> 
+> - The notebook file is stored in a format called JSON.
+> - Just like a webpage, what's saved looks different from what you see in your browser.
+> - But this format allows Jupyter to mix source code, text, and images, all in one file.
+{: .callout}
 
-- The notebook file is stored in a format called JSON.
-- Just like a webpage, what's saved looks different from what you see in your browser.
-- But this format allows Jupyter to mix source code, text, and images, all in one file.
-  
 
-::::::::::::::::::::::::::::::::::::::::::::::::::
+> ## Arranging Documents into Panels of Tabs
+> 
+> In the JupyterLab Main Work Area you can arrange documents into panels of tabs. Here is an
+> example from the [official documentation][jupyterlab].
+> 
+> <p align='center'>   <img alt="Multi-panel JupyterLab" src="../fig/0_multipanel_jupyterlab_screenshot.png" width="750"/>
+> </p>
+> 
+> First, create a text file, Python console, and terminal window and arrange them into three
+> panels in the main work area. Next, create a notebook, terminal window, and text file and
+> arrange them into three panels in the main work area. Finally, create your own combination of
+> panels and tabs. What combination of panels and tabs do you think will be most useful for your
+> workflow?
 
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Arranging Documents into Panels of Tabs
-
-In the JupyterLab Main Work Area you can arrange documents into panels of tabs. Here is an
-example from the [official documentation][jupyterlab].
-
-<p align='center'>   <img alt="Multi-panel JupyterLab" src="../fig/0_multipanel_jupyterlab_screenshot.png" width="750"/>
-</p>
-
-First, create a text file, Python console, and terminal window and arrange them into three
-panels in the main work area. Next, create a notebook, terminal window, and text file and
-arrange them into three panels in the main work area. Finally, create your own combination of
-panels and tabs. What combination of panels and tabs do you think will be most useful for your
-workflow?
-
-:::::::::::::::  solution
-
-## Solution
-
-After creating the necessary tabs, you can drag one of the tabs to the center of a panel to
-move the tab to the panel; next you can subdivide a tab panel by dragging a tab to the left,
-right, top, or bottom of the panel.
+> > ## Solution
+> > 
+> > After creating the necessary tabs, you can drag one of the tabs to the center of a panel to
+> > move the tab to the panel; next you can subdivide a tab panel by dragging a tab to the left,
+> > right, top, or bottom of the panel.
+> > {: .solution}
+> {: .challenge}
 
 
 
-:::::::::::::::::::::::::
 
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::::  callout
-
-## Code vs. Text
-
-Jupyter mixes code and text in different types of blocks, called cells. We often use the term
-"code" to mean "the source code of software written in a language such as Python".
-A "code cell" in a Notebook is a cell that contains software;
-a "text cell" is one that contains ordinary prose written for human beings.
+> ## Code vs. Text
+> 
+> Jupyter mixes code and text in different types of blocks, called cells. We often use the term
+> "code" to mean "the source code of software written in a language such as Python".
+> A "code cell" in a Notebook is a cell that contains software;
+> a "text cell" is one that contains ordinary prose written for human beings.
+{: .callout}
 
 
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## The Notebook has Command and Edit modes.
 
@@ -283,31 +274,24 @@ a "text cell" is one that contains ordinary prose written for human beings.
   - The <kbd>z</kbd> key will undo your last cell operation (which could be a deletion, creation, etc).
 - All actions can be done using the menus, but there are lots of keyboard shortcuts to speed things up.
 
-:::::::::::::::::::::::::::::::::::::::  challenge
+> ## Command Vs. Edit
+> 
+> In the Jupyter notebook page are you currently in Command or Edit mode?  
+> Switch between the modes.
+> Use the shortcuts to generate a new cell.
+> Use the shortcuts to delete a cell.
+> Use the shortcuts to undo the last cell operation you performed.
+> 
+> > ## Solution
+> > 
+> > Command mode has a grey border and Edit mode has a blue border.
+> > Use <kbd>Esc</kbd> and <kbd>Return</kbd> to switch between modes.
+> > You need to be in Command mode (Press <kbd>Esc</kbd> if your cell is blue).  Type <kbd>b</kbd> or <kbd>a</kbd>.
+> > You need to be in Command mode (Press <kbd>Esc</kbd> if your cell is blue).  Type <kbd>x</kbd>.
+>  > You need to be in Command mode (Press <kbd>Esc</kbd> if your cell is blue).  Type <kbd>z</kbd>.
+> > {: .solution}
+> {: .challenge}
 
-## Command Vs. Edit
-
-In the Jupyter notebook page are you currently in Command or Edit mode?  
-Switch between the modes.
-Use the shortcuts to generate a new cell.
-Use the shortcuts to delete a cell.
-Use the shortcuts to undo the last cell operation you performed.
-
-:::::::::::::::  solution
-
-## Solution
-
-Command mode has a grey border and Edit mode has a blue border.
-Use <kbd>Esc</kbd> and <kbd>Return</kbd> to switch between modes.
-You need to be in Command mode (Press <kbd>Esc</kbd> if your cell is blue).  Type <kbd>b</kbd> or <kbd>a</kbd>.
-You need to be in Command mode (Press <kbd>Esc</kbd> if your cell is blue).  Type <kbd>x</kbd>.
-You need to be in Command mode (Press <kbd>Esc</kbd> if your cell is blue).  Type <kbd>z</kbd>.
-
-
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ### Use the keyboard and mouse to select and edit cells.
 
