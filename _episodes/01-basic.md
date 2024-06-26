@@ -109,7 +109,7 @@ print(first_name, 'is', age, 'years old')
 ```
 
 ```output
-Ahmed is 42 years old
+Abebe is 42 years old
 ```
 
 - `print` automatically puts a single space between items to separate them.
@@ -136,30 +136,29 @@ NameError: name 'last_name' is not defined
 - The last line of an error message is usually the most informative.
 - We will look at error messages in detail [later](17-scope.md#reading-error-messages).
 
-:::::::::::::::::::::::::::::::::::::::::  callout
-
-## Variables Persist Between Cells
-
-Be aware that it is the *order* of execution of cells that is important in a Jupyter notebook, not the order
-in which they appear. Python will remember *all* the code that was run previously, including any variables you have
-defined, irrespective of the order in the notebook. Therefore if you define variables lower down the notebook and then
-(re)run cells further up, those defined further down will still be present. As an example, create two cells with the
-following content, in this order:
-
-```python
-print(myval)
-```
-
-```python
-myval = 1
-```
-
-If you execute this in order, the first cell will give an error. However, if you run the first cell *after* the second
-cell it will print out `1`. To prevent confusion, it can be helpful to use the `Kernel` -> `Restart & Run All` option which
-clears the interpreter and runs everything from a clean slate going top to bottom.
 
 
-::::::::::::::::::::::::::::::::::::::::::::::::::
+> ## Variables Persist Between Cells
+> 
+> Be aware that it is the *order* of execution of cells that is important in a Jupyter notebook, not the order
+> in which they appear. Python will remember *all* the code that was run previously, including any variables you have
+> defined, irrespective of the order in the notebook. Therefore if you define variables lower down the notebook and then
+> (re)run cells further up, those defined further down will still be present. As an example, create two cells with the
+> following content, in this order:
+> 
+> ```python
+> print(myval)
+> ```
+> 
+> ```python
+> myval = 1
+> ```
+> 
+> If you execute this in order, the first cell will give an error. However, if you run the first cell *after* the second
+> cell it will print out `1`. To prevent confusion, it can be helpful to use the `Kernel` -> `Restart & Run All` option which
+> clears the interpreter and runs everything from a clean slate going top to bottom.
+{: .callout}
+
 
 ## Variables can be used in calculations.
 
