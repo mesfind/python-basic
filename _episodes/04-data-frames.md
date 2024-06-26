@@ -18,7 +18,7 @@ keypoints:
 - Select values or NaN using a Boolean mask.
 ---
 
-## Note about Pandas DataFrames/Series
+## Pandas DataFrames/Series
 
 A [DataFrame][pandas-dataframe] is a collection of [Series][pandas-series];
 The DataFrame is the way Pandas represents a table, and Series is the data-structure
@@ -31,6 +31,60 @@ What makes Pandas so attractive is the powerful interface to access individual r
 of the table, proper handling of missing values, and relational-databases operations
 between DataFrames.
 
+The basic steps to load and preview a dataset using the Pandas library in Python. The dataset being used is the "Gapminder" dataset, which contains information about various socioeconomic indicators for different countries over time.
+
+```python
+import pandas as pd
+
+path = "https://raw.githubusercontent.com/mesfind/datasets/master/gapminder_tidy.csv"
+df= pd.read_csv(path)
+df.head()
+```
+
+```output
+       Country  Year  fertility    life  population  child_mortality     gdp      region
+0  Afghanistan  1964      7.671  33.639  10474903.0            339.7  1182.0  South Asia
+1  Afghanistan  1965      7.671  34.152  10697983.0            334.1  1182.0  South Asia
+2  Afghanistan  1966      7.671  34.662  10927724.0            328.7  1168.0  South Asia
+3  Afghanistan  1967      7.671  35.170  11163656.0            323.3  1173.0  South Asia
+4  Afghanistan  1968      7.671  35.674  11411022.0            318.1  1187.0  South Asia
+
+```
+
+With an additional parameter  in the `pd.read_csv()`` function, it  is possible to load the same  dataset. Using the `index_col` parameter allows you to specify which column should be used as the index for the DataFrame. In this case, setting index_col='Country' tells Pandas to use the "Country" column as the index:
+
+```python
+import pandas as pd
+
+path = "https://raw.githubusercontent.com/mesfind/datasets/master/gapminder_tidy.csv"
+df= pd.read_csv(path, index_col='Country')
+df.head()
+```
+
+```output
+             Year  fertility    life  population  child_mortality     gdp      region
+Country                                                                              
+Afghanistan  1964      7.671  33.639  10474903.0            339.7  1182.0  South Asia
+Afghanistan  1965      7.671  34.152  10697983.0            334.1  1182.0  South Asia
+Afghanistan  1966      7.671  34.662  10927724.0            328.7  1168.0  South Asia
+Afghanistan  1967      7.671  35.170  11163656.0            323.3  1173.0  South Asia
+Afghanistan  1968      7.671  35.674  11411022.0            318.1  1187.0  South Asia
+```
+
+Printing the column names is a common first step in data exploration, as it gives you a high-level overview of the data structure and helps you navigate the dataset more effectively.
+
+```python
+print(df.columns)
+```
+
+```output
+Index(['Country', 'Year', 'fertility', 'life', 'population', 'child_mortality',
+       'gdp', 'region'],
+      dtype='object')
+
+```
+This is a useful way to quickly see the available data columns in the dataset, which can help you understand the types of information contained in the data and plan your analysis accordingly.
+
 ## Selecting values
 
 To access a value at the position `[i,j]` of a DataFrame, we have two options, depending on
@@ -39,20 +93,29 @@ Remember that a DataFrame provides an *index* as a way to identify the rows of t
 a row, then, has a *position* inside the table as well as a *label*, which
 uniquely identifies its *entry* in the DataFrame.
 
-## Use `DataFrame.iloc[..., ...]` to select values by their (entry) position
 
 - Can specify location by numerical index analogously to 2D version of character selection in strings.
 
-```python
-import pandas as pd
+## Use `DataFrame.iloc[..., ...]` to select values by their (entry) position
 
-path = "https://raw.githubusercontent.com/mesfind/datasets/master/gapminder_tidy.csv"
-data = pd.read_csv(path, index_col='country')
-print(data.iloc[0, 0])
+```python
+print(df.iloc[0,1])
 ```
 
 ```output
-1601.056136
+7.671
+```
+
+
+```python
+print(df.iloc[[0,1]])
+```
+
+```
+             Year  fertility    life  population  child_mortality     gdp      region
+Country                                                                              
+Afghanistan  1964      7.671  33.639  10474903.0            339.7  1182.0  South Asia
+Afghanistan  1965      7.671  34.152  10697983.0            334.1  1182.0  South Asia
 ```
 
 ## Use `DataFrame.loc[..., ...]` to select values by their (entry) label.
@@ -60,11 +123,30 @@ print(data.iloc[0, 0])
 - Can specify location by row and/or column name.
 
 ```python
-print(data.loc["Ethiopia", "gdpPercap_1952"])
+print(df.loc["Ethiopia", "gdp"])
 ```
 
 ```output
-1601.056136
+Country
+Ethiopia     698.0
+Ethiopia     727.0
+Ethiopia     746.0
+Ethiopia     777.0
+Ethiopia     800.0
+Ethiopia     810.0
+Ethiopia     778.0
+Ethiopia     792.0
+Ethiopia     803.0
+...
+Ethiopia     863.0
+Ethiopia     931.0
+Ethiopia     986.0
+Ethiopia    1081.0
+Ethiopia    1171.0
+Ethiopia    1240.0
+Ethiopia    1336.0
+Name: gdp, dtype: float64
+
 ```
 
 ## Use `:` on its own to mean all columns or all rows.
@@ -72,60 +154,71 @@ print(data.loc["Ethiopia", "gdpPercap_1952"])
 - Just like Python's usual slicing notation.
 
 ```python
-print(data.loc["Ethiopia", :])
+print(df.loc["Ethiopia", :])
 ```
 
 ```output
-gdpPercap_1952    1601.056136
-gdpPercap_1957    1942.284244
-gdpPercap_1962    2312.888958
-gdpPercap_1967    2760.196931
-gdpPercap_1972    3313.422188
-gdpPercap_1977    3533.003910
-gdpPercap_1982    3630.880722
-gdpPercap_1987    3738.932735
-gdpPercap_1992    2497.437901
-gdpPercap_1997    3193.054604
-gdpPercap_2002    4604.211737
-gdpPercap_2007    5937.029526
+         Year  fertility    life  population  child_mortality     gdp              region
+Country                                                                                   
+Ethiopia  1964      6.867  40.200  24846785.0           255.99   698.0  Sub-Saharan Africa
+Ethiopia  1965      6.864  39.000  25480202.0           248.90   727.0  Sub-Saharan Africa
+Ethiopia  1966      6.867  40.000  26128435.0           242.00   746.0  Sub-Saharan Africa
+Ethiopia  1967      6.880  42.027  26790992.0           241.50   777.0  Sub-Saharan Africa
+Ethiopia  1968      6.903  42.357  27476546.0           241.00   800.0  Sub-Saharan Africa
+Ethiopia  1969      6.937  42.663  28197484.0           241.20   810.0  Sub-Saharan Africa
+Ethiopia  1970      6.978  42.949  28959382.0           241.10   778.0  Sub-Saharan Africa
+Ethiopia  1971      7.020  43.219  29777985.0           241.20   792.0  Sub-Saharan Africa
 Name: Albania, dtype: float64
 ```
 
 - Would get the same result printing `data.loc["Albania"]` (without a second index).
 
 ```python
-print(data.loc[:, "gdpPercap_1952"])
+print(df.loc[:, "gdp"])
 ```
 
 ```output
-country
-Albania                    1601.056136
-Austria                    6137.076492
-Belgium                    8343.105127
-⋮ ⋮ ⋮
-Switzerland               14734.232750
-Turkey                     1969.100980
-United Kingdom             9979.508487
-Name: gdpPercap_1952, dtype: float64
+Country
+Afghanistan    1182.0
+Afghanistan    1182.0
+Afghanistan    1168.0
+Afghanistan    1173.0
+Afghanistan    1187.0
+...               ...  
+Åland             NaN
+Åland             NaN
+Åland             NaN
+Åland             NaN
+Åland             NaN
+Name: gdp, Length: 10111, dtype: float64
 ```
 
-- Would get the same result printing `data["gdpPercap_1952"]`
-- Also get the same result printing `data.gdpPercap_1952` (not recommended, because easily confused with `.` notation for methods)
+- Would get the same result printing `df["gdp"]`
+- Also get the same result printing `df.gdp` (not recommended, because easily confused with `.` notation for methods)
 
 ## Select multiple columns or rows using `DataFrame.loc` and a named slice.
 
 ```python
-print(data.loc['Italy':'Poland', 'gdpPercap_1962':'gdpPercap_1972'])
+print(df.loc['Ethiopia':'Somalia', 'gdp':'region'])
 ```
 
 ```output
-             gdpPercap_1962  gdpPercap_1967  gdpPercap_1972
-country
-Italy           8243.582340    10022.401310    12269.273780
-Montenegro      4649.593785     5907.850937     7778.414017
-Netherlands    12790.849560    15363.251360    18794.745670
-Norway         13450.401510    16361.876470    18965.055510
-Poland          5338.752143     6557.152776     8006.506993
+            gdp              region
+Country                            
+Ethiopia  698.0  Sub-Saharan Africa
+Ethiopia  727.0  Sub-Saharan Africa
+Ethiopia  746.0  Sub-Saharan Africa
+Ethiopia  777.0  Sub-Saharan Africa
+Ethiopia  800.0  Sub-Saharan Africa
+...         ...                 ...
+Somalia   615.0  Sub-Saharan Africa
+Somalia   614.0  Sub-Saharan Africa
+Somalia   614.0  Sub-Saharan Africa
+Somalia   616.0  Sub-Saharan Africa
+Somalia   619.0  Sub-Saharan Africa
+
+[5450 rows x 2 columns]
+
 ```
 
 In the above code, we discover that **slicing using `loc` is inclusive at both
@@ -140,25 +233,19 @@ everything up to but not including the final index.
 - E.g., calculate max of a slice.
 
 ```python
-print(data.loc['Italy':'Poland', 'gdpPercap_1962':'gdpPercap_1972'].max())
+print(df.loc['Ethiopia':'Somalia', 'gdp'].max())
 ```
 
 ```output
-gdpPercap_1962    13450.40151
-gdpPercap_1967    16361.87647
-gdpPercap_1972    18965.05551
-dtype: float64
+165564.0
 ```
 
 ```python
-print(data.loc['Italy':'Poland', 'gdpPercap_1962':'gdpPercap_1972'].min())
+print(df.loc['Ethiopia':'Somalia', 'gdp'].min())
 ```
 
 ```output
-gdpPercap_1962    4649.593785
-gdpPercap_1967    5907.850937
-gdpPercap_1972    7778.414017
-dtype: float64
+142.0
 ```
 
 ## Use comparisons to select data based on value.
@@ -168,7 +255,7 @@ dtype: float64
 
 ```python
 # Use a subset of data to keep output readable.
-subset = data.loc['Italy':'Poland', 'gdpPercap_1962':'gdpPercap_1972']
+subset = df.loc['Ethiopia':'Somalia', 'gdp']
 print('Subset of data:\n', subset)
 
 # Which values were greater than 10000 ?
@@ -177,22 +264,34 @@ print('\nWhere are values large?\n', subset > 10000)
 
 ```output
 Subset of data:
-             gdpPercap_1962  gdpPercap_1967  gdpPercap_1972
-country
-Italy           8243.582340    10022.401310    12269.273780
-Montenegro      4649.593785     5907.850937     7778.414017
-Netherlands    12790.849560    15363.251360    18794.745670
-Norway         13450.401510    16361.876470    18965.055510
-Poland          5338.752143     6557.152776     8006.506993
+ Country
+Ethiopia    698.0
+Ethiopia    727.0
+Ethiopia    746.0
+Ethiopia    777.0
+Ethiopia    800.0
+            ...  
+Somalia     615.0
+Somalia     614.0
+Somalia     614.0
+Somalia     616.0
+Somalia     619.0
+Name: gdp, Length: 5450, dtype: float64
 
 Where are values large?
-            gdpPercap_1962 gdpPercap_1967 gdpPercap_1972
-country
-Italy                False           True           True
-Montenegro           False          False          False
-Netherlands           True           True           True
-Norway                True           True           True
-Poland               False          False          False
+ Country
+Ethiopia    False
+Ethiopia    False
+Ethiopia    False
+Ethiopia    False
+Ethiopia    False
+            ...  
+Somalia     False
+Somalia     False
+Somalia     False
+Somalia     False
+Somalia     False
+Name: gdp, Length: 5450, dtype: bool
 ```
 
 ## Select values or NaN using a Boolean mask.
@@ -205,13 +304,19 @@ print(subset[mask])
 ```
 
 ```output
-             gdpPercap_1962  gdpPercap_1967  gdpPercap_1972
-country
-Italy                   NaN     10022.40131     12269.27378
-Montenegro              NaN             NaN             NaN
-Netherlands     12790.84956     15363.25136     18794.74567
-Norway          13450.40151     16361.87647     18965.05551
-Poland                  NaN             NaN             NaN
+Country
+Finland     12389.0
+Finland     13006.0
+Finland     13269.0
+Finland     13477.0
+Finland     13726.0
+             ...   
+Slovenia    28157.0
+Slovenia    28377.0
+Slovenia    28492.0
+Slovenia    27682.0
+Slovenia    27368.0
+Name: gdp, Length: 1964, dtype: float64
 ```
 
 - Get the value where the mask is true, and NaN (Not a Number) where it is false.
@@ -222,28 +327,378 @@ print(subset[subset > 10000].describe())
 ```
 
 ```output
-       gdpPercap_1962  gdpPercap_1967  gdpPercap_1972
-count        2.000000        3.000000        3.000000
-mean     13120.625535    13915.843047    16676.358320
-std        466.373656     3408.589070     3817.597015
-min      12790.849560    10022.401310    12269.273780
-25%      12955.737547    12692.826335    15532.009725
-50%      13120.625535    15363.251360    18794.745670
-75%      13285.513523    15862.563915    18879.900590
-max      13450.401510    16361.876470    18965.055510
+count      1964.000000
+mean      27467.373727
+std       21749.445029
+min       10003.000000
+25%       14195.750000
+50%       20403.500000
+75%       32395.250000
+max      165564.000000
+Name: gdp, dtype: float64
+```
+
+## Selecting Numerical Columns
+
+By creating a separate DataFrame with only the numerical columns, you can:
+
+1. Analyze the numerical data more effectively, without having to worry about non-numerical columns.
+2. Perform statistical operations, such as calculating means, standard deviations, and correlations, on the numerical data.
+3. Use the numerical data as input for machine learning models or other data analysis techniques that require numerical inputs.
+
+The following  code snippet identifies the numerical columns in the DataFrame and creates a new DataFrame containing only those columns. The `select_dtypes(include=['number'])` method is used to filter the DataFrame and keep only the columns with numerical data types, such as integers and floats. This is a common data preprocessing step, as it allows you to focus on the quantitative aspects of the data and perform numerical analysis more easily.
+
+```python
+# numerical columns
+numerical_df = df.select_dtypes(include=['number'])
+numerical_df.head()
+```
+
+```output
+   Year  fertility    life  population  child_mortality     gdp
+0  1964      7.671  33.639  10474903.0            339.7  1182.0
+1  1965      7.671  34.152  10697983.0            334.1  1182.0
+2  1966      7.671  34.662  10927724.0            328.7  1168.0
+3  1967      7.671  35.170  11163656.0            323.3  1173.0
+4  1968      7.671  35.674  11411022.0            318.1  1187.0
+```
+
+
+Checking for missing data is a crucial step in data exploration, as it helps you identify potential issues or limitations in the dataset. Addressing missing data can involve techniques like imputation, dropping rows or columns with missing values, or using specialized methods for handling missing data in your analysis.
+
+```python
+numerical_df.isnull().sum()
+```
+
+```output
+Year                  0
+fertility            11
+life                  0
+population            3
+child_mortality     901
+gdp                1111
+dtype: int64
+```
+The output shows the count of missing values (NaN) for each column in the DataFrame. Let's discuss this in more detail:
+
+- `Year`: 0 missing values, indicating that the year data is complete.
+- `fertility`: 11 missing values, suggesting that the fertility data has some gaps.
+- `life`: 0 missing values, meaning the life expectancy data is complete.
+- `population`: 3 missing values, so the population data has a few gaps.
+- `child_mortality`: 901 missing values, which is a significant amount of missing data for the child mortality column.
+- `gdp`: 1111 missing values, indicating that the GDP data has a large number of missing entries.
+
+
+## Handling Missing Valus
+
+Some common approaches to handling missing data include:
+
+- Imputation: Filling in the missing values using techniques like mean, median, or more advanced methods.
+- Dropping rows or columns with missing data, if the amount of missing data is not too high.
+- Using specialized methods for handling missing data, such as those available in machine learning libraries.
+
+Knowing the extent of missing data in each column will help you make informed decisions about how to best prepare the data for your analysis.
+
+### Imputing missing with Median
+
+Using the median as the imputation method is a simple and robust approach, as it is less sensitive to outliers compared to using the mean. 
+```python
+numerical_df = numerical_df.fillna(numerical_df.median())
+numerical_df.isnull().sum()
+```
+
+```output
+Year               0
+fertility          0
+life               0
+population         0
+child_mortality    0
+gdp                0
+dtype: int64
+```
+
+However, it's important to note that imputing missing values can introduce some bias in the data, especially if the missing values are not missing at random. In such cases, more advanced imputation techniques or domain-specific knowledge may be required to handle the missing data more effectively.
+
+### Dropping  missing data,
+
+Dropping rows with missing values is a common approach to handling missing data, especially when the amount of missing data is not too high. This method ensures that your analysis is performed on a complete dataset, without the need for imputation. However, it's important to be cautious when dropping a significant amount of data, as it can lead to a loss of information and potentially biased results.
+
+```
+import pandas as pd
+
+path = "https://raw.githubusercontent.com/mesfind/datasets/master/gapminder_tidy.csv"
+df = pd.read_csv(path, index_col='Country')
+numerical_df2 = df.select_dtypes(include=['number'])
+numerical_df2 = numerical_df.dropna(inplace=False)
+print(numerical_df2.isnull().sum())
+```
+
+```output
+Year               0
+fertility          0
+life               0
+population         0
+child_mortality    0
+gdp                0
+dtype: int64
+
+```
+
+## Outlier Detections
+
+### Interquartile Range (IQR) method
+
+To treat outliers identified using the Interquartile Range (IQR) method, you have several options depending on the context and the nature of your data. Common methods include removing the outliers, replacing them with a statistical value (such as the median), or capping them at the bounds of the IQR range. Below are examples of each approach:
+
+```python
+# Calculate the IQR for each numerical column
+Q1 = numerical_df.quantile(0.25)
+Q3 = numerical_df.quantile(0.75)
+IQR = Q3 - Q1
+# Determine outlier bounds
+lower_bound = Q1 - 1.5 * IQR
+upper_bound = Q3 + 1.5 * IQR
+
+outliers = (numerical_df < lower_bound) | ( numerical_df > upper_bound)
+print("Potential outliers based on IQR:\n",outliers)
+```
+
+```output
+Potential outliers based on IQR:
+               Year  fertility   life  population  child_mortality    gdp
+Country                                                                 
+Afghanistan  False      False  False       False             True  False
+Afghanistan  False      False  False       False             True  False
+Afghanistan  False      False  False       False             True  False
+Afghanistan  False      False  False       False             True  False
+Afghanistan  False      False  False       False             True  False
+...            ...        ...    ...         ...              ...    ...
+Zimbabwe     False      False  False       False            False  False
+Zimbabwe     False      False  False       False            False  False
+Zimbabwe     False      False  False       False            False  False
+Zimbabwe     False      False  False       False            False  False
+Zimbabwe     False      False  False       False            False  False
+
+[8836 rows x 6 columns]
+```
+
+- Calculates the sum of the outliers DataFrame (or Series) using the `sum()` method, and stores the result in the outlier_counts variable.
+- The `outlier_counts` variable displays the count of potential outliers in each column of the original DataFrame.
+
+```python
+outlier_counts = outliers.sum()
+print("Count of potential outliers in each column:\n", outlier_counts)
+```
+
+
+```python
+Count of potential outliers in each column:
+ Year                 0
+fertility             0
+life                 10
+population         1208
+child_mortality     202
+gdp                 723
+dtype: int64
+```
+
+This output indicates that there are 10 potential outliers in the "life", 1208 in "population",  202 in "child_mortality"  and 723 in "gdp" columns in `numerical_df`  DataFrame.
+
+
+Identifying  the rows in the `numerical_df` DataFrame that contain potential outliers can be useful for further data exploration, cleaning, and analysis, as you can now focus on these potentially problematic rows and investigate the outliers in more detail.
+
+```python
+outlier_rows = numerical_df[outliers.any(axis=1)]
+print("Rows with potential outliers:\n",outlier_rows)
+```
+
+```
+Rows with potential outliers:
+              Year  fertility    life  population  child_mortality     gdp
+Country                                                                  
+Afghanistan  1964      7.671  33.639  10474903.0            339.7  1182.0
+Afghanistan  1965      7.671  34.152  10697983.0            334.1  1182.0
+Afghanistan  1966      7.671  34.662  10927724.0            328.7  1168.0
+Afghanistan  1967      7.671  35.170  11163656.0            323.3  1173.0
+Afghanistan  1968      7.671  35.674  11411022.0            318.1  1187.0
+...           ...        ...     ...         ...              ...     ...
+Vietnam      2009      1.843  75.344  86901173.0             25.5  4260.0
+Vietnam      2010      1.820  75.490  87848445.0             24.8  4486.0
+Vietnam      2011      1.794  75.641  88791996.0             24.2  4717.0
+Vietnam      2012      1.768  75.793  89730274.0             23.5  4912.0
+Vietnam      2013      1.743  75.945  90656550.0             22.9  5125.0
+
+[2060 rows x 6 columns]
+```
+
+
+
+### Capping Outliers at the Bounds of the IQR Range
+
+Capping outliers involves adjusting extreme values in a dataset to the nearest boundary of the interquartile range (IQR). This technique effectively reduces the impact of outliers, ensuring that statistical analyses are not unduly influenced by anomalous data points. By capping values at the IQR bounds, researchers maintain data integrity while enhancing the robustness of their statistical models.
+
+```python
+# Calculate the IQR for each numerical column
+Q1 = numerical_df.quantile(0.25)
+Q3 = numerical_df.quantile(0.75)
+IQR = Q3 - Q1
+# Determine outlier bounds
+lower_bound = Q1 - 1.5 * IQR
+upper_bound = Q3 + 1.5 * IQR
+# Cap outliers at the bounds of the IQR range
+capped_df = numerical_df.clip(lower=lower_bound, upper=upper_bound, axis=1)
+
+print("DataFrame after capping outliers:\n", capped_df)
+```
+
+```python
+DataFrame after capping outliers:
+              Year  fertility    life  population  child_mortality     gdp
+Country                                                                  
+Afghanistan  1964      7.671  33.639  10474903.0            285.3  1182.0
+Afghanistan  1965      7.671  34.152  10697983.0            285.3  1182.0
+Afghanistan  1966      7.671  34.662  10927724.0            285.3  1168.0
+Afghanistan  1967      7.671  35.170  11163656.0            285.3  1173.0
+Afghanistan  1968      7.671  35.674  11411022.0            285.3  1187.0
+...           ...        ...     ...         ...              ...     ...
+Zimbabwe     2009      3.792  51.234  12473992.0             97.3  1352.0
+Zimbabwe     2010      3.721  53.684  12571454.0             95.1  1484.0
+Zimbabwe     2011      3.643  56.040  12754378.0             92.0  1626.0
+Zimbabwe     2012      3.564  58.142  13013678.0             86.7  1750.0
+Zimbabwe     2013      3.486  59.871  13327925.0             83.3  1773.0
+
+[8836 rows x 6 columns]
+```
+
+
+## Logarithmic Transformation
+
+Logarithmic transformation is useful when the data spans several orders of magnitude. It can compress the range and make the distribution more symmetric.
+
+```python
+import numpy as np
+cols = ['fertility', 'life', 'population',
+        'child_mortality', 'gdp']
+log_transformed_df = np.log1p(numerical_df[cols]) # log1p is used to handle zero values
+log_transformed_df['year'] = numerical_df["Year"]
+print("DataFrame after logarithmic transformation:\n", log_transformed_df)
+
+```
+
+```output
+DataFrame after logarithmic transformation:
+              fertility      life  population  child_mortality       gdp  year
+Country                                                                      
+Afghanistan   2.159984  3.544980   16.164493         5.831002  7.075809  1964
+Afghanistan   2.159984  3.559682   16.185566         5.814429  7.075809  1965
+Afghanistan   2.159984  3.574086   16.206814         5.798183  7.063904  1966
+Afghanistan   2.159984  3.588230   16.228174         5.781669  7.068172  1967
+Afghanistan   2.159984  3.602068   16.250090         5.765505  7.080026  1968
+...                ...       ...         ...              ...       ...   ...
+Zimbabwe      1.566948  3.955734   16.339156         4.588024  7.210080  2009
+Zimbabwe      1.552021  4.001571   16.346939         4.565389  7.303170  2010
+Zimbabwe      1.535361  4.043753   16.361385         4.532599  7.394493  2011
+Zimbabwe      1.518199  4.079941   16.381512         4.473922  7.467942  2012
+Zimbabwe      1.500961  4.108757   16.405372         4.434382  7.480992  2013
+
+[8836 rows x 6 columns]
+```
+
+> ## Square Root Transformation
+> Square root transformation is another method to reduce the impact of large values. It's less aggressive than logarithmic transformation. apply square root transformation on `numerical_df`
+>
+> > ## Solution
+> > ```python
+> > import numpy as np
+> > cols = ['fertility', 'life', 'population',
+> >       'child_mortality', 'gdp']
+> > sqrt_transformed_df = np.sqrt(numerical_df[cols])
+> > sqrt_transformed_df['year'] = numerical_df.Year
+> > print("DataFrame after square transformation:\n", sqrt_transformed_df)
+> > ```
+> > ```output
+> > DataFrame after square transformation:
+> >               fertility      life   population  child_mortality        gdp  year
+> > Country                                                                        
+> > Afghanistan   2.769657  5.799914  3236.495481        18.430952  34.380227  1964
+> > Afghanistan   2.769657  5.843971  3270.777125        18.278403  34.380227  1965
+> > Afghanistan   2.769657  5.887444  3305.710816        18.130085  34.176015  1966
+> > Afghanistan   2.769657  5.930430  3341.205770        17.980545  34.249088  1967
+> > Afghanistan   2.769657  5.972772  3378.020426        17.835358  34.452866  1968
+> > ...                ...       ...          ...              ...        ...   ...
+> > Zimbabwe      1.947306  7.157793  3531.853904         9.864076  36.769553  2009
+> > Zimbabwe      1.928989  7.326937  3545.624628         9.751923  38.522721  2010
+> > Zimbabwe      1.908664  7.485987  3571.327204         9.591663  40.323690  2011
+> > Zimbabwe      1.887856  7.625090  3607.447574         9.311283  41.833001  2012
+> > Zimbabwe      1.867083  7.737635  3650.743075         9.126883  42.107007  2013
+> > 
+> > [8836 rows x 6 columns]
+> > ```
+> >
+> {: .solution}
+{.challenge}
+
+> ## Box-Cox Transformation
+> Box-Cox transformation is a more flexible method that can transform data to follow a normal distribution. It requires the data to be positive.  Apply square root transformation on `numerical_df`
+> 
+> > ```python
+> > from scipy import stats
+> > # Apply Box-Cox transformation to each column
+> > boxcox_transformed_df = numerical_df[cols].apply(lambda x: stats.boxcox(x + 1)[0] if (x > 0).all() else x)  # Adding 1 to handle zero values
+> > boxcox_transformed_df['year'] = numerical_df.Year
+> > print("DataFrame after Box-Cox transformation:\n", boxcox_transformed_df)
+> > ```
+> >
+> > ```out
+> > DataFrame after Box-Cox transformation:
+> >               fertility          life  population  child_mortality       gdp  year
+> > Country                                                                          
+> > Afghanistan   2.765851   3047.980770   20.015617         8.549761  6.387016  1964
+> > Afghanistan   2.765851   3163.228929   20.047480         8.515674  6.387016  1965
+> > Afghanistan   2.765851   3280.372721   20.079625         8.482328  6.377349  1966
+> > Afghanistan   2.765851   3399.623456   20.111957         8.448500  6.380815  1967
+> > Afghanistan   2.765851   3520.485139   20.145150         8.415455  6.390439  1968
+> > ...                ...           ...         ...              ...       ...   ...
+> > Zimbabwe      1.871283   8596.829323   20.280233         6.177878  6.495807  2009
+> > Zimbabwe      1.850239   9651.393648   20.292051         6.137981  6.570980  2010
+> > Zimbabwe      1.826833  10735.778689   20.313994         6.080382  6.644526  2011
+> > Zimbabwe      1.802813  11762.692982   20.344579         5.977890  6.703535  2012
+> > Zimbabwe      1.778777  12650.185919   20.380859         5.909245  6.714005  2013
+> > 
+> > [8836 rows x 6 columns]
+> > 
+> > ```
+> {: .solution}
+{: .challenge}
+
+
+## Descriptive Analysis
+
+```python
+capped_df.describe()
+```
+
+```
+     Year    fertility         life    population  child_mortality           gdp
+count  8836.000000  8836.000000  8836.000000  8.836000e+03      8836.000000   8836.000000
+mean   1988.623133     4.096088    63.586344  1.161399e+07        82.351941  10808.059091
+std      14.405538     2.042115    11.278558  1.335891e+07        77.425250  11011.999498
+min    1964.000000     0.836000    29.273125  3.680100e+04         2.000000    142.000000
+25%    1976.000000     2.164750    55.063750  1.600499e+06        19.800000   2222.250000
+50%    1989.000000     3.794000    66.661000  5.408103e+06        54.500000   6299.000000
+75%    2001.000000     6.039250    72.257500  1.642182e+07       126.000000  15639.500000
 ```
 
 ## Group By: split-apply-combine
 
-::::::::::::::::::::::::::::::::::::: instructor
-Learners often struggle here, many may not work with financial data and concepts so they
-find the example concepts difficult to get their head around. The biggest problem
-though is the line generating the wealth_score, this step needs to be talked through
-throughly:
-* It uses implicit conversion between boolean and float values which 
-has not been covered in the course so far. 
-* The axis=1 argument needs to be explained clearly.
-:::::::::::::::::::::::::::::::::::::::::::::::::
+> Learners often struggle here, many may not work with financial data and concepts so they
+> find the example concepts difficult to get their head around. The biggest problem
+> though is the line generating the wealth_score, this step needs to be talked through
+> throughly:
+> * It uses implicit conversion between boolean and float values which  has not been covered in the course so far. 
+> * The axis=1 argument needs to be explained clearly.
+>
+{: .instructor}
 
 Pandas vectorizing methods and grouping operations are features that provide users
 much flexibility to analyse their data.
