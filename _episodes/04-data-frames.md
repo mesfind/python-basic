@@ -636,7 +636,7 @@ Zimbabwe      1.500961  4.108757   16.405372         4.434382  7.480992  2013
 > > ```
 > >
 > {: .solution}
-{.challenge}
+{: .challenge}
 
 > ## Box-Cox Transformation
 > Box-Cox transformation is a more flexible method that can transform data to follow a normal distribution. It requires the data to be positive.  Apply square root transformation on `numerical_df`
