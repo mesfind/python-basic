@@ -432,7 +432,6 @@ Table: Showing some markdown syntax and its rendered output.
 {: .challenge}
 
 
-:::::::::::::::::::::::::::::::::::::::  challenge
 
 > ## Change an Existing Cell from Code to Markdown
 > 
