@@ -379,7 +379,6 @@ Table: Showing some markdown syntax and its rendered output.
 +---------------------------------------+------------------------------------------------+
 
 
-:::::::::::::::::::::::::::::::::::::::  challenge
 
 > ## Creating Lists in Markdown
 > 
