@@ -66,7 +66,7 @@ the initial connection to download and install Anaconda and JupyterLab
 > Experienced users of Jupyter notebooks interested in a more detailed discussion of the similarities and differences
 > between the JupyterLab and Jupyter notebook user interfaces can find more information in the
 [JupyterLab user interface documentation][jupyterlab-ui].
-> {: .callout}
+{: .callout}
 
 
 ## Starting JupyterLab
@@ -158,7 +158,7 @@ menus are included by default.
 > Using other Jupyter [kernels for other programming languages](https://github.com/jupyter/jupyter/wiki/Jupyter-kernels) would let us
 > write and execute code in other programming languages in the same JupyterLab interface, like R, Java, Julia, Ruby, JavaScript, Fortran,
 etc.
-> {: .callout}
+{: .callout}
 
 
 A screenshot of the default Menu Bar is provided below.
