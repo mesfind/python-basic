@@ -50,7 +50,7 @@ For example, we can track the weight of a patient who weighs 60 kilograms by
 assigning the value `60` to a variable `weight_kg`:
 
 ```python
-weight_kg = 60
+weight_kg = 60.3
 ```
 
 From now on, whenever we use `weight_kg`, Python will substitute the value we assigned to
