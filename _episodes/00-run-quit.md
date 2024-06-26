@@ -320,65 +320,48 @@ more details, then see the [official notebook documentation][jupyterlab-notebook
 
 ### Markdown does most of what HTML does.
 
-Table: Showing some markdown syntax and its rendered output.
+Here is the corrected table format for Markdown:
 
-+---------------------------------------+------------------------------------------------+
-| Markdown code                         | Rendered output                                |
-+=======================================+================================================+
-+---------------------------------------+------------------------------------------------+
-| ```                                   | <p></p>                                        |
-| *   Use asterisks                     | -   Use asterisks                              |
-| *   to create                         | -   to create                                  |
-| *   bullet lists.                     | -   bullet lists.                              |
-| ```                                   |                                                |
-+---------------------------------------+------------------------------------------------+
-+---------------------------------------+------------------------------------------------+
-| ```                                   | <p></p>                                        |
-| 1.   Use numbers                      | 1.   Use numbers                               |
-| 1.   to create                        | 2.   to create                                 |
-| 1.   bullet lists.                    | 3.   numbered lists.                           |
-| ```                                   |                                                |
-+---------------------------------------+------------------------------------------------+
-+---------------------------------------+------------------------------------------------+
-| ```                                   | <p></p>                                        |
-| *  You can use indents                | - You can use indents                          |
-|   *  To create sublists               |   - To create sublists                         |
-|   *  of the same type                 |   - of the same type                           |
-| *  Or sublists                        | - Or sublists                                  |
-|   1. Of different                     |   1. Of different                              |
-|   1. types                            |   2. types                                     |
-| ```                                   |                                                |
-+---------------------------------------+------------------------------------------------+
-+---------------------------------------+------------------------------------------------+
-| ```                                   | <p></p>                                        |
-| # A Level-1 Heading                   | ## A Level-1 Heading                           |
-| ```                                   |                                                |
-+---------------------------------------+------------------------------------------------+
-+---------------------------------------+------------------------------------------------+
-| ```                                   | <p></p>                                        |
-| ## A Level-2 Heading (etc.)           | ### A Level-2 Heading (etc.)                   |
-| ```                                   |                                                |
-+---------------------------------------+------------------------------------------------+
-+---------------------------------------+------------------------------------------------+
-| ```                                   | <p></p>                                        |
-| Line breaks                           | Line breaks                                    |
-| don't matter.                         | don't matter.                                  |
-|                                       |                                                |
-| But blank lines                       | But blank lines                                |
-| create new paragraphs.                | create new paragraphs.                         |
-| ```                                   |                                                |
-+---------------------------------------+------------------------------------------------+
-+---------------------------------------+------------------------------------------------+
-| ```                                   | <p></p>                                        |
-| [Links](http://software-carpentry.org)| [Links](https:mesfind.github.io)        |
-| are created with `[...](...)`.        | are created with `[...](...)`.                 |
-| Or use [named links][data-carp].      | Or use [named links][data_carpentry].          |
-|                                       |                                                |
-| [data-carp]:https://mesfind.github.io |                                                |
-| ```                                   |                                                |
-+---------------------------------------+------------------------------------------------+
-
-
+| Markdown code | Rendered output |
+|---------------|-----------------|
+| ``` | <p></p> |
+| * Use asterisks | - Use asterisks |
+| * to create | - to create |
+| * bullet lists. | - bullet lists. |
+| ``` | |
+| ``` | <p></p> |
+| 1. Use numbers | 1. Use numbers |
+| 1. to create | 2. to create |
+| 1. bullet lists. | 3. numbered lists. |
+| ``` | |
+| ``` | <p></p> |
+| * You can use indents | - You can use indents |
+| * To create sublists | - To create sublists |
+| * of the same type | - of the same type |
+| * Or sublists | - Or sublists |
+| 1. Of different | 1. Of different |
+| 1. types | 2. types |
+| ``` | |
+| ``` | <p></p> |
+| # A Level-1 Heading | ## A Level-1 Heading |
+| ``` | |
+| ``` | <p></p> |
+| ## A Level-2 Heading (etc.) | ### A Level-2 Heading (etc.) |
+| ``` | |
+| ``` | <p></p> |
+| Line breaks | Line breaks |
+| don't matter. | don't matter. |
+| | |
+| But blank lines | But blank lines |
+| create new paragraphs. | create new paragraphs. |
+| ``` | |
+| ``` | <p></p> |
+| [Links](http://software-carpentry.org) | [Links](https://mesfind.github.io) |
+| are created with `[...](...)`. | are created with `[...](...)`. |
+| Or use [named links][data-carp]. | Or use [named links][data_carpentry]. |
+| | |
+| [data-carp]:https://mesfind.github.io | |
+| ``` | |
 
 > ## Creating Lists in Markdown
 > 
@@ -456,10 +439,9 @@ Table: Showing some markdown syntax and its rendered output.
 > > ```python
 > > x = 6 * 7 + 12 print(x)
 > > ```
-> > {: .solution}
-
-
- > ## Equations
+> {: .solution}
+> 
+> ## Equations
 >
 > Standard Markdown (such as we're using for these notes) won't render equations, but the Notebook will.
 > Create a new Markdown cell
@@ -483,7 +465,7 @@ Table: Showing some markdown syntax and its rendered output.
 > > A pair of curly braces, `{` and `}`, is used to group text together so that the statement `i=1` becomes the subscript and `N` becomes the superscript.
 > > Similarly, `-i` is in curly braces to make the whole statement the superscript for `2`.
 > > `\sum` and `\approx` are LaTeX commands for "sum over" and "approximate" symbols.
-> > {: .solution}
+> {: .solution}
 {: .challenge}
 
 
