@@ -370,11 +370,11 @@ Table: Showing some markdown syntax and its rendered output.
 +---------------------------------------+------------------------------------------------+
 +---------------------------------------+------------------------------------------------+
 | ```                                   | <p></p>                                        |
-| [Links](http://software-carpentry.org)| [Links](https://software-carpentry.org)        |
+| [Links](http://software-carpentry.org)| [Links](https:mesfind.github.io)        |
 | are created with `[...](...)`.        | are created with `[...](...)`.                 |
 | Or use [named links][data-carp].      | Or use [named links][data_carpentry].          |
 |                                       |                                                |
-| [data-carp]: http://datacarpentry.org |                                                |
+| [data-carp]:https://mesfind.github.io |                                                |
 | ```                                   |                                                |
 +---------------------------------------+------------------------------------------------+
 
