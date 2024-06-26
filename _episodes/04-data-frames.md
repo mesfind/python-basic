@@ -571,7 +571,7 @@ Zimbabwe     2013      3.486  59.871  13327925.0             83.3  1773.0
 ```
 
 
-## Logarithmic Transformation
+### Logarithmic Transformation
 
 Logarithmic transformation is useful when the data spans several orders of magnitude. It can compress the range and make the distribution more symmetric.
 
@@ -712,8 +712,8 @@ split themselves according to their GDP.
   where we account how many times a country has participated in the groups of *lower* or *higher* GDP
 
 ```python
-mask_higher = data > data.mean()
-wealth_score = mask_higher.aggregate('sum', axis=1) / len(data.columns)
+mask_higher = numerical_df > numerical_df.mean()
+wealth_score = mask_higher.aggregate('sum', axis=1) / len(numerical_df.columns)
 print(wealth_score)
 ```
 
@@ -756,7 +756,7 @@ Finally, for each group in the `wealth_score` table, we sum their (financial) co
 across the years surveyed using chained methods:
 
 ```python
-print(data.groupby(wealth_score).sum())
+print(numerical_df.groupby(wealth_score).sum())
 ```
 
 ```output
@@ -779,7 +779,7 @@ print(data.groupby(wealth_score).sum())
 1.000000   315238.235970   346930.926170   385109.939210   427850.333420
 ```
 
-:::::::::::::::::::::::::::::::::::::::  challenge
+
 
 > ## Selection of Individual Values
 > 
@@ -850,7 +850,6 @@ print(data.groupby(wealth_score).sum())
 > {: .solution}
 {: .challenge}
 
-:::::::::::::::::::::::::::::::::::::::  challenge
 
 > ## Reconstructing Data
 > 
@@ -869,20 +868,20 @@ print(data.groupby(wealth_score).sum())
 > > Let's go through this piece of code line by line.
 > > 
 > > ```python
-> > first = pd.read_csv('data/gapminder_all.csv', index_col='country')
+> > first = pd.read_csv('data/gapminder_tidy.csv', index_col='Country')
 > > ```
 > > 
 > > This line loads the dataset containing the GDP data from all countries into a dataframe called
-> > `first`. The `index_col='country'` parameter selects which column to use as the
+> > `first`. The `index_col='Country'` parameter selects which column to use as the
 > > row labels in the dataframe.
 > > 
 > > ```python
-> > second = first[first['continent'] == 'Americas']
+> > second = first[first['region'] == 'Americas']
 > > ```
 > > 
 > > This line makes a selection: only those rows of `first` for which the 'continent' column matches
 > > 'Americas' are extracted. Notice how the Boolean expression inside the brackets,
-> > `first['continent'] == 'Americas'`, is used to select only those rows where the expression is true.
+> > `first['region'] == 'Americas'`, is used to select only those rows where the expression is true.
 > > Try printing this expression! Can you print also its individual True/False elements?
 > > (hint: first assign the expression to a variable)
 > > 
@@ -894,7 +893,7 @@ print(data.groupby(wealth_score).sum())
 > > resulting dataframe `third` has one row less than the original dataframe `second`.
 > > 
 > > ```python
-> > fourth = third.drop('continent', axis = 1)
+> > fourth = third.drop('region', axis = 1)
 > > ```
 > > 
 > > Again we apply the drop function, but in this case we are dropping not a row but a whole column.
@@ -1131,61 +1130,46 @@ print(data.groupby(wealth_score).sum())
 > { : .solution}
 {: .challenge}
 
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Exploring available methods using the `dir()` function
-
-Python includes a `dir()` function that can be used to display all of the available methods (functions) that are built into a data object.  In Episode 4, we used some methods with a string. But we can see many more are available by using `dir()`:
-
-```python
-my_string = 'Hello world!'   # creation of a string object 
-dir(my_string)
-```
-
-This command returns:
-
-```python
-['__add__',
-...
-'__subclasshook__',
-'capitalize',
-'casefold',
-'center',
-...
-'upper',
-'zfill']
-```
-
-You can use `help()` or <kbd>Shift</kbd>\+<kbd>Tab</kbd> to get more information about what these methods do.
-
-Assume Pandas has been imported and the Gapminder GDP data for Europe has been loaded as `data`.  Then, use `dir()`
-to find the function that prints out the median per-capita GDP across all European countries for each year that information is available.
-
-:::::::::::::::  solution
-
-## Solution
-
-Among many choices, `dir()` lists the `median()` function as a possibility.  Thus,
-
-```python
-data.median()
-```
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Interpretation
-
-Poland's borders have been stable since 1945,
-but changed several times in the years before then.
-How would you handle this if you were creating a table of GDP per capita for Poland
-for the entire twentieth century?
 
 
-::::::::::::::::::::::::::::::::::::::::::::::::::
+> ## Exploring available methods using the `dir()` function
+>
+> Python includes a `dir()` function that can be used to display all of the available methods (functions) that are built into a data object.  In Episode 4, we used some methods with a string. But we can see many more are available by using `dir()`:
+> 
+> ```python
+> my_string = 'Hello world!'   # creation of a string object 
+> dir(my_string)
+> ```
+> 
+> This command returns:
+> 
+> ```python
+> ['__add__',
+> ...
+> '__subclasshook__',
+> 'capitalize',
+> 'casefold',
+> 'center',
+> ...
+> 'upper',
+> 'zfill']
+> ```
+> 
+> You can use `help()` or <kbd>Shift</kbd>\+<kbd>Tab</kbd> to get more information about what these methods do.
+> 
+> Assume Pandas has been imported and the Gapminder GDP data for Europe has been loaded as `data`.  Then, use `dir()`
+> to find the function that prints out the median per-capita GDP across all European countries for each year that information is available.
+> 
+> >  ## Solution
+> > 
+> > Among many choices, `dir()` lists the `median()` function as a possibility.  Thus,
+> > 
+> > ```python
+> > data.median()
+> > ```
+> {: .solution}
+{: .challenge}
+
 
 [pandas-dataframe]: https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html
 [pandas-series]: https://pandas.pydata.org/pandas-docs/stable/generated/pandas.Series.html
