@@ -57,19 +57,17 @@ the initial connection to download and install Anaconda and JupyterLab
 - The JupyterLab server does the work and the web browser renders the result
 - Type code into the browser and see the results after your JupyterLab server has finished executing your code
 
-:::::::::::::::::::::::::::::::::::::::::  callout
 
-## JupyterLab? What about Jupyter notebooks?
-
-JupyterLab is the [next stage in the evolution of the Jupyter Notebook](https://jupyterlab.readthedocs.io/en/stable/getting_started/overview.html#overview).
-If you have prior experience working with Jupyter notebooks, then you will have a good idea of what to expect from JupyterLab.
-
-Experienced users of Jupyter notebooks interested in a more detailed discussion of the similarities and differences
-between the JupyterLab and Jupyter notebook user interfaces can find more information in the
+> ## JupyterLab? What about Jupyter notebooks?
+> 
+> JupyterLab is the [next stage in the evolution of the Jupyter Notebook](https://jupyterlab.readthedocs.io/en/stable/getting_started/overview.html#overview).
+> If you have prior experience working with Jupyter notebooks, then you will have a good idea of what to expect from JupyterLab.
+> 
+> Experienced users of Jupyter notebooks interested in a more detailed discussion of the similarities and differences
+> between the JupyterLab and Jupyter notebook user interfaces can find more information in the
 [JupyterLab user interface documentation][jupyterlab-ui].
+> {: .callout}
 
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## Starting JupyterLab
 
