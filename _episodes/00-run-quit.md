@@ -246,8 +246,8 @@ more details, then see the [official notebook documentation][jupyterlab-notebook
 > > After creating the necessary tabs, you can drag one of the tabs to the center of a panel to
 > > move the tab to the panel; next you can subdivide a tab panel by dragging a tab to the left,
 > > right, top, or bottom of the panel.
-> > {: .solution}
-> {: .challenge}
+> {: .solution}
+{: .challenge}
 
 
 
@@ -381,99 +381,87 @@ Table: Showing some markdown syntax and its rendered output.
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Creating Lists in Markdown
-
-Create a nested list in a Markdown cell in a notebook that looks like this:
-
-1. Get funding.
-2. Do work.
-  - Design experiment.
-  - Collect data.
-  - Analyze.
-3. Write up.
-4. Publish.
-
-:::::::::::::::  solution
-
-## Solution
-
-This challenge integrates both the numbered list and bullet list.
-Note that the bullet list is indented 2 spaces so that it is inline with the items of the numbered list.
-
-```
-1.  Get funding.
-2.  Do work.
-    *   Design experiment.
-    *   Collect data.
-    *   Analyze.
-3.  Write up.
-4.  Publish.
-```
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## More Math
-
-What is displayed when a Python cell in a notebook
-that contains several calculations is executed?
-For example, what happens when this cell is executed?
-
-```python
-7 * 3
-2 + 1
-```
-
-:::::::::::::::  solution
-
-## Solution
-
-Python returns the output of the last calculation.
-
-```python
-3
-```
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Change an Existing Cell from Code to Markdown
-
-What happens if you write some Python in a code cell
-and then you switch it to a Markdown cell?
-For example,
-put the following in a code cell:
-
-```python
-x = 6 * 7 + 12
-print(x)
-```
-
-And then run it with <kbd>Shift</kbd>\+<kbd>Return</kbd> to be sure that it works as a code cell.
-Now go back to the cell and use <kbd>Esc</kbd> then <kbd>m</kbd> to switch the cell to Markdown
-and "run" it with <kbd>Shift</kbd>\+<kbd>Return</kbd>.
-What happened and how might this be useful?
-
-
-
-> ## Solution
+> ## Creating Lists in Markdown
 > 
-> The Python code gets treated like Markdown text.
-> The lines appear as if they are part of one contiguous paragraph.
-> This could be useful to temporarily turn on and off cells in notebooks that get used for multiple purposes.
+> Create a nested list in a Markdown cell in a notebook that looks like this:
+> 
+> 1. Get funding.
+> 2. Do work.
+>   - Design experiment.
+>   - Collect data.
+>   - Analyze.
+> 3. Write up.
+> 4. Publish.
+> 
+> > ## Solution
+> > 
+> > This challenge integrates both the numbered list and bullet list.
+> > Note that the bullet list is indented 2 spaces so that it is inline with the items of the numbered list.
+> > 
+> > ```
+> > 1.  Get funding.
+> > 2.  Do work.
+> >     *   Design experiment.
+> >     *   Collect data.
+> >     *   Analyze.
+> > 3.  Write up.
+> > 4.  Publish.
+> > ```
+> {: .solution}
+{: .challenge}
+
+
+> ## More Math
+> 
+> What is displayed when a Python cell in a notebook
+> that contains several calculations is executed?
+> For example, what happens when this cell is executed?
 > 
 > ```python
-> x = 6 * 7 + 12 print(x)
+> 7 * 3
+> 2 + 1
 > ```
+> 
+> > ## Solution
+> >
+> > Python returns the output of the last calculation.
+> > 
+> > ```python
+> > 3
+> > ```
 > {: .solution}
+{: .challenge}
 
-> ## Equations
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+> ## Change an Existing Cell from Code to Markdown
+> 
+> What happens if you write some Python in a code cell and then you switch it to a Markdown cell?
+> For example, put the following in a code cell:
+> 
+> ```python
+> x = 6 * 7 + 12
+> print(x)
+> ```
+> 
+> And then run it with <kbd>Shift</kbd>\+<kbd>Return</kbd> to be sure that it works as a code cell.
+> Now go back to the cell and use <kbd>Esc</kbd> then <kbd>m</kbd> to switch the cell to Markdown
+> and "run" it with <kbd>Shift</kbd>\+<kbd>Return</kbd>. What happened and how might this be useful?
+> 
+> > ## Solution
+> > 
+> > The Python code gets treated like Markdown text.
+> > The lines appear as if they are part of one contiguous paragraph.
+> > This could be useful to temporarily turn on and off cells in notebooks that get used for multiple purposes.
+> > 
+> > ```python
+> > x = 6 * 7 + 12 print(x)
+> > ```
+> > {: .solution}
+
+
+ > ## Equations
 >
 > Standard Markdown (such as we're using for these notes) won't render equations, but the Notebook will.
 > Create a new Markdown cell
@@ -489,16 +477,16 @@ What happened and how might this be useful?
 > 
 > {: .challenge}
 
-> ## Solution
-> 
-> The notebook shows the equation as it would be rendered from LaTeX equation syntax.
-> The dollar sign, `$`, is used to tell Markdown that the text in between is a LaTeX equation.
-> If you're not familiar with LaTeX,  underscore, `_`, is used for subscripts and circumflex, `^`, is used for superscripts.
-> A pair of curly braces, `{` and `}`, is used to group text together so that the statement `i=1` becomes the subscript and `N` becomes the superscript.
-> Similarly, `-i` is in curly braces to make the whole statement the superscript for `2`.
-> `\sum` and `\approx` are LaTeX commands for "sum over" and "approximate" symbols.
-> {: .solution}
-
+> > ## Solution
+> > 
+> > The notebook shows the equation as it would be rendered from LaTeX equation syntax.
+> > The dollar sign, `$`, is used to tell Markdown that the text in between is a LaTeX equation.
+> > If you're not familiar with LaTeX,  underscore, `_`, is used for subscripts and circumflex, `^`, is used for superscripts.
+> > A pair of curly braces, `{` and `}`, is used to group text together so that the statement `i=1` becomes the subscript and `N` becomes the superscript.
+> > Similarly, `-i` is in curly braces to make the whole statement the superscript for `2`.
+> > `\sum` and `\approx` are LaTeX commands for "sum over" and "approximate" symbols.
+> > {: .solution}
+{: .challenge}
 
 
 ## Closing JupyterLab
