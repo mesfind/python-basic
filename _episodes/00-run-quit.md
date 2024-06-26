@@ -236,7 +236,7 @@ more details, then see the [official notebook documentation][jupyterlab-notebook
 In the JupyterLab Main Work Area you can arrange documents into panels of tabs. Here is an
 example from the [official documentation][jupyterlab].
 
-<p align='center'>   <img alt="Multi-panel JupyterLab" src="fig/0_multipanel_jupyterlab_screenshot.png" width="750"/>
+<p align='center'>   <img alt="Multi-panel JupyterLab" src="../fig/0_multipanel_jupyterlab_screenshot.png" width="750"/>
 </p>
 
 First, create a text file, Python console, and terminal window and arrange them into three
