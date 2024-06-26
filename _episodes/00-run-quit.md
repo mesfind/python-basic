@@ -114,14 +114,14 @@ Here is a screenshot of an Anaconda Navigator page similar to the one that shoul
 or Windows.
 
 <p align='center'>
-  <img alt="Anaconda Navigator landing page" src="fig/0_anaconda_navigator_landing_page.png" width="750"/>
+  <img alt="Anaconda Navigator landing page" src="../fig/0_anaconda_navigator_landing_page.png" width="750"/>
 </p>
 
 And here is a screenshot of a JupyterLab landing page that should be similar to the one that opens in your
 default web browser after starting the JupyterLab server on either macOS or Windows.
 
 <p align='center'>
-  <img alt="JupyterLab landing page" src="fig/0_jupyterlab_landing_page.png" width="750"/>
+  <img alt="JupyterLab landing page" src="../fig/0_jupyterlab_landing_page.png" width="750"/>
 </p>
 
 ## The JupyterLab Interface
@@ -165,7 +165,7 @@ etc.
 
 A screenshot of the default Menu Bar is provided below.
 
-<p align='center'>   <img alt="JupyterLab Menu Bar" src="fig/0_jupyterlab_menu_bar.png" width="750"/>
+<p align='center'>   <img alt="JupyterLab Menu Bar" src="../fig/0_jupyterlab_menu_bar.png" width="750"/>
 </p>
 
 ### Left Sidebar
@@ -175,7 +175,7 @@ contents of the directory where the JupyterLab server was launched), a list of r
 and terminals, the command palette, and a list of open tabs in the main work area. A screenshot of
 the default Left Side Bar is provided below.
 
-<p align='center'>   <img alt="JupyterLab Left Side Bar" src="fig/0_jupyterlab_left_side_bar.png" width="250"/>
+<p align='center'>   <img alt="JupyterLab Left Side Bar" src="../fig/0_jupyterlab_left_side_bar.png" width="250"/>
 </p>
 
 The left sidebar can be collapsed or expanded by selecting "Show Left Sidebar" in the View menu or
@@ -189,7 +189,7 @@ subdivided. A screenshot of the default Main Work Area is provided below.
 
 If you do not see the Launcher tab, click the blue plus sign under the "File" and "Edit" menus and it will appear.
 
-<p align='center'>   <img alt="JupyterLab Main Work Area" src="fig/0_jupyterlab_main_work_area.png" width="750"/>
+<p align='center'>   <img alt="JupyterLab Main Work Area" src="../fig/0_jupyterlab_main_work_area.png" width="750"/>
 </p>
 
 Drag a tab to the center of a tab panel to move the tab to the panel. Subdivide a tab panel by
@@ -217,7 +217,7 @@ Additional notes on Jupyter notebooks.
 Below is a screenshot of a Jupyter notebook running inside JupyterLab. If you are interested in
 more details, then see the [official notebook documentation][jupyterlab-notebook-docs].
 
-<p align='center'>   <img alt="Example Jupyter Notebook" src="fig/0_jupyterlab_notebook_screenshot.png" width="750"/>
+<p align='center'>   <img alt="Example Jupyter Notebook" src="../fig/0_jupyterlab_notebook_screenshot.png" width="750"/>
 </p>
 
 :::::::::::::::::::::::::::::::::::::::::  callout
