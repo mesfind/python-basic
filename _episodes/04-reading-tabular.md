@@ -2,21 +2,22 @@
 title: Reading Tabular Data into DataFrames
 teaching: 10
 exercises: 10
----
-
-::::::::::::::::::::::::::::::::::::::: objectives
-
+objectives:
 - Import the Pandas library.
 - Use Pandas to load a simple CSV data set.
 - Get some basic information about a Pandas DataFrame.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::: questions
-
+questions:
 - How can I read tabular data?
+keypoints:
+- Use the Pandas library to get basic statistics out of tabular data.
+- Use `index_col` to specify that a column's values should be used as row headings.
+- Use `DataFrame.info` to find out more about a dataframe.
+- The `DataFrame.columns` variable stores information about the dataframe's columns.
+- Use `DataFrame.T` to transpose a dataframe.
+- Use `DataFrame.describe` to get summary statistics about data.
 
-::::::::::::::::::::::::::::::::::::::::::::::::::
+---
+
 
 ## Use the Pandas library to do statistics on tabular data.
 
@@ -32,7 +33,7 @@ exercises: 10
 ```python
 import pandas as pd
 
-data_oceania = pd.read_csv('data/gapminder_gdp_oceania.csv')
+data_oceania = pd.read_csv('data/gapminder_gdp_ethiopia.csv')
 print(data_oceania)
 ```
 
@@ -58,22 +59,21 @@ print(data_oceania)
 - Pandas uses backslash `\` to show wrapped lines when output is too wide to fit the screen.
 - Using descriptive dataframe names helps us distinguish between multiple dataframes so we won't accidentally overwrite a dataframe or read from the wrong one.
 
-:::::::::::::::::::::::::::::::::::::::::  callout
 
-## File Not Found
 
-Our lessons store their data files in a `data` sub-directory,
-which is why the path to the file is `data/gapminder_gdp_oceania.csv`.
-If you forget to include `data/`,
-or if you include it but your copy of the file is somewhere else,
-you will get a [runtime error](04-built-in.md)
-that ends with a line like this:
-
-```error
-FileNotFoundError: [Errno 2] No such file or directory: 'data/gapminder_gdp_oceania.csv'
-```
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+> ## File Not Found
+> 
+> Our lessons store their data files in a `data` sub-directory,
+> which is why the path to the file is `data/gapminder_gdp_ethiopia.csv`.
+> If you forget to include `data/`,
+> or if you include it but your copy of the file is somewhere else,
+> you will get a [runtime error](04-built-in.md)
+> that ends with a line like this:
+>
+> ```error
+> FileNotFoundError: [Errno 2] No such file or directory: 'data/gapminder_gdp_ethiopia.csv'
+> ```
+{: .callout}
 
 ## Use `index_col` to specify that a column's values should be used as row headings.
 
@@ -83,8 +83,8 @@ FileNotFoundError: [Errno 2] No such file or directory: 'data/gapminder_gdp_ocea
 - Naming the dataframe `data_oceania_country` tells us which region the data includes (`oceania`) and how it is indexed (`country`).
 
 ```python
-data_oceania_country = pd.read_csv('data/gapminder_gdp_oceania.csv', index_col='country')
-print(data_oceania_country)
+data_ethiopia_country = pd.read_csv('data/gapminder_gdp_ethiopia.csv', index_col='country')
+print(data_ethiopia_country)
 ```
 
 ```output
@@ -224,36 +224,29 @@ max      23424.766830    26997.936570    30687.754730    34435.367440
 - Not particularly useful with just two records,
   but very helpful when there are thousands.
 
-:::::::::::::::::::::::::::::::::::::::  challenge
 
-## Reading Other Data
+> ## Reading Other Data
+>
+> Read the data in `gapminder_gdp_africa.csv`
+> (which should be in the same directory as `gapminder_gdp_ethiopia.csv`)
+> into a variable called `data_africas`
+> and display its summary statistics.
+>
+> >## Solution
+> > 
+> > To read in a CSV, we use `pd.read_csv` and pass the filename `'data/gapminder_gdp_africa.csv'` to it.
+> > We also once again pass the column name `'country'` to the parameter `index_col` in order to index by country.
+> >The summary statistics can be displayed with the `DataFrame.describe()` method.
+> > 
+> > ```python
+> > data_americas = pd.read_csv('data/gapminder_gdp_ethiopia.csv', index_col='country')
+> > data_americas.describe()
+> > ```
+>  {: .solution}
+{: .challenge}
 
-Read the data in `gapminder_gdp_americas.csv`
-(which should be in the same directory as `gapminder_gdp_oceania.csv`)
-into a variable called `data_americas`
-and display its summary statistics.
-
-:::::::::::::::  solution
-
-## Solution
-
-To read in a CSV, we use `pd.read_csv` and pass the filename `'data/gapminder_gdp_americas.csv'` to it.
-We also once again pass the column name `'country'` to the parameter `index_col` in order to index by country.
-The summary statistics can be displayed with the `DataFrame.describe()` method.
-
-```python
-data_americas = pd.read_csv('data/gapminder_gdp_americas.csv', index_col='country')
-data_americas.describe()
-```
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Inspecting Data
-
+> ## Inspecting Data
+> 
 After reading the data for the Americas,
 use `help(data_americas.head)` and `help(data_americas.tail)`
 to find out what `DataFrame.head` and `DataFrame.tail` do.
@@ -405,7 +398,7 @@ You can use `help` to get information on how to use `to_csv`.
 
 ## Solution
 
-In order to write the DataFrame `data_americas` to a file called `processed.csv`, execute the following command:
+In order to write the DataFrame `data_africa` to a file called `processed.csv`, execute the following command:
 
 ```python
 data_americas.to_csv('processed.csv')
@@ -414,29 +407,12 @@ data_americas.to_csv('processed.csv')
 For help on `read_csv` or `to_csv`, you could execute, for example:
 
 ```python
-help(data_americas.to_csv)
+help(data_africa.to_csv)
 help(pd.read_csv)
 ```
 
 Note that `help(to_csv)` or `help(pd.to_csv)` throws an error! This is due to the fact that `to_csv` is not a global Pandas function, but
 a member function of DataFrames. This means you can only call it on an instance of a DataFrame
-e.g., `data_americas.to_csv` or `data_oceania.to_csv`
-
-
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::: keypoints
-
-- Use the Pandas library to get basic statistics out of tabular data.
-- Use `index_col` to specify that a column's values should be used as row headings.
-- Use `DataFrame.info` to find out more about a dataframe.
-- The `DataFrame.columns` variable stores information about the dataframe's columns.
-- Use `DataFrame.T` to transpose a dataframe.
-- Use `DataFrame.describe` to get summary statistics about data.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+e.g., `data_americas.to_csv` or `data_ethiopia.to_csv`
 
 
