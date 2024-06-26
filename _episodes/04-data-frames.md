@@ -2,22 +2,21 @@
 title: Pandas DataFrames
 teaching: 15
 exercises: 15
----
-
-::::::::::::::::::::::::::::::::::::::: objectives
-
+objectives:
 - Select individual values from a Pandas dataframe.
 - Select entire rows or entire columns from a dataframe.
 - Select a subset of both rows and columns from a dataframe in a single operation.
 - Select a subset of a dataframe by a single Boolean criterion.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::: questions
-
+questions:
 - How can I do statistical analysis of tabular data?
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+keypoints:
+- Use `DataFrame.iloc[..., ...]` to select values by integer location.
+- Use `:` on its own to mean all columns or all rows.
+- Select multiple columns or rows using `DataFrame.loc` and a named slice.
+- Result of slicing can be used in further operations.
+- Use comparisons to select data based on value.
+- Select values or NaN using a Boolean mask.
+---
 
 ## Note about Pandas DataFrames/Series
 
@@ -46,7 +45,9 @@ uniquely identifies its *entry* in the DataFrame.
 
 ```python
 import pandas as pd
-data = pd.read_csv('data/gapminder_gdp_europe.csv', index_col='country')
+
+path = "https://raw.githubusercontent.com/mesfind/datasets/master/gapminder_tidy.csv"
+data = pd.read_csv(path, index_col='country')
 print(data.iloc[0, 0])
 ```
 
@@ -59,7 +60,7 @@ print(data.iloc[0, 0])
 - Can specify location by row and/or column name.
 
 ```python
-print(data.loc["Albania", "gdpPercap_1952"])
+print(data.loc["Ethiopia", "gdpPercap_1952"])
 ```
 
 ```output
@@ -71,7 +72,7 @@ print(data.loc["Albania", "gdpPercap_1952"])
 - Just like Python's usual slicing notation.
 
 ```python
-print(data.loc["Albania", :])
+print(data.loc["Ethiopia", :])
 ```
 
 ```output
@@ -325,85 +326,74 @@ print(data.groupby(wealth_score).sum())
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Selection of Individual Values
-
-Assume Pandas has been imported into your notebook
-and the Gapminder GDP data for Europe has been loaded:
-
-```python
-import pandas as pd
-
-data_europe = pd.read_csv('data/gapminder_gdp_europe.csv', index_col='country')
-```
-
-Write an expression to find the Per Capita GDP of Serbia in 2007.
-
-:::::::::::::::  solution
-
-## Solution
-
-The selection can be done by using the labels for both the row ("Serbia") and the column ("gdpPercap\_2007"):
-
-```python
-print(data_europe.loc['Serbia', 'gdpPercap_2007'])
-```
-
-The output is
-
-```output
-9786.534714
-```
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Extent of Slicing
-
-1. Do the two statements below produce the same output?
-2. Based on this,
-  what rule governs what is included (or not) in numerical slices and named slices in Pandas?
-
-```python
-print(data_europe.iloc[0:2, 0:2])
-print(data_europe.loc['Albania':'Belgium', 'gdpPercap_1952':'gdpPercap_1962'])
-```
-
-:::::::::::::::  solution
-
-## Solution
-
-No, they do not produce the same output! The output of the first statement is:
-
-```output
-        gdpPercap_1952  gdpPercap_1957
-country                                
-Albania     1601.056136     1942.284244
-Austria     6137.076492     8842.598030
-```
-
-The second statement gives:
-
-```output
-        gdpPercap_1952  gdpPercap_1957  gdpPercap_1962
-country                                                
-Albania     1601.056136     1942.284244     2312.888958
-Austria     6137.076492     8842.598030    10750.721110
-Belgium     8343.105127     9714.960623    10991.206760
-```
-
-Clearly, the second statement produces an additional column and an additional row compared to the first statement.  
-What conclusion can we draw? We see that a numerical slice, 0:2, *omits* the final index (i.e. index 2)
-in the range provided,
-while a named slice, 'gdpPercap\_1952':'gdpPercap\_1962', *includes* the final element.
+> ## Selection of Individual Values
+> 
+> Assume Pandas has been imported into your notebook
+> and the Gapminder GDP data for Europe has been loaded:
+> 
+> ```python
+> import pandas as pd
+> 
+> data_africa = pd.read_csv('data/gapminder_tidy.csv', index_col='country'=='Africa')
+> ```
+> 
+> Write an expression to find the Per Capita GDP of Serbia in 2007.
+> 
+> > ## Solution
+> > 
+> > The selection can be done by using the labels for both the row ("Serbia") and the column ("gdpPercap\_2007"):
+> > 
+> > ```python
+> > print(data_europe.loc['Sudan', 'gdpPercap_2007'])
+> > ```
+> > 
+> > The output is
+> > 
+> > ```output
+> > 9786.534714
+> > ```
+> {: .solution}
+{: .challenge}
 
 
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+> ## Extent of Slicing
+>
+> 1. Do the two statements below produce the same output?
+> 2. Based on this,
+>  what rule governs what is included (or not) in numerical slices and named slices in Pandas?
+>
+> ```python
+> print(data_africa.iloc[0:2, 0:2])
+> print(data_africa.loc['Somalia':'Ethiopia', 'gdpPercap_1952':'gdpPercap_1962'])
+> ```
+>
+> > ## Solution
+> > 
+> > No, they do not produce the same output! The output of the first statement is:
+> > 
+> > ```output
+> >         gdpPercap_1952  gdpPercap_1957
+> > country                                
+> > Ethiopia     1601.056136     1942.284244
+> > Somalia     6137.076492     8842.598030
+> > ```
+> > 
+> > The second statement gives:
+> > 
+> > ```output
+> >         gdpPercap_1952  gdpPercap_1957  gdpPercap_1962
+> > country                                                
+> > Albania     1601.056136     1942.284244     2312.888958
+> > Austria     6137.076492     8842.598030    10750.721110
+> > Belgium     8343.105127     9714.960623    10991.206760
+> > ```
+> > 
+> > Clearly, the second statement produces an additional column and an additional row compared to the first statement.  
+> > What conclusion can we draw? We see that a numerical slice, 0:2, *omits* the final index (i.e. index 2)
+> > in the range provided,
+> > while a named slice, 'gdpPercap\_1952':'gdpPercap\_1962', *includes* the final element.
+> {: .solution}
+{: .challenge}
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
@@ -413,7 +403,7 @@ Explain what each line in the following short program does:
 what is in `first`, `second`, etc.?
 
 ```python
-first = pd.read_csv('data/gapminder_all.csv', index_col='country')
+first = pd.read_csv('data/gapminder.csv', index_col='country')
 second = first[first['continent'] == 'Americas']
 third = second.drop('Puerto Rico')
 fourth = third.drop('continent', axis = 1)
@@ -767,17 +757,5 @@ for the entire twentieth century?
 [pandas-dataframe]: https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html
 [pandas-series]: https://pandas.pydata.org/pandas-docs/stable/generated/pandas.Series.html
 [numpy]: https://www.numpy.org/
-
-
-:::::::::::::::::::::::::::::::::::::::: keypoints
-
-- Use `DataFrame.iloc[..., ...]` to select values by integer location.
-- Use `:` on its own to mean all columns or all rows.
-- Select multiple columns or rows using `DataFrame.loc` and a named slice.
-- Result of slicing can be used in further operations.
-- Use comparisons to select data based on value.
-- Select values or NaN using a Boolean mask.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 
