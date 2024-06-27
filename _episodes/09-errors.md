@@ -2,21 +2,20 @@
 title: Errors and Exceptions
 teaching: 30
 exercises: 0
----
-
-::::::::::::::::::::::::::::::::::::::: objectives
-
+objectives:
 - To be able to read a traceback, and determine where the error took place and what type it is.
 - To be able to describe the types of situations in which syntax errors, indentation errors, name errors, index errors, and missing file errors occur.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::: questions
-
+questions:
 - How does Python report errors?
 - How can I handle errors in Python programs?
+keypoints:
+- Tracebacks can look intimidating, but they give us a lot of useful information about what went wrong in our program, including where the error occurred and what type of error it was.
+- An error having to do with the 'grammar' or syntax of the program is called a `SyntaxError`. If the issue has to do with how the code is indented, then it will be called an `IndentationError`.
+- A `NameError` will occur when trying to use a variable that does not exist. Possible causes are that a variable definition is missing, a variable reference differs from its definition in spelling or capitalization, or the code contains a string that is missing quotes around it.
+- Containers like lists and strings will generate errors if you try to access items in them that do not exist. This type of error is called an `IndexError`.
+- Trying to read a file that does not exist will give you an `FileNotFoundError`. Trying to read a file that is open for writing, or writing to a file that is open for reading, will give you an `IOError`.
+---
 
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 Every programmer encounters errors,
 both those who are just beginning,
@@ -84,42 +83,19 @@ the program encountered an error on Line 6, when it tried to run the code `print
 
 :::::::::::::::::::::::::::::::::::::::::  callout
 
-## Long Tracebacks
+> ## Long Tracebacks
+>
+> Sometimes, you might see a traceback that is very long \-- sometimes they might even be 20 levels deep! This can make it seem like something horrible happened, but the length of the error message does not reflect severity, rather, it indicates that your program called many functions before it encountered the error. Most of the time, the actual place where the error occurred is at the bottom-most level, so you can skip down the traceback to the bottom.
+{: .callout}
 
-Sometimes, you might see a traceback that is very long
-\-- sometimes they might even be 20 levels deep!
-This can make it seem like something horrible happened,
-but the length of the error message does not reflect severity, rather,
-it indicates that your program called many functions before it encountered the error.
-Most of the time, the actual place where the error occurred is at the bottom-most level,
-so you can skip down the traceback to the bottom.
-
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-So what error did the program actually encounter?
-In the last line of the traceback,
-Python helpfully tells us the category or type of error (in this case, it is an `IndexError`)
+So what error did the program actually encounter? In the last line of the traceback, Python helpfully tells us the category or type of error (in this case, it is an `IndexError`)
 and a more detailed error message (in this case, it says "list index out of range").
 
-If you encounter an error and don't know what it means,
-it is still important to read the traceback closely.
-That way,
-if you fix the error,
-but encounter a new one,
-you can tell that the error changed.
-Additionally,
-sometimes knowing *where* the error occurred is enough to fix it,
-even if you don't entirely understand the message.
+If you encounter an error and don't know what it means,it is still important to read the traceback closely.That way,if you fix the error,but encounter a new one, you can tell that the error changed.Additionally,sometimes knowing *where* the error occurred is enough to fix it, even if you don't entirely understand the message.
 
-If you do encounter an error you don't recognize,
-try looking at the
+If you do encounter an error you don't recognize,try looking at the
 [official documentation on errors](https://docs.python.org/3/library/exceptions.html).
-However,
-note that you may not always be able to find the error there,
-as it is possible to create custom errors.
-In that case,
-hopefully the custom error message is informative enough to help you figure out what went wrong.
+However,note that you may not always be able to find the error there,as it is possible to create custom errors. In that case, hopefully the custom error message is informative enough to help you figure out what went wrong.
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
@@ -197,15 +173,13 @@ IndexError: list index out of range
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-:::::::::::::::::::::::::::::::::::::::::  callout
-
-## Better errors on newer Pythons
-
-Newer versions of Python have improved error printouts.  If you are debugging errors, it is often
-helpful to use the latest Python version, even if you support older versions of Python.
 
 
-::::::::::::::::::::::::::::::::::::::::::::::::::
+> ## Better errors on newer Pythons
+> 
+> Newer versions of Python have improved error printouts.  If you are debugging errors, it is often helpful to use the latest Python version, even if you support older versions of Python.
+{: .callout}
+
 
 ## Syntax Errors
 
@@ -608,15 +582,5 @@ print('My favorite season is ', seasons[-1])
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
 
-
-:::::::::::::::::::::::::::::::::::::::: keypoints
-
-- Tracebacks can look intimidating, but they give us a lot of useful information about what went wrong in our program, including where the error occurred and what type of error it was.
-- An error having to do with the 'grammar' or syntax of the program is called a `SyntaxError`. If the issue has to do with how the code is indented, then it will be called an `IndentationError`.
-- A `NameError` will occur when trying to use a variable that does not exist. Possible causes are that a variable definition is missing, a variable reference differs from its definition in spelling or capitalization, or the code contains a string that is missing quotes around it.
-- Containers like lists and strings will generate errors if you try to access items in them that do not exist. This type of error is called an `IndexError`.
-- Trying to read a file that does not exist will give you an `FileNotFoundError`. Trying to read a file that is open for writing, or writing to a file that is open for reading, will give you an `IOError`.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 
