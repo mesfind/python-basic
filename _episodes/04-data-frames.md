@@ -1805,14 +1805,17 @@ plt.show()
 
 ## Dataframe Melt
 
-```python
+~~~
 df2 = df.reset_index()
 df2 = df2.set_index('Year')
 melted_df = df2.melt(id_vars=["Country", 'region'], value_vars=["life", "gdp"])
 melted_df = melted_df.drop_duplicates(subset=['Country', 'variable'])
 melted_df.head()
 
-```
+~~~
+{: .python}
+
+
 ```output
                  Country                      region variable   value
 0            Afghanistan                  South Asia     life  33.639
@@ -1824,7 +1827,7 @@ melted_df.head()
 
 5. Pivot Table: Sum of Sales by Category and Region
 
-```python
+~~~
 
 pivot_table = pd.pivot_table(df2, index='Country', columns='region', values='gdp', aggfunc='sum')
 
@@ -1836,7 +1839,9 @@ print(pivot_table)
 
 print("\nCross-Tabulation:")
 print(cross_tab)
-```
+~~~
+{: .python}
+
 
 ```output
 Pivot Table:
