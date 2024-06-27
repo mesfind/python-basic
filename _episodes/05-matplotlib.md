@@ -1,5 +1,5 @@
 ---
-title: Visualizing Tabular Data
+title: Data Visualization with Matplotlib
 teaching: 30
 exercises: 20
 objectives:
