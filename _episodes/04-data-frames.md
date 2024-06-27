@@ -1407,19 +1407,12 @@ print("Sum for Ethiopian Data:\n", sum_ethiopian)
 # Calculate standard deviation for the Ethiopian case
 std_ethiopian = ethiopian_group.std()
 print("Standard Deviation for Ethiopian Data:\n", std_ethiopian)
-
-# Calculate specific aggregates for the Ethiopian case using agg function
-agg_ethiopian = ethiopian_group.agg({
-    'fertility': ['mean', 'min', 'max'],
-    'life': ['mean', 'min', 'max'],
-    'population': ['sum'],
-    'child_mortality': ['mean', 'min', 'max'],
-    'gdp': ['mean', 'min', 'max']
-})
-
-print("Aggregated Data for Ethiopian Case:\n", agg_ethiopian)
 ~~~
 {: .python}
+
+
+
+
 
 
 To filter the grouped DataFrame for only the Ethiopian case, you can apply the groupby operation and then filter the resulting grouped data for Ethiopia.
@@ -1476,7 +1469,38 @@ print("Sum for Ethiopian Data:\n", sum_ethiopian)
 # Calculate standard deviation for the Ethiopian case
 std_ethiopian = ethiopian_group.std()
 print("Standard Deviation for Ethiopian Data:\n", std_ethiopian)
+~~~
+{: .python}
 
+~~~
+Mean for Ethiopian Data:
+ fertility          6.660680e+00
+life               4.821196e+01
+population         3.383062e+07
+child_mortality    1.867098e+02
+gdp                7.428200e+02
+
+sum for Ethiopian Data:
+ fertility          3.330340e+02
+life               2.410598e+03
+population         1.691531e+09
+child_mortality    9.335490e+03
+gdp                3.714100e+04
+
+Standard Deviation for Ethiopian Data:
+ fertility          8.399971e-01
+life               7.204256e+00
+population         3.183671e+06
+child_mortality    6.138599e+01
+gdp                1.683745e+02
+dtype: float64
+~~~
+{: .output}
+
+
+
+
+~~~
 # Separate aggregation for different columns
 aggregated_data = {
     'fertility': ethiopian_group['fertility'].agg(['mean', 'min', 'max']),
@@ -1491,6 +1515,36 @@ agg_ethiopian = pd.DataFrame(aggregated_data)
 print("Aggregated Data for Ethiopian Case:\n", agg_ethiopian)
 ~~~
 {: .python}
+
+
+~~~
+Aggregated Data for Ethiopian Case:
+       fertility      life    population  child_mortality      gdp
+mean    6.66068  48.21196  1.691531e+09         186.7098   742.82
+min     4.51900  37.00000  1.691531e+09          64.6000   516.00
+max     7.43700  63.63500  1.691531e+09         255.9900  1336.00
+~~~
+{: .output}
+
+~~~
+# calculate mean for the Ethiopian case
+ethiopian_group = ethiopian_group.set_index(['Country','Year','region'])
+mean_ethiopian = ethiopian_group.mean()
+print("Mean for Ethiopian Data:\n", mean_ethiopian)
+~~~
+{: .python}
+
+
+~~~
+Mean for Ethiopian Data:
+ fertility          6.660680e+00
+life               4.821196e+01
+population         3.383062e+07
+child_mortality    1.867098e+02
+gdp                7.428200e+02
+dtype: float64
+~~~
+{: .output}
 
 
 ~~~
@@ -1535,27 +1589,21 @@ Min-Max scaling transforms the data by scaling each feature to a given range (us
 
 ~~~
 import numpy as np
-
 # Impute missing values with the median
 capped_df = capped_df.fillna(capped_df.median())
-
 # Ensure no infinite values
 capped_df = capped_df.replace([np.inf, -np.inf], np.nan).dropna()
-
+## min-max scaling
+#capped_df = capped_df.set_index(['Country','region','Year'])
+capped_df = capped_df.fillna(capped_df.median())
+capped_df = capped_df.replace([np.inf, -np.inf],np.nan).dropna()
 def min_max_scaling(df):
-    min_max_scaled_df = df.copy()
-    for column in df.columns:
-        min_val = df[column].min()
-        max_val = df[column].max()
-        min_max_scaled_df[column] = (df[column] - min_val) / (max_val - min_val)
-    return min_max_scaled_df
-
-# Apply Min-Max Scaling
-# capped_df = capped_df.set_index(['Country', 'Year'])
-min_max_scaled_df = min_max_scaling(capped_df)
-min_max_scaled_df = min_max_scaled_df.reset_index()
-print("Min-Max Scaled Data:\n", min_max_scaled_df.head())
-
+    df2 = df.copy()
+    for column in df2.columns:
+        min_val = df2[column].min()
+        max_val = df2[column].max()
+        df2[column] = (df2[column] - min_val) / (max_val - min_val)
+    return df2
 ~~~
 {: .python}
 
@@ -1607,57 +1655,107 @@ Standard Scaled Data:
 {: .output}
 
 
-### Principal Component Analysis (PCA)
 
-PCA reduces the dimensionality of the data while preserving as much variability as possible. PCA:
-
-- Standardize the data.
-- Compute the covariance matrix.
-- Calculate the eigenvalues and eigenvectors.
-- Sort the eigenvalues and eigenvectors.
-- Select the top `n_components` eigenvectors.
-- Transform the data into the new feature space.
+## Melting and distributing
 
 ~~~
+capped_df2 = capped_df.reset_index()
+capped_df2 = capped_df2.set_index('Year')
+melted_df = capped_df2.melt(id_vars=["Country", 'region'],
+                            value_vars=['life', 'gdp'])
+melted_df = melted_df.drop_duplicates(subset=['Country', 'variable'])
+melted_df.head()
+~~~
+{: .python}
 
-import numpy as np
+~~~
+                 Country                      region variable   value
+0            Afghanistan                  South Asia     life  33.639
+50               Albania       Europe & Central Asia     life  65.475
+100              Algeria  Middle East & North Africa     life  47.953
+150               Angola          Sub-Saharan Africa     life  34.604
+200  Antigua and Barbuda                     America     life  63.775
+~~~
+{: .output}
 
-# Impute missing values with the median
-capped_df = capped_df.fillna(capped_df.median())
-# Ensure no infinite values
-capped_df = capped_df.replace([np.inf, -np.inf], np.nan).dropna()
 
-def pca(df, n_components=2):
-    # Standardizing the data before applying PCA
-    standard_scaled_df = standard_scaling(df)
-    cov_matrix = np.cov(standard_scaled_df.T)
-    eigenvalues, eigenvectors = np.linalg.eig(cov_matrix)
-    sorted_indices = np.argsort(eigenvalues)[::-1]
-    sorted_eigenvectors = eigenvectors[:, sorted_indices]
-    selected_eigenvectors = sorted_eigenvectors[:, :n_components]
-    pca_df = np.dot(standard_scaled_df, selected_eigenvectors)
-    pca_df = pd.DataFrame(pca_df, index=df.index, columns=[f'PC{i+1}' for i in range(n_components)])
-    return pca_df
-
-# Apply PCA
-pca_df = pca(capped_df, n_components=2)
-pca_df = pca_df.reset_index()
-print("PCA Transformed Data:\n", pca_df.head())
-
+~~~
+# Distribute the melted DataFrame
+distributed_df = melted_df.pivot(index=['Country', 'region'], columns='variable', values='value')
+distributed_df = distributed_df.reset_index()
+distributed_df.head()
 ~~~
 {: .python}
 
 
 ~~~
-PCA Transformed Data:
-        Country  Year       PC1       PC2
-0  Afghanistan  1964 -4.190772 -0.236485
-1  Afghanistan  1965 -4.164832 -0.253027
-2  Afghanistan  1966 -4.139561 -0.270211
-3  Afghanistan  1967 -4.113615 -0.287778
-4  Afghanistan  1968 -4.087462 -0.306225
+variable              Country                      region     gdp    life
+0                 Afghanistan                  South Asia  1182.0  33.639
+1                     Albania       Europe & Central Asia  3023.0  65.475
+2                     Algeria  Middle East & North Africa  5693.0  47.953
+3                      Angola          Sub-Saharan Africa  4573.0  34.604
+4         Antigua and Barbuda                     America  5008.0  63.775
 ~~~
 {: .output}
+
+
+## Pivotal Table
+
+~~~
+pivotal_table = pd.pivot_table(capped_df,index='Country',
+                               columns=['region'], values='gdp',
+                               aggfunc='sum',fill_value=0)
+pivotal_table
+~~~
+{: .python}
+
+~~~
+region                America  East Asia & Pacific  Europe & Central Asia  Middle East & North Africa  South Asia  Sub-Saharan Africa
+Country                                                                                                                              
+Afghanistan               0.0                  0.0                    0.0                         0.0     59360.0                 0.0
+Albania                   0.0                  0.0               250626.0                         0.0         0.0                 0.0
+Algeria                   0.0                  0.0                    0.0                    483109.0         0.0                 0.0
+Angola                    0.0                  0.0                    0.0                         0.0         0.0            235958.0
+Antigua and Barbuda  688269.0                  0.0                    0.0                         0.0         0.0                 0.0
+...                       ...                  ...                    ...                         ...         ...                 ...
+Western Sahara            0.0                  0.0                    0.0                         0.0         0.0                 0.0
+Yemen, Rep.               0.0                  0.0                    0.0                         0.0         0.0                 0.0
+Zambia                    0.0                  0.0                    0.0                         0.0         0.0            149503.0
+Zimbabwe                  0.0                  0.0                    0.0                         0.0         0.0            111688.0
+Åland                     0.0                  0.0                    0.0                         0.0         0.0                 0.0
+
+[204 rows x 6 columns]
+
+~~~
+
+
+~~~
+cross_tab = pd.crosstab(capped_df2['Country'], capped_df2['region'])
+cross_tab
+~~~
+{: .python}
+
+~~~
+region               America  East Asia & Pacific  Europe & Central Asia  Middle East & North Africa  South Asia  Sub-Saharan Africa
+Country                                                                                                                             
+Afghanistan                0                    0                      0                           0          50                   0
+Albania                    0                    0                     50                           0           0                   0
+Algeria                    0                    0                      0                          50           0                   0
+Angola                     0                    0                      0                           0           0                  50
+Antigua and Barbuda       50                    0                      0                           0           0                   0
+...                      ...                  ...                    ...                         ...         ...                 ...
+Western Sahara             0                    0                      0                          50           0                   0
+Yemen, Rep.                0                    0                      0                          50           0                   0
+Zambia                     0                    0                      0                           0           0                  50
+Zimbabwe                   0                    0                      0                           0           0                  50
+Åland                      0                    0                     10                           0           0                   0
+
+[204 rows x 6 columns]
+
+~~~
+{: .output}
+
+
 
 To create a bubble plot of the 20 most populous countries in the capped_df, we can use matplotlib for visualization. We'll select the top 20 countries based on population, then create a scatter plot where the size of each bubble represents the population size
 
@@ -1729,6 +1827,65 @@ plt.show()
 {: .python}
 
 
+
+
+## Correlation Matrix
+
+~~~
+corr_matrix = capped_df.corr()
+print(corr_matrix)
+~~~
+{: .python}
+
+
+~~~
+                 fertility      life  population  child_mortality       gdp
+fertility         1.000000 -0.833772   -0.121790         0.794428 -0.532998
+life             -0.833772  1.000000    0.053557        -0.913277  0.615501
+population       -0.121790  0.053557    1.000000        -0.016921  0.024846
+child_mortality   0.794428 -0.913277   -0.016921         1.000000 -0.547911
+gdp              -0.532998  0.615501    0.024846        -0.547911  1.000000
+~~~
+{: .output}
+
+~~~
+import matplotlib.pyplot as plt
+import seaborn as sns
+# Create a heatmap of the correlation matrix
+plt.figure(figsize=(10, 8))
+sns.heatmap(corr_matrix, annot=True, cmap='YlOrRd')
+plt.title('Correlation Matrix')
+plt.show()
+~~~
+{: .python}
+
+![](../fig/corr_matrix.png)
+
+
+~~~
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+capped_df2 = capped_df.set_index(['Country','region','Year'])
+# Calculate the correlation matrix
+corr_matrix = capped_df2.corr()
+
+# Create a mask for the upper triangle
+mask = np.triu(np.ones_like(corr_matrix, dtype=bool))
+
+# Create a heatmap of the lower triangular correlation matrix
+plt.figure(figsize=(10, 8))
+sns.heatmap(corr_matrix, annot=True, cmap='YlOrRd', mask=mask)
+plt.title('Correlation Matrix (Lower Triangular)')
+plt.show()
+~~~
+{: .python}
+
+![](../fig/corr_matrix2.png)
+
+
+
+
 To modify the size of the scatter plot bubbles based on the population rank, you can scale the bubble sizes inversely with the population rank. This way, higher-ranked (more populous) countries will have larger bubbles.
 
 ~~~
@@ -1798,92 +1955,104 @@ plt.show()
 {: .python}
 
 
+~~~
+data = capped_df.reset_index()
+
+# Filter to 2007 data
+data_2007 = data[data['Year'] == 2007]
+
+# Create bubble plot
+sns.scatterplot(
+    data=data_2007, 
+    x="gdp", 
+    y="life",
+    size="population",
+    hue="Country",
+    palette="viridis",
+    legend=False,
+    sizes=(20, 2000)
+)
+# Customize plot
+plt.title('Gapminder 2007')
+plt.xlabel('GDP per capita')
+plt.ylabel('Life expectancy')
+plt.xscale('log') 
+plt.tight_layout()
+plt.savefig("_episodes/fig/gdp_life_scatter.png",dpi=150)
+plt.show()
+~~~
+{: .python}
+
+![](../fig/gdp_life_scatter.png)
 
 
-
-
-
-## Dataframe Melt
+## Regression Analysis
 
 ~~~
-df2 = df.reset_index()
-df2 = df2.set_index('Year')
-melted_df = df2.melt(id_vars=["Country", 'region'], value_vars=["life", "gdp"])
-melted_df = melted_df.drop_duplicates(subset=['Country', 'variable'])
-melted_df.head()
-
+## Regression Analysis
+import statsmodels.api as sm
+X = capped_df.drop(columns=['life'])  #  independent vaibles
+y = capped_df['life']
+X = sm.add_constant(X)
+model = sm.OLS(y,X).fit()
+print(model.summary())
 ~~~
 {: .python}
 
 
-```output
-                 Country                      region variable   value
-0            Afghanistan                  South Asia     life  33.639
-50               Albania       Europe & Central Asia     life  65.475
-100              Algeria  Middle East & North Africa     life  47.953
-150               Angola          Sub-Saharan Africa     life  34.604
-200  Antigua and Barbuda                     America     life  63.775
-```
+~~~
+     OLS Regression Results                            
+==============================================================================
+Dep. Variable:                   life   R-squared:                       0.877
+Model:                            OLS   Adj. R-squared:                  0.877
+Method:                 Least Squares   F-statistic:                 1.801e+04
+Date:                Thu, 27 Jun 2024   Prob (F-statistic):               0.00
+Time:                        12:01:33   Log-Likelihood:                -28072.
+No. Observations:               10111   AIC:                         5.615e+04
+Df Residuals:                   10106   BIC:                         5.619e+04
+Df Model:                           4                                         
+Covariance Type:            nonrobust                                         
+===================================================================================
+                      coef    std err          t      P>|t|      [0.025      0.975]
+-----------------------------------------------------------------------------------
+const              75.7613      0.137    552.127      0.000      75.492      76.030
+fertility          -1.4146      0.033    -43.197      0.000      -1.479      -1.350
+population       7.479e-09   3.21e-09      2.330      0.020    1.19e-09    1.38e-08
+child_mortality    -0.0966      0.001   -107.022      0.000      -0.098      -0.095
+gdp                 0.0001   4.46e-06     30.212      0.000       0.000       0.000
+==============================================================================
+Omnibus:                     3562.196   Durbin-Watson:                   0.070
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):            21779.939
+Skew:                          -1.560   Prob(JB):                         0.00
+Kurtosis:                       9.478   Cond. No.                     5.78e+07
+==============================================================================
 
-5. Pivot Table: Sum of Sales by Category and Region
+Notes:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+[2] The condition number is large, 5.78e+07. This might indicate that there are
+strong multicollinearity or other numerical problems.
+~~~
+{: .output}
+
+
+## Anova Analysis
 
 ~~~
+import statsmodels.api as sm
+from statsmodels.formula.api import ols
 
-pivot_table = pd.pivot_table(df2, index='Country', columns='region', values='gdp', aggfunc='sum')
+# Assuming you have a categorical feature named 'region'
+formula = 'life ~ C(region) + gdp'
+model = ols(formula, data=capped_df2).fit()
+anova_table = sm.stats.anova_lm(model, typ=2)
+print(anova_table)
+~~~
 
-# Cross-Tabulation: Count of Category by Region
-cross_tab = pd.crosstab(df2['Country'], df2['region'])
-
-print("Pivot Table:")
-print(pivot_table)
-
-print("\nCross-Tabulation:")
-print(cross_tab)
+~~~
+ sum_sq       df            F  PR(>F)
+C(region)  294129.574469      5.0  1246.336869     0.0
+gdp        151741.924573      1.0  3214.936063     0.0
+Residual   476899.190476  10104.0          NaN     NaN
 ~~~
 {: .python}
-
-
-```output
-Pivot Table:
-region                America  East Asia & Pacific  Europe & Central Asia  Middle East & North Africa  South Asia  Sub-Saharan Africa
-Country                                                                                                                              
-Afghanistan               NaN                  NaN                    NaN                         NaN     59360.0                 NaN
-Albania                   NaN                  NaN               250626.0                         NaN         NaN                 NaN
-Algeria                   NaN                  NaN                    NaN                    483109.0         NaN                 NaN
-Angola                    NaN                  NaN                    NaN                         NaN         NaN            235958.0
-Antigua and Barbuda  688269.0                  NaN                    NaN                         NaN         NaN                 NaN
-...                       ...                  ...                    ...                         ...         ...                 ...
-Western Sahara            NaN                  NaN                    NaN                         0.0         NaN                 NaN
-Yemen, Rep.               NaN                  NaN                    NaN                         0.0         NaN                 NaN
-Zambia                    NaN                  NaN                    NaN                         NaN         NaN            149503.0
-Zimbabwe                  NaN                  NaN                    NaN                         NaN         NaN            111688.0
-Åland                     NaN                  NaN                    0.0                         NaN         NaN                 NaN
-
-[204 rows x 6 columns]
-
-Cross-Tabulation:
-region               America  East Asia & Pacific  Europe & Central Asia  Middle East & North Africa  South Asia  Sub-Saharan Africa
-Country                                                                                                                             
-Afghanistan                0                    0                      0                           0          50                   0
-Albania                    0                    0                     50                           0           0                   0
-Algeria                    0                    0                      0                          50           0                   0
-Angola                     0                    0                      0                           0           0                  50
-Antigua and Barbuda       50                    0                      0                           0           0                   0
-...                      ...                  ...                    ...                         ...         ...                 ...
-Western Sahara             0                    0                      0                          50           0                   0
-Yemen, Rep.                0                    0                      0                          50           0                   0
-Zambia                     0                    0                      0                           0           0                  50
-Zimbabwe                   0                    0                      0                           0           0                  50
-Åland                      0                    0                     10                           0           0                   0
-
-[204 rows x 6 columns]
-
-```
-
-
-
-[pandas-dataframe]: https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html
-[pandas-series]: https://pandas.pydata.org/pandas-docs/stable/generated/pandas.Series.html
-[numpy]: https://www.numpy.org/
-
 
