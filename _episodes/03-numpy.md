@@ -1,5 +1,5 @@
 ---
-title: Analyzing Patient Data
+title: Analyzing Data with Numpy
 teaching: 40
 exercises: 20
 objectives:
@@ -21,7 +21,7 @@ keypoints:
 - Array indices start at 0, not 1.
 - Use `low:high` to specify a `slice` that includes the indices from `low` to `high-1`.
 - Use `# some kind of explanation` to add comments to programs.
-- Use `numpy.mean(array)`, `np.amax(array)`, and `numpy.amin(array)` to calculate simple statistics.
+- Use `np.mean(array)`, `np.amax(array)`, and `numpy.amin(array)` to calculate simple statistics.
 - Use `np.mean(array, axis=0)` or `numpy.mean(array, axis=1)` to calculate statistics across the specified axis.
 - Use `glob.glob(pattern)` to create a list of files whose names match a pattern.
 - Use `*` in a pattern to match zero or more characters, and `?` to match any single character.
