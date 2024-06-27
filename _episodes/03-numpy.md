@@ -2,23 +2,31 @@
 title: Analyzing Patient Data
 teaching: 40
 exercises: 20
----
-
-::::::::::::::::::::::::::::::::::::::: objectives
-
+objectives:
+- Use a library function to get a list of filenames that match a wildcard pattern.
+- Write a `for` loop to process multiple files.
 - Explain what a library is and what libraries are used for.
 - Import a Python library and use the functions it contains.
 - Read tabular data from a file into a program.
 - Select individual values and subsections from data.
 - Perform operations on arrays of data.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::: questions
-
+questions:
+- How can I do the same operations on many different files?
 - How can I process tabular data files in Python?
+keypoints: 
+- Import a library into a program using `import libraryname`.
+- Use the `numpy` library to work with arrays in Python.
+- The expression `array.shape` gives the shape of an array.
+- Use `array[x, y]` to select a single element from a 2D array.
+- Array indices start at 0, not 1.
+- Use `low:high` to specify a `slice` that includes the indices from `low` to `high-1`.
+- Use `# some kind of explanation` to add comments to programs.
+- Use `numpy.mean(array)`, `np.amax(array)`, and `numpy.amin(array)` to calculate simple statistics.
+- Use `np.mean(array, axis=0)` or `numpy.mean(array, axis=1)` to calculate statistics across the specified axis.
+- Use `glob.glob(pattern)` to create a list of files whose names match a pattern.
+- Use `*` in a pattern to match zero or more characters, and `?` to match any single character.
+---
 
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 Words are useful, but what's more useful are the sentences and stories we build with them.
 Similarly, while a lot of powerful, general tools are built into Python,
@@ -36,7 +44,7 @@ especially if you have matrices or arrays. To tell Python that we'd like to star
 we need to [import](../learners/reference.md#import) it:
 
 ```python
-import numpy
+import numpy as np
 ```
 
 Importing a library is like getting a piece of lab equipment out of a storage locker and setting it
@@ -48,7 +56,7 @@ need for each program.
 Once we've imported the library, we can ask the library to read our data file for us:
 
 ```python
-numpy.loadtxt(fname='inflammation-01.csv', delimiter=',')
+np.loadtxt(fname='data/inflammation-01.csv', delimiter=',')
 ```
 
 ```output
@@ -95,7 +103,7 @@ value to a variable, we can also assign an array of values to a variable using t
 Let's re-run `numpy.loadtxt` and save the returned data:
 
 ```python
-data = numpy.loadtxt(fname='inflammation-01.csv', delimiter=',')
+data = np.loadtxt(fname='data/inflammation-01.csv', delimiter=',')
 ```
 
 This statement doesn't produce any output because we've assigned the output to the variable `data`.
@@ -137,28 +145,23 @@ are their daily inflammation measurements.
 
 :::::::::::::::::::::::::::::::::::::::::  callout
 
-## Data Type
-
-A Numpy array contains one or more elements
-of the same type. The `type` function will only tell you that
-a variable is a NumPy array but won't tell you the type of
-thing inside the array.
-We can find out the type
-of the data contained in the NumPy array.
-
-```python
-print(data.dtype)
-```
-
-```output
-float64
-```
-
-This tells us that the NumPy array's elements are
-[floating-point numbers](../learners/reference.md#floating-point-number).
+> ## Data Type
+> 
+> A Numpy array contains one or more elements of the same type. The `type` function will only tell you that a variable is a NumPy array but won't tell you the type of
+thing inside the array. We can find out the type of the data contained in the NumPy array.
+> 
+> ```python
+> print(data.dtype)
+> ```
+> 
+> ```output
+> float64
+> ```
+> 
+> This tells us that the NumPy array's elements are [floating-point numbers](../learners/reference.md#floating-point-number).
+{: .callout}
 
 
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 With the following command, we can see the array's [shape](../learners/reference.md#shape):
 
@@ -199,41 +202,18 @@ print('middle value in data:', data[29, 19])
 middle value in data: 16.0
 ```
 
-The expression `data[29, 19]` accesses the element at row 30, column 20. While this expression may
-not surprise you,
-`data[0, 0]` might.
-Programming languages like Fortran, MATLAB and R start counting at 1
-because that's what human beings have done for thousands of years.
-Languages in the C family (including C++, Java, Perl, and Python) count from 0
-because it represents an offset from the first value in the array (the second
-value is offset by one index from the first value). This is closer to the way
-that computers represent arrays (if you are interested in the historical
-reasons behind counting indices from zero, you can read
-[Mike Hoye's blog post](https://exple.tive.org/blarg/2013/10/22/citation-needed/)).
-As a result,
-if we have an M×N array in Python,
-its indices go from 0 to M-1 on the first axis
-and 0 to N-1 on the second.
-It takes a bit of getting used to,
-but one way to remember the rule is that
-the index is how many steps we have to take from the start to get the item we want.
+The expression `data[29, 19]` accesses the element at row 30, column 20. While this expression may not surprise you,`data[0, 0]` might.Programming languages like Fortran, MATLAB and R start counting at 1 because that's what human beings have done for thousands of years.Languages in the C family (including C++, Java, Perl, and Python) count from 0 because it represents an offset from the first value in the array (the second value is offset by one index from the first value). This is closer to the way that computers represent arrays (if you are interested in the historical reasons behind counting indices from zero, you can read [Mike Hoye's blog post](https://exple.tive.org/blarg/2013/10/22/citation-needed/)). As a result,
+if we have an M×N array in Python, its indices go from 0 to M-1 on the first axis and 0 to N-1 on the second. It takes a bit of getting used to, but one way to remember the rule is that the index is how many steps we have to take from the start to get the item we want.
 
-![](fig/python-zero-index.svg){alt="'data' is a 3 by 3 numpy array containing row 0: \['A', 'B', 'C'\], row 1: \['D', 'E', 'F'\], androw 2: \['G', 'H', 'I'\]. Starting in the upper left hand corner, data\[0, 0\] = 'A', data\[0, 1\] = 'B',data\[0, 2\] = 'C', data\[1, 0\] = 'D', data\[1, 1\] = 'E', data\[1, 2\] = 'F', data\[2, 0\] = 'G',data\[2, 1\] = 'H', and data\[2, 2\] = 'I', in the bottom right hand corner."}
-
-:::::::::::::::::::::::::::::::::::::::::  callout
-
-## In the Corner
-
-What may also surprise you is that when Python displays an array,
-it shows the element with index `[0, 0]` in the upper left corner
-rather than the lower left.
-This is consistent with the way mathematicians draw matrices
-but different from the Cartesian coordinates.
-The indices are (row, column) instead of (column, row) for the same reason,
-which can be confusing when plotting data.
+![](../fig/python-zero-index.svg){alt="'data' is a 3 by 3 numpy array containing row 0: \['A', 'B', 'C'\], row 1: \['D', 'E', 'F'\], androw 2: \['G', 'H', 'I'\]. Starting in the upper left hand corner, data\[0, 0\] = 'A', data\[0, 1\] = 'B',data\[0, 2\] = 'C', data\[1, 0\] = 'D', data\[1, 1\] = 'E', data\[1, 2\] = 'F', data\[2, 0\] = 'G',data\[2, 1\] = 'H', and data\[2, 2\] = 'I', in the bottom right hand corner."}
 
 
-::::::::::::::::::::::::::::::::::::::::::::::::::
+
+> ## In the Corner
+> 
+> What may also surprise you is that when Python displays an array, it shows the element with index `[0, 0]` in the upper left corner rather than the lower left. This is consistent with the way mathematicians draw matrices but different from the Cartesian coordinates. The indices are (row, column) instead of (column, row) for the same reason, which can be confusing when plotting data.
+{: .callout}
+
 
 ## Slicing data
 
@@ -295,9 +275,7 @@ small is:
 
 ## Analyzing data
 
-NumPy has several useful functions that take an array as input to perform operations on its values.
-If we want to find the average inflammation for all patients on
-all days, for example, we can ask NumPy to compute `data`'s mean value:
+NumPy has several useful functions that take an array as input to perform operations on its values. If we want to find the average inflammation for all patients on all days, for example, we can ask NumPy to compute `data`'s mean value:
 
 ```python
 print(numpy.mean(data))
@@ -310,37 +288,30 @@ print(numpy.mean(data))
 `mean` is a [function](../learners/reference.md#function) that takes
 an array as an [argument](../learners/reference.md#argument).
 
-:::::::::::::::::::::::::::::::::::::::::  callout
-
-## Not All Functions Have Input
-
-Generally, a function uses inputs to produce outputs.
-However, some functions produce outputs without
-needing any input. For example, checking the current time
-doesn't require any input.
-
-```python
-import time
-print(time.ctime())
-```
-
-```output
-Sat Mar 26 13:07:33 2016
-```
-
-For functions that don't take in any arguments,
-we still need parentheses (`()`)
-to tell Python to go and do something for us.
 
 
-::::::::::::::::::::::::::::::::::::::::::::::::::
+> ## Not All Functions Have Input
+> 
+> Generally, a function uses inputs to produce outputs. However, some functions produce outputs without needing any input. For example, checking the current time doesn't require any input.
+> 
+> ```python
+> import time
+> print(time.ctime())
+> ```
+> 
+> ```output
+> Sat Mar 26 13:07:33 2016
+> ```
+> 
+> For functions that don't take in any arguments, we still need parentheses (`()`) to tell Python to go and do something for us.
+{: .callout}
 
-Let's use three other NumPy functions to get some descriptive values about the dataset.
-We'll also use multiple assignment,
-a convenient Python feature that will enable us to do this all in one line.
+
+
+Let's use three other NumPy functions to get some descriptive values about the dataset. We'll also use multiple assignment, a convenient Python feature that will enable us to do this all in one line.
 
 ```python
-maxval, minval, stdval = numpy.amax(data), numpy.amin(data), numpy.std(data)
+maxval, minval, stdval = numpy.amax(data), np.amin(data), np.std(data)
 
 print('maximum inflammation:', maxval)
 print('minimum inflammation:', minval)
@@ -356,48 +327,27 @@ minimum inflammation: 0.0
 standard deviation: 4.61383319712
 ```
 
-:::::::::::::::::::::::::::::::::::::::::  callout
 
-## Mystery Functions in IPython
-
-How did we know what functions NumPy has and how to use them?
-If you are working in IPython or in a Jupyter Notebook, there is an easy way to find out.
-If you type the name of something followed by a dot, then you can use
-[tab completion](../learners/reference.md#tab-completion)
-(e.g. type `numpy.` and then press <kbd>Tab</kbd>)
-to see a list of all functions and attributes that you can use. After selecting one, you
-can also add a question mark (e.g. `numpy.cumprod?`), and IPython will return an
-explanation of the method! This is the same as doing `help(numpy.cumprod)`.
-Similarly, if you are using the "plain vanilla" Python interpreter, you can type `numpy.`
-and press the <kbd>Tab</kbd> key twice for a listing of what is available. You can then use the
-`help()` function to see an explanation of the function you're interested in,
+> ## Mystery Functions in IPython
+> 
+> How did we know what functions NumPy has and how to use them? If you are working in IPython or in a Jupyter Notebook, there is an easy way to find out. If you type the name of something followed by a dot, then you can use [tab completion](../learners/reference.md#tab-completion)(e.g. type `numpy.` and then press <kbd>Tab</kbd>) to see a list of all functions and attributes that you can use. After selecting one, you can also add a question mark (e.g. `numpy.cumprod?`), and IPython will return an explanation of the method! This is the same as doing `help(numpy.cumprod)`. Similarly, if you are using the "plain vanilla" Python interpreter, you can type `numpy.` and press the <kbd>Tab</kbd> key twice for a listing of what is available. You can then use the `help()` function to see an explanation of the function you're interested in,
 for example: `help(numpy.cumprod)`.
+{: .callout}
 
 
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
-:::::::::::::::::::::::::::::::::::::::::  callout
+> ## Confusing Function Names
+> 
+> One might wonder why the functions are called `amax` and `amin` and not `max` and `min` or why the other is called `mean` and not `amean`. The package `numpy` does provide functions `max` and `min` that are fully equivalent to `amax` and `amin`, but they share a name with standard library functions `max` and `min` that come with Python itself. Referring to the functions like we did above, that is `numpy.max` for example, does not cause problems, but there are other ways to refer to them that could. In addition, text editors might highlight (color) these functions like standard library function, even though they belong to NumPy, which can be confusing and lead to errors. Since there is no function called `mean` in the standard library, there is no function called `amean`.
+{: .callout}
 
-## Confusing Function Names
 
-One might wonder why the functions are called `amax` and `amin` and not `max` and `min` or why the other is called `mean` and not `amean`.
-The package `numpy` does provide functions `max` and `min` that are fully equivalent to `amax` and `amin`, but they share a name with standard library functions `max` and `min` that come with Python itself.
-Referring to the functions like we did above, that is `numpy.max` for example, does not cause problems, but there are other ways to refer to them that could.
-In addition, text editors might highlight (color) these functions like standard library function, even though they belong to NumPy, which can be confusing and lead to errors.
-Since there is no function called `mean` in the standard library, there is no function called `amean`.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-When analyzing data, though,
-we often want to look at variations in statistical values,
-such as the maximum inflammation per patient
-or the average inflammation per day.
-One way to do this is to create a new temporary array of the data we want,
-then ask it to do the calculation:
+When analyzing data, though,we often want to look at variations in statistical values,
+such as the maximum inflammation per patientor the average inflammation per day.One way to do this is to create a new temporary array of the data we want,then ask it to do the calculation:
 
 ```python
 patient_0 = data[0, :] # 0 on the first axis (rows), everything on the second (columns)
-print('maximum inflammation for patient 0:', numpy.amax(patient_0))
+print('maximum inflammation for patient 0:', np.amax(patient_0))
 ```
 
 ```output
@@ -420,7 +370,7 @@ next diagram on the left) or the average for each day (as in the
 diagram on the right)? As the diagram below shows, we want to perform the
 operation across an axis:
 
-![](fig/python-operations-across-axes.png){alt="Per-patient maximum inflammation is computed row-wise across all columns usingnumpy.amax(data, axis=1). Per-day average inflammation is computed column-wise across all rows usingnumpy.mean(data, axis=0)."}
+![](../fig/python-operations-across-axes.png){alt="Per-patient maximum inflammation is computed row-wise across all columns usingnumpy.amax(data, axis=1). Per-day average inflammation is computed column-wise across all rows usingnumpy.mean(data, axis=0)."}
 
 To support this functionality,
 most array functions allow us to specify the axis we want to work on.
@@ -428,7 +378,7 @@ If we ask for the average across axis 0 (rows in our 2D example),
 we get:
 
 ```python
-print(numpy.mean(data, axis=0))
+print(np.mean(data, axis=0))
 ```
 
 ```output
@@ -446,7 +396,7 @@ As a quick check,
 we can ask this array what its shape is:
 
 ```python
-print(numpy.mean(data, axis=0).shape)
+print(np.mean(data, axis=0).shape)
 ```
 
 ```output
@@ -458,7 +408,7 @@ so this is the average inflammation per day for all patients.
 If we average across axis 1 (columns in our 2D example), we get:
 
 ```python
-print(numpy.mean(data, axis=1))
+print(np.mean(data, axis=1))
 ```
 
 ```output
@@ -472,53 +422,48 @@ print(numpy.mean(data, axis=1))
 
 which is the average inflammation per patient across all days.
 
-:::::::::::::::::::::::::::::::::::::::  challenge
 
-## Slicing Strings
 
-A section of an array is called a [slice](../learners/reference.md#slice).
-We can take slices of character strings as well:
-
-```python
-element = 'oxygen'
-print('first three characters:', element[0:3])
-print('last three characters:', element[3:6])
-```
-
-```output
-first three characters: oxy
-last three characters: gen
-```
-
-What is the value of `element[:4]`?
-What about `element[4:]`?
-Or `element[:]`?
-
-:::::::::::::::  solution
-
-## Solution
-
-```output
-oxyg
-en
-oxygen
-```
-
-:::::::::::::::::::::::::
-
-What is `element[-1]`?
-What is `element[-2]`?
-
-:::::::::::::::  solution
-
-## Solution
-
-```output
-n
-e
-```
-
-:::::::::::::::::::::::::
+> ## Slicing Strings
+> 
+> A section of an array is called a [slice](../learners/reference.md#slice). We can take slices of character strings as well:
+> 
+> ```python
+> element = 'oxygen'
+> print('first three characters:', element[0:3])
+> print('last three characters:', element[3:6])
+> ```
+> 
+> ```output
+> first three characters: oxy
+> last three characters: gen
+> ```
+> 
+> - What is the value of `element[:4]`?
+> - What about `element[4:]`?
+> - Or `element[:]`?
+>
+> > ## Solution
+> >
+> >```output
+> >oxyg
+> >en
+> >oxygen
+> >```
+> {: .solution}
+> 
+> What is `element[-1]`?
+> What is `element[-2]`?
+> 
+> 
+> >## Solution
+> >
+> >```output
+> >n
+> >e
+> >```
+> {: .solution}
+{: .challenge}
 
 Given those answers,
 explain what `element[1:-1]` does.
@@ -807,18 +752,233 @@ array([ 12.,  14.,  11.,  13.,  11.,  13.,  10.,  12.,  10.,  10.,  10.,
 
 
 
-:::::::::::::::::::::::::::::::::::::::: keypoints
+## Analyzing multiple data
 
-- Import a library into a program using `import libraryname`.
-- Use the `numpy` library to work with arrays in Python.
-- The expression `array.shape` gives the shape of an array.
-- Use `array[x, y]` to select a single element from a 2D array.
-- Array indices start at 0, not 1.
-- Use `low:high` to specify a `slice` that includes the indices from `low` to `high-1`.
-- Use `# some kind of explanation` to add comments to programs.
-- Use `numpy.mean(array)`, `numpy.amax(array)`, and `numpy.amin(array)` to calculate simple statistics.
-- Use `numpy.mean(array, axis=0)` or `numpy.mean(array, axis=1)` to calculate statistics across the specified axis.
+
+As a final piece to processing our inflammation data, we need a way to get a list of all the files
+in our `data` directory whose names start with `inflammation-` and end with `.csv`.
+The following library will help us to achieve this:
+
+```python
+import glob
+```
+
+The `glob` library contains a function, also called `glob`,
+that finds files and directories whose names match a pattern.
+We provide those patterns as strings:
+the character `*` matches zero or more characters,
+while `?` matches any one character.
+We can use this to get the names of all the CSV files in the current directory:
+
+```python
+print(glob.glob('data/inflammation*.csv'))
+```
+
+```output
+['inflammation-05.csv', 'inflammation-11.csv', 'inflammation-12.csv', 'inflammation-08.csv',
+'inflammation-03.csv', 'inflammation-06.csv', 'inflammation-09.csv', 'inflammation-07.csv',
+'inflammation-10.csv', 'inflammation-02.csv', 'inflammation-04.csv', 'inflammation-01.csv']
+```
+
+As these examples show,
+`glob.glob`'s result is a list of file and directory paths in arbitrary order.
+This means we can loop over it
+to do something with each filename in turn.
+In our case,
+the "something" we want to do is generate a set of plots for each file in our inflammation dataset.
+
+If we want to start by analyzing just the first three files in alphabetical order, we can use the
+`sorted` built-in function to generate a new sorted list from the `glob.glob` output:
+
+```python
+import glob
+import numpy as np
+import matplotlib.pyplot as plt
+
+filenames = sorted(glob.glob('data/inflammation*.csv'))
+filenames = filenames[0:3]
+for filename in filenames:
+    print(filename)
+
+    data = np.loadtxt(fname=filename, delimiter=',')
+
+    fig = plt.figure(figsize=(10.0, 3.0))
+
+    axes1 = fig.add_subplot(1, 3, 1)
+    axes2 = fig.add_subplot(1, 3, 2)
+    axes3 = fig.add_subplot(1, 3, 3)
+
+    axes1.set_ylabel('average')
+    axes1.plot(numpy.mean(data, axis=0))
+
+    axes2.set_ylabel('max')
+    axes2.plot(numpy.amax(data, axis=0))
+
+    axes3.set_ylabel('min')
+    axes3.plot(numpy.amin(data, axis=0))
+
+    fig.tight_layout()
+    matplotlib.pyplot.show()
+```
+
+```output
+inflammation-01.csv
+```
+
+![](fig/03-loop_49_1.png){alt='Output from the first iteration of the for loop. Three line graphs showing the daily average, maximum and minimum inflammation over a 40-day period for all patients in the first dataset.'}
+
+```output
+inflammation-02.csv
+```
+
+![](fig/03-loop_49_3.png){alt='Output from the second iteration of the for loop. Three line graphs showing the daily average, maximum and minimum inflammation over a 40-day period for all patients in the seconddataset.'}
+
+```output
+inflammation-03.csv
+```
+
+![](fig/03-loop_49_5.png){alt='Output from the third iteration of the for loop. Three line graphs showing the daily average, maximum and minimum inflammation over a 40-day period for all patients in the thirddataset.'}
+
+The plots generated for the second clinical trial file look very similar to the plots for
+the first file: their average plots show similar "noisy" rises and falls; their maxima plots
+show exactly the same linear rise and fall; and their minima plots show similar staircase
+structures.
+
+The third dataset shows much noisier average and maxima plots that are far less suspicious than
+the first two datasets, however the minima plot shows that the third dataset minima is
+consistently zero across every day of the trial. If we produce a heat map for the third data file
+we see the following:
+
+![](fig/inflammation-03-imshow.svg){alt='Heat map of the third inflammation dataset. Note that there are sporadic zero values throughoutthe entire dataset, and the last patient only has zero values over the 40 day study.'}
+
+We can see that there are zero values sporadically distributed across all patients and days of the
+clinical trial, suggesting that there were potential issues with data collection throughout the
+trial. In addition, we can see that the last patient in the study didn't have any inflammation
+flare-ups at all throughout the trial, suggesting that they may not even suffer from arthritis!
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+## Plotting Differences
+
+Plot the difference between the average inflammations reported in the first and second datasets
+(stored in `inflammation-01.csv` and `inflammation-02.csv`, correspondingly),
+i.e., the difference between the leftmost plots of the first two figures.
+
+:::::::::::::::  solution
+
+## Solution
+
+```python
+import glob
+import numpy
+import matplotlib.pyplot
+
+filenames = sorted(glob.glob('inflammation*.csv'))
+
+data0 = numpy.loadtxt(fname=filenames[0], delimiter=',')
+data1 = numpy.loadtxt(fname=filenames[1], delimiter=',')
+
+fig = matplotlib.pyplot.figure(figsize=(10.0, 3.0))
+
+matplotlib.pyplot.ylabel('Difference in average')
+matplotlib.pyplot.plot(numpy.mean(data0, axis=0) - numpy.mean(data1, axis=0))
+
+fig.tight_layout()
+matplotlib.pyplot.show()
+```
+
+:::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::::::::  challenge
+
+## Generate Composite Statistics
+
+Use each of the files once to generate a dataset containing values averaged over all patients by completing the code inside the loop given below:
+
+```python
+filenames = glob.glob('inflammation*.csv')
+composite_data = numpy.zeros((60, 40))
+for filename in filenames:
+    # sum each new file's data into composite_data as it's read
+    #
+# and then divide the composite_data by number of samples
+composite_data = composite_data / len(filenames)
+```
+
+Then use pyplot to generate average, max, and min for all patients.
+
+:::::::::::::::  solution
+
+## Solution
+
+```python
+import glob
+import numpy
+import matplotlib.pyplot
+
+filenames = glob.glob('inflammation*.csv')
+composite_data = numpy.zeros((60, 40))
+
+for filename in filenames:
+    data = numpy.loadtxt(fname = filename, delimiter=',')
+    composite_data = composite_data + data
+
+composite_data = composite_data / len(filenames)
+
+fig = matplotlib.pyplot.figure(figsize=(10.0, 3.0))
+
+axes1 = fig.add_subplot(1, 3, 1)
+axes2 = fig.add_subplot(1, 3, 2)
+axes3 = fig.add_subplot(1, 3, 3)
+
+axes1.set_ylabel('average')
+axes1.plot(numpy.mean(composite_data, axis=0))
+
+axes2.set_ylabel('max')
+axes2.plot(numpy.amax(composite_data, axis=0))
+
+axes3.set_ylabel('min')
+axes3.plot(numpy.amin(composite_data, axis=0))
+
+fig.tight_layout()
+
+matplotlib.pyplot.show()
+```
+
+:::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+After spending some time investigating the heat map and statistical plots, as well as
+doing the above exercises to plot differences between datasets and to generate composite
+patient statistics, we gain some insight into the twelve clinical trial datasets.
+
+The datasets appear to fall into two categories:
+
+- seemingly "ideal" datasets that agree excellently with Dr. Maverick's claims,
+  but display suspicious maxima and minima (such as `inflammation-01.csv` and `inflammation-02.csv`)
+- "noisy" datasets that somewhat agree with Dr. Maverick's claims, but show concerning
+  data collection issues such as sporadic missing values and even an unsuitable candidate
+  making it into the clinical trial.
+
+In fact, it appears that all three of the "noisy" datasets (`inflammation-03.csv`,
+`inflammation-08.csv`, and `inflammation-11.csv`) are identical down to the last value.
+Armed with this information, we confront Dr. Maverick about the suspicious data and
+duplicated files.
+
+Dr. Maverick has admitted to fabricating the clinical data for their drug trial. They did this after discovering that the initial trial had several issues, including unreliable data recording and poor participant selection. In order to prove the efficacy of their drug, they created fake data. When asked for additional data, they attempted to generate more fake datasets, and also included the original poor-quality dataset several times in order to make the trials seem more realistic.
+
+Congratulations! We've investigated the inflammation data and proven that the datasets have been
+synthetically generated.
+
+But it would be a shame to throw away the synthetic datasets that have taught us so much
+already, so we'll forgive the imaginary Dr. Maverick and continue to use the data to learn
+how to program.
+
+
+
+
 
 
