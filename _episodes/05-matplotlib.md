@@ -13,7 +13,7 @@ questions:
 - How can I plot my data?
 - How can I save my plot for publishing?	
 keypoints:
-- [`matplotlib`](https://matplotlib.org/) is the most widely used scientific plotting library in Python.
+- matplotlib is the most widely used scientific plotting library in Python.
 - Plot data directly from a Pandas dataframe.
 - Select and transform data, then plot it.
 - Many styles of plot are available- see the [Python Graph Gallery](https://python-graph-gallery.com/matplotlib/) for more options.
