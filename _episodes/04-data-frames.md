@@ -319,6 +319,11 @@ Slovenia    27368.0
 Name: gdp, Length: 1964, dtype: float64
 ```
 
+## Summary statistics 
+
+`DataFrame.describe()` gets the summary statistics of only the columns that have numerical data. All other columns are ignored, unless you use the argument include='all'.
+
+
 - Get the value where the mask is true, and NaN (Not a Number) where it is false.
 - Useful because NaNs are ignored by operations like max, min, average, etc.
 
@@ -1055,77 +1060,77 @@ print(numerical_df.groupby(wealth_score).sum())
 > > data.loc[["row_name"], ["col_name"]]  # as a DataFrame (preserves original index and column name)
 > > 
 > > # by column/row names: Dot notation
-> > data.col_name.row_name
+> > df.col_name.row_name
 > > 
 > > # by column/row indices
-> > data.iloc[row_index, col_index] # as a value
-> > data.iloc[[row_index], col_index] # as a Series. Preserves index. Column name is moved to `.name`
-> > data.iloc[row_index, [col_index]] # as a Series. Index is moved to `.name.` Sets index to column name.
-> > data.iloc[[row_index], [col_index]] # as a DataFrame (preserves original index and column name)
+> > df.iloc[row_index, col_index] # as a value
+> > df.iloc[[row_index], col_index] # as a Series. Preserves index. Column name is moved to `.name`
+> > df.iloc[row_index, [col_index]] # as a Series. Index is moved to `.name.` Sets index to column name.
+> > df.iloc[[row_index], [col_index]] # as a DataFrame (preserves original index and column name)
 > > 
 > > # column name + row index
-> > data["col_name"][row_index]
-> > data.col_name[row_index]
-> > data["col_name"].iloc[row_index]
+> > df["col_name"][row_index]
+> > df.col_name[row_index]
+> > df["col_name"].iloc[row_index]
 > > 
 > > # column index + row name
-> > data.iloc[:, [col_index]].loc["row_name"]  # as a Series
-> > data.iloc[:, [col_index]].loc[["row_name"]]  # as a DataFrame
+> > df.iloc[:, [col_index]].loc["row_name"]  # as a Series
+> > df.iloc[:, [col_index]].loc[["row_name"]]  # as a DataFrame
 > > 
 > > # using masks
-> > data[data.index == "row_name"].T[data.T.index == "col_name"].T
+> > df[df.index == "row_name"].T[df.T.index == "col_name"].T
 > > ```
 > > 
 > > 4\. Access several columns:
 > > 
 > > ```python
 > > # by name
-> > data[["col1", "col2", "col3"]]
-> > data.loc[:, ["col1", "col2", "col3"]]
+> > df[["col1", "col2", "col3"]]
+> > df.loc[:, ["col1", "col2", "col3"]]
 > > 
 > > # by index
-> > data.iloc[:, [col1_index, col2_index, col3_index]]
+> > df.iloc[:, [col1_index, col2_index, col3_index]]
 > > ```
 > > 
 > > 5\. Access several rows
 > > 
 > > ```python
 > > # by name
-> > data.loc[["row1", "row2", "row3"]]
+> > df.loc[["row1", "row2", "row3"]]
 > > 
 > > # by index
-> > data.iloc[[row1_index, row2_index, row3_index]]
+> > df.iloc[[row1_index, row2_index, row3_index]]
 > > ```
 > > 
 > > 6\. Access a subset of specific rows and columns
 > > 
 > > ```python
 > > # by names
-> > data.loc[["row1", "row2", "row3"], ["col1", "col2", "col3"]]
+> > df.loc[["row1", "row2", "row3"], ["col1", "col2", "col3"]]
 > > 
 > > # by indices
-> > data.iloc[[row1_index, row2_index, row3_index], [col1_index, col2_index, col3_index]]
+> > df.iloc[[row1_index, row2_index, row3_index], [col1_index, col2_index, col3_index]]
 > > 
 > > # column names + row indices
-> > data[["col1", "col2", "col3"]].iloc[[row1_index, row2_index, row3_index]]
+> > df[["col1", "col2", "col3"]].iloc[[row1_index, row2_index, row3_index]]
 > > 
 > > # column indices + row names
-> > data.iloc[:, [col1_index, col2_index, col3_index]].loc[["row1", "row2", "row3"]]
+> > df.iloc[:, [col1_index, col2_index, col3_index]].loc[["row1", "row2", "row3"]]
 > > ```
 > > 
 > > 7\. Access a subset of row and column ranges
 > > 
 > > ```python
 > > # by name
-> > data.loc["row1":"row2", "col1":"col2"]
+> > numerical_df.loc["row1":"row2", "col1":"col2"]
 > > 
 > > # by index
-> > data.iloc[row1_index:row2_index, col1_index:col2_index]
+> > numerical_df.iloc[row1_index:row2_index, col1_index:col2_index]
 > > # column names + row indices
 > > data.loc[:, "col1_name":"col2_name"].iloc[row1_index:row2_index]
 > > 
 > > # column indices + row names
-> > data.iloc[:, col1_index:col2_index].loc["row1":"row2"]
+> > numerical_df.iloc[:, col1_index:col2_index].loc["row1":"row2"]
 > > ```
 > { : .solution}
 {: .challenge}
@@ -1165,10 +1170,137 @@ print(numerical_df.groupby(wealth_score).sum())
 > > Among many choices, `dir()` lists the `median()` function as a possibility.  Thus,
 > > 
 > > ```python
-> > data.median()
+> > numerical_df.median()
 > > ```
 > {: .solution}
 {: .challenge}
+
+
+## Advanced Pandas
+
+1. apply()
+This function is used to apply a function to each element or row/column of a DataFrame or Series.
+
+```python
+numerical_df["population_million"] = penguins_df["population"].apply(lambda x: x/1000000)
+numerical_df.head()
+```
+
+```output
+             Year  fertility    life  population  child_mortality     gdp  population_million
+Country                                                                                      
+Afghanistan  1964      7.671  33.639  10474903.0            339.7  1182.0           10.474903
+Afghanistan  1965      7.671  34.152  10697983.0            334.1  1182.0           10.697983
+Afghanistan  1966      7.671  34.662  10927724.0            328.7  1168.0           10.927724
+Afghanistan  1967      7.671  35.170  11163656.0            323.3  1173.0           11.163656
+Afghanistan  1968      7.671  35.674  11411022.0            318.1  1187.0           11.411022
+```
+
+2. nunique()
+This function is used to count the number of unique values in a column of a DataFrame.
+
+```python
+numerical_df2 = numerical_df.reset_index()
+numerical_df2["Country"].nunique()
+```
+
+
+```output
+178
+```
+
+3 . groupby()
+
+This function is used to group data in a DataFrame by one or more columns, and then perform calculations on the grouped data. This is a powerful function that is often used for data aggregation and analysis.
+
+```python
+grouped_df = df.groupby("region").mean()
+grouped_df.head() # groups data by species and calculate the mean for each group
+
+```
+
+```output
+                                   Year  fertility       life    population  child_mortality           gdp
+region                                                                                                    
+America                     1988.500000   3.486061  68.722251  1.774572e+07        50.513292  11599.921875
+East Asia & Pacific         1988.510931   3.725836  66.108632  5.468619e+07        59.337826  13336.156923
+Europe & Central Asia       1988.550781   2.214177  71.931303  1.600358e+07        30.180168  18442.045417
+Middle East & North Africa  1988.500000   4.970019  65.194301  1.171303e+07        69.884533  27510.731579
+South Asia                  1988.500000   5.004162  57.137710  1.406782e+08       137.767150   2552.650000
+```
+
+4. melt()
+
+```python
+df2 = df.reset_index()
+df2 = df2.set_index('Year')
+melted_df = df2.melt(id_vars=["Country", 'region'], value_vars=["life", "gdp"])
+melted_df = melted_df.drop_duplicates(subset=['Country', 'variable'])
+melted_df.head()
+
+```
+```output
+                 Country                      region variable   value
+0            Afghanistan                  South Asia     life  33.639
+50               Albania       Europe & Central Asia     life  65.475
+100              Algeria  Middle East & North Africa     life  47.953
+150               Angola          Sub-Saharan Africa     life  34.604
+200  Antigua and Barbuda                     America     life  63.775
+```
+
+5. Pivot Table: Sum of Sales by Category and Region
+
+```python
+
+pivot_table = pd.pivot_table(df2, index='Country', columns='region', values='gdp', aggfunc='sum')
+
+# Cross-Tabulation: Count of Category by Region
+cross_tab = pd.crosstab(df2['Country'], df2['region'])
+
+print("Pivot Table:")
+print(pivot_table)
+
+print("\nCross-Tabulation:")
+print(cross_tab)
+```
+
+```output
+Pivot Table:
+region                America  East Asia & Pacific  Europe & Central Asia  Middle East & North Africa  South Asia  Sub-Saharan Africa
+Country                                                                                                                              
+Afghanistan               NaN                  NaN                    NaN                         NaN     59360.0                 NaN
+Albania                   NaN                  NaN               250626.0                         NaN         NaN                 NaN
+Algeria                   NaN                  NaN                    NaN                    483109.0         NaN                 NaN
+Angola                    NaN                  NaN                    NaN                         NaN         NaN            235958.0
+Antigua and Barbuda  688269.0                  NaN                    NaN                         NaN         NaN                 NaN
+...                       ...                  ...                    ...                         ...         ...                 ...
+Western Sahara            NaN                  NaN                    NaN                         0.0         NaN                 NaN
+Yemen, Rep.               NaN                  NaN                    NaN                         0.0         NaN                 NaN
+Zambia                    NaN                  NaN                    NaN                         NaN         NaN            149503.0
+Zimbabwe                  NaN                  NaN                    NaN                         NaN         NaN            111688.0
+Åland                     NaN                  NaN                    0.0                         NaN         NaN                 NaN
+
+[204 rows x 6 columns]
+
+Cross-Tabulation:
+region               America  East Asia & Pacific  Europe & Central Asia  Middle East & North Africa  South Asia  Sub-Saharan Africa
+Country                                                                                                                             
+Afghanistan                0                    0                      0                           0          50                   0
+Albania                    0                    0                     50                           0           0                   0
+Algeria                    0                    0                      0                          50           0                   0
+Angola                     0                    0                      0                           0           0                  50
+Antigua and Barbuda       50                    0                      0                           0           0                   0
+...                      ...                  ...                    ...                         ...         ...                 ...
+Western Sahara             0                    0                      0                          50           0                   0
+Yemen, Rep.                0                    0                      0                          50           0                   0
+Zambia                     0                    0                      0                           0           0                  50
+Zimbabwe                   0                    0                      0                           0           0                  50
+Åland                      0                    0                     10                           0           0                   0
+
+[204 rows x 6 columns]
+
+```
+
 
 
 [pandas-dataframe]: https://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html
