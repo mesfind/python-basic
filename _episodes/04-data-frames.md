@@ -1209,11 +1209,16 @@ numerical_df2["Country"].nunique()
 178
 ```
 
-3 . groupby()
 
-This function is used to group data in a DataFrame by one or more columns, and then perform calculations on the grouped data. This is a powerful function that is often used for data aggregation and analysis.
+
+## 
+
+
+The groupby operation in pandas is useful for performing split-apply-combine operations on your DataFrame. This involves splitting the data into groups based on some criteria, applying a function to each group independently, and then combining the results back into a DataFrame.
+
 
 ```python
+df = df.reset_index()
 grouped_df = df.groupby("region").mean()
 grouped_df.head() # groups data by species and calculate the mean for each group
 
@@ -1229,7 +1234,560 @@ Middle East & North Africa  1988.500000   4.970019  65.194301  1.171303e+07     
 South Asia                  1988.500000   5.004162  57.137710  1.406782e+08       137.767150   2552.650000
 ```
 
-4. melt()
+Let's perform the groupby operation on capped_df and calculate some aggregate statistics (mean, sum, etc.) for each country.
+
+
+```python
+
+import pandas as pd
+
+# Load the dataset and set 'Country' as the index
+path = "https://raw.githubusercontent.com/mesfind/datasets/master/gapminder_tidy.csv"
+df = pd.read_csv(path, index_col='Country')
+
+# Ensure that the index is unique by resetting the index
+df = df.reset_index()
+
+# Filter only numerical variables
+numerical_df = df.select_dtypes(include=['number'])
+
+# Calculate the IQR for each numerical column
+Q1 = numerical_df.quantile(0.25)
+Q3 = numerical_df.quantile(0.75)
+IQR = Q3 - Q1
+
+# Determine outlier bounds
+lower_bound = Q1 - 1.5 * IQR
+upper_bound = Q3 + 1.5 * IQR
+
+# Cap outliers at the bounds of the IQR range
+capped_df = numerical_df.clip(lower=lower_bound, upper=upper_bound, axis=1)
+
+# Add the 'Country' and 'Year' columns back to the capped DataFrame
+capped_df['Country'] = df['Country']
+capped_df['Year'] = df['Year']
+
+# Ensure that the DataFrame has a unique index by setting a multi-index
+capped_df = capped_df.set_index(['Country', 'Year'])
+
+# Perform groupby operation
+grouped = capped_df.groupby('Country')
+
+# Calculate mean for each group
+mean_df = grouped.mean()
+print("Mean DataFrame:\n", mean_df.head())
+
+# Calculate sum for each group
+sum_df = grouped.sum()
+print("Sum DataFrame:\n", sum_df.head())
+
+# Calculate standard deviation for each group
+std_df = grouped.std()
+print("Standard Deviation DataFrame:\n", std_df.head())
+
+# Calculate specific aggregates using agg function
+agg_df = grouped.agg({
+    'fertility': ['mean', 'min', 'max'],
+    'life': ['mean', 'min', 'max'],
+    'population': ['sum'],
+    'child_mortality': ['mean', 'min', 'max'],
+    'gdp': ['mean', 'min', 'max']
+})
+
+print("Aggregated DataFrame:\n", agg_df.head())
+
+
+```
+
+
+~~~
+Mean DataFrame:
+                      fertility      life    population  child_mortality       gdp
+Country                                                                          
+Afghanistan            7.35978  47.35280  1.827204e+07         195.0930   1187.20
+Albania                3.29010  71.64512  2.817009e+06          57.4434   5012.52
+Algeria                5.06534  62.26872  2.397175e+07         106.0820   9662.18
+Angola                 6.98880  42.32716  1.098218e+07         228.2520   4719.16
+Antigua and Barbuda    2.52870  70.63692  7.185468e+04          30.9178  13765.38
+Sum DataFrame:
+                      fertility      life    population  child_mortality       gdp
+Country                                                                          
+Afghanistan            367.989  2367.640  9.136020e+08          9754.65   59360.0
+Albania                164.505  3582.256  1.408505e+08          2872.17  250626.0
+Algeria                253.267  3113.436  1.198588e+09          5304.10  483109.0
+Angola                 349.440  2116.358  5.491092e+08         11412.60  235958.0
+Antigua and Barbuda    126.435  3531.846  3.592734e+06          1545.89  688269.0
+Standard Deviation DataFrame:
+                      fertility      life    population  child_mortality          gdp
+Country                                                                             
+Afghanistan           0.746055  8.658277  7.322855e+06        66.112418   247.490754
+Albania               1.220315  3.465351  4.582814e+05        36.411079  1978.538713
+Algeria               2.108552  8.091650  7.897314e+06        85.883508  2025.864408
+Angola                0.384065  4.806449  4.640476e+06        27.400860  1248.024322
+Antigua and Barbuda   0.681774  3.572409  9.288584e+03        18.423625  6572.287093
+Aggregated DataFrame:
+                     fertility                    life                    population child_mortality                        gdp                 
+                         mean    min    max      mean     min     max           sum            mean    min       max      mean     min      max
+Country                                                                                                                                        
+Afghanistan           7.35978  4.900  7.869  47.35280  33.639  60.947  9.136020e+08        195.0930   96.7  276.0875   1187.20   725.0   1893.0
+Albania               3.29010  1.741  5.711  71.64512  65.475  77.392  1.408505e+08         57.4434   14.9  122.6700   5012.52  2877.0   9961.0
+Algeria               5.06534  2.407  7.658  62.26872  47.953  71.000  1.198588e+09        106.0820   25.2  248.9000   9662.18  5478.0  12893.0
+Angola                6.98880  5.863  7.430  42.32716  34.604  51.899  5.491092e+08        228.2520  167.1  276.0875   4719.16  2663.0   7488.0
+Antigua and Barbuda   2.52870  2.058  4.250  70.63692  63.775  75.954  3.592734e+06         30.9178    8.7   72.7800  13765.38  5008.0  26008.0
+
+~~~
+{: .output}
+
+
+To filter the grouped DataFrame for only the Ethiopian case, you can apply the groupby operation and then filter the resulting grouped data for Ethiopia. Here's the updated implementation:
+
+~~~
+
+import pandas as pd
+
+# Load the dataset and set 'Country' as the index
+path = "https://raw.githubusercontent.com/mesfind/datasets/master/gapminder_tidy.csv"
+df = pd.read_csv(path, index_col='Country')
+
+# Ensure that the index is unique by resetting the index
+df = df.reset_index()
+
+# Filter only numerical variables
+numerical_df = df.select_dtypes(include=['number'])
+
+# Calculate the IQR for each numerical column
+Q1 = numerical_df.quantile(0.25)
+Q3 = numerical_df.quantile(0.75)
+IQR = Q3 - Q1
+
+# Determine outlier bounds
+lower_bound = Q1 - 1.5 * IQR
+upper_bound = Q3 + 1.5 * IQR
+
+# Cap outliers at the bounds of the IQR range
+capped_df = numerical_df.clip(lower=lower_bound, upper=upper_bound, axis=1)
+
+# Add the 'Country' and 'Year' columns back to the capped DataFrame
+capped_df['Country'] = df['Country']
+capped_df['Year'] = df['Year']
+
+# Ensure that the DataFrame has a unique index by setting a multi-index
+capped_df = capped_df.set_index(['Country', 'Year'])
+
+# Perform groupby operation
+grouped = capped_df.groupby('Country')
+
+# Filter only Ethiopian case
+ethiopian_group = grouped.get_group('Ethiopia')
+
+# Calculate mean for the Ethiopian case
+mean_ethiopian = ethiopian_group.mean()
+print("Mean for Ethiopian Data:\n", mean_ethiopian)
+
+# Calculate sum for the Ethiopian case
+sum_ethiopian = ethiopian_group.sum()
+print("Sum for Ethiopian Data:\n", sum_ethiopian)
+
+# Calculate standard deviation for the Ethiopian case
+std_ethiopian = ethiopian_group.std()
+print("Standard Deviation for Ethiopian Data:\n", std_ethiopian)
+
+# Calculate specific aggregates for the Ethiopian case using agg function
+agg_ethiopian = ethiopian_group.agg({
+    'fertility': ['mean', 'min', 'max'],
+    'life': ['mean', 'min', 'max'],
+    'population': ['sum'],
+    'child_mortality': ['mean', 'min', 'max'],
+    'gdp': ['mean', 'min', 'max']
+})
+
+print("Aggregated Data for Ethiopian Case:\n", agg_ethiopian)
+~~~
+{: .python}
+
+
+To filter the grouped DataFrame for only the Ethiopian case, you can apply the groupby operation and then filter the resulting grouped data for Ethiopia.
+
+~~~
+import pandas as pd
+
+# Load the dataset and set 'Country' as the index
+path = "https://raw.githubusercontent.com/mesfind/datasets/master/gapminder_tidy.csv"
+df = pd.read_csv(path)
+
+# Filter only numerical variables
+numerical_df = df.select_dtypes(include=['number'])
+
+# Calculate the IQR for each numerical column
+Q1 = numerical_df.quantile(0.25)
+Q3 = numerical_df.quantile(0.75)
+IQR = Q3 - Q1
+
+# Determine outlier bounds
+lower_bound = Q1 - 1.5 * IQR
+upper_bound = Q3 + 1.5 * IQR
+
+# Cap outliers at the bounds of the IQR range
+capped_df = numerical_df.clip(lower=lower_bound, upper=upper_bound, axis=1)
+
+# Add the 'Country' and 'Year' columns back to the capped DataFrame
+capped_df['Country'] = df['Country']
+capped_df['Year'] = df['Year']
+
+# Ensure that the DataFrame has a unique index by setting a multi-index
+capped_df = capped_df.set_index(['Country', 'Year'])
+
+# Impute missing values with the median
+capped_df = capped_df.fillna(capped_df.median())
+
+# Ensure no infinite values
+capped_df = capped_df.replace([np.inf, -np.inf], np.nan).dropna()
+
+# Perform groupby operation
+grouped = capped_df.groupby('Country')
+
+# Filter only Ethiopian case
+ethiopian_group = grouped.get_group('Ethiopia')
+
+# Calculate mean for the Ethiopian case
+mean_ethiopian = ethiopian_group.mean()
+print("Mean for Ethiopian Data:\n", mean_ethiopian)
+
+# Calculate sum for the Ethiopian case
+sum_ethiopian = ethiopian_group.sum()
+print("Sum for Ethiopian Data:\n", sum_ethiopian)
+
+# Calculate standard deviation for the Ethiopian case
+std_ethiopian = ethiopian_group.std()
+print("Standard Deviation for Ethiopian Data:\n", std_ethiopian)
+
+# Separate aggregation for different columns
+aggregated_data = {
+    'fertility': ethiopian_group['fertility'].agg(['mean', 'min', 'max']),
+    'life': ethiopian_group['life'].agg(['mean', 'min', 'max']),
+    'population': ethiopian_group['population'].agg('sum'),
+    'child_mortality': ethiopian_group['child_mortality'].agg(['mean', 'min', 'max']),
+    'gdp': ethiopian_group['gdp'].agg(['mean', 'min', 'max'])
+}
+
+# Convert aggregated_data to DataFrame for display
+agg_ethiopian = pd.DataFrame(aggregated_data)
+print("Aggregated Data for Ethiopian Case:\n", agg_ethiopian)
+~~~
+{: .python}
+
+
+~~~
+Mean for Ethiopian Data:
+ fertility          6.660680e+00
+life               4.821196e+01
+population         3.383062e+07
+child_mortality    1.867098e+02
+gdp                7.428200e+02
+dtype: float64
+Sum for Ethiopian Data:
+ fertility          3.330340e+02
+life               2.410598e+03
+population         1.691531e+09
+child_mortality    9.335490e+03
+gdp                3.714100e+04
+dtype: float64
+Standard Deviation for Ethiopian Data:
+ fertility          8.399971e-01
+life               7.204256e+00
+population         3.183671e+06
+child_mortality    6.138599e+01
+gdp                1.683745e+02
+dtype: float64
+Aggregated Data for Ethiopian Case:
+       fertility      life    population  child_mortality      gdp
+mean    6.66068  48.21196  1.691531e+09         186.7098   742.82
+min     4.51900  37.00000  1.691531e+09          64.6000   516.00
+max     7.43700  63.63500  1.691531e+09         255.9900  1336.00
+~~~
+{: .output}
+
+
+##  Transformation
+
+Sometimes you don't want to aggregate the groups, but transform the values in each group. This can be achieved with transform. Applying transformations such as Min-Max scaling, Standard scaling, and Principal Component Analysis (PCA) can help normalize the data and reduce its dimensionality. 
+
+###  Min-Max Scaling
+
+Min-Max scaling transforms the data by scaling each feature to a given range (usually 0 to 1).
+
+
+~~~
+import numpy as np
+
+# Impute missing values with the median
+capped_df = capped_df.fillna(capped_df.median())
+
+# Ensure no infinite values
+capped_df = capped_df.replace([np.inf, -np.inf], np.nan).dropna()
+
+def min_max_scaling(df):
+    min_max_scaled_df = df.copy()
+    for column in df.columns:
+        min_val = df[column].min()
+        max_val = df[column].max()
+        min_max_scaled_df[column] = (df[column] - min_val) / (max_val - min_val)
+    return min_max_scaled_df
+
+# Apply Min-Max Scaling
+# capped_df = capped_df.set_index(['Country', 'Year'])
+min_max_scaled_df = min_max_scaling(capped_df)
+min_max_scaled_df = min_max_scaled_df.reset_index()
+print("Min-Max Scaled Data:\n", min_max_scaled_df.head())
+
+~~~
+{: .python}
+
+
+~~~
+Min-Max Scaled Data:
+        Country  Year  fertility      life  population  child_mortality       gdp
+0  Afghanistan  1964   0.814952  0.032146    0.294267              1.0  0.028744
+1  Afghanistan  1965   0.814952  0.042088    0.300535              1.0  0.028744
+2  Afghanistan  1966   0.814952  0.051972    0.306989              1.0  0.028357
+3  Afghanistan  1967   0.814952  0.061817    0.313618              1.0  0.028495
+4  Afghanistan  1968   0.814952  0.071585    0.320568              1.0  0.028882
+~~~
+
+
+
+### Standard Scaling
+
+
+Standard scaling transforms the data to have a mean of 0 and a standard deviation of 1.
+
+
+~~~
+def standard_scaling(df):
+    standard_scaled_df = df.copy()
+    for column in df.columns:
+        mean_val = df[column].mean()
+        std_val = df[column].std()
+        standard_scaled_df[column] = (df[column] - mean_val) / std_val
+    return standard_scaled_df
+
+# Apply Standard Scaling
+standard_scaled_df = standard_scaling(capped_df)
+standard_scaled_df  = standard_scaled_df .reset_index()
+print("Standard Scaled Data:\n", standard_scaled_df.head())
+
+~~~
+{: .python}
+
+~~~
+Standard Scaled Data:
+        Country  Year  fertility      life  population  child_mortality       gdp
+0  Afghanistan  1964    1.80851 -2.748216    0.009169         2.572795 -0.880383
+1  Afghanistan  1965    1.80851 -2.701918    0.027389         2.572795 -0.880383
+2  Afghanistan  1966    1.80851 -2.655891    0.046153         2.572795 -0.881645
+3  Afghanistan  1967    1.80851 -2.610045    0.065423         2.572795 -0.881194
+4  Afghanistan  1968    1.80851 -2.564559    0.085627         2.572795 -0.879932
+~~~
+{: .output}
+
+
+### Principal Component Analysis (PCA)
+
+PCA reduces the dimensionality of the data while preserving as much variability as possible. PCA:
+
+- Standardize the data.
+- Compute the covariance matrix.
+- Calculate the eigenvalues and eigenvectors.
+- Sort the eigenvalues and eigenvectors.
+- Select the top `n_components` eigenvectors.
+- Transform the data into the new feature space.
+
+~~~
+
+import numpy as np
+
+# Impute missing values with the median
+capped_df = capped_df.fillna(capped_df.median())
+# Ensure no infinite values
+capped_df = capped_df.replace([np.inf, -np.inf], np.nan).dropna()
+
+def pca(df, n_components=2):
+    # Standardizing the data before applying PCA
+    standard_scaled_df = standard_scaling(df)
+    cov_matrix = np.cov(standard_scaled_df.T)
+    eigenvalues, eigenvectors = np.linalg.eig(cov_matrix)
+    sorted_indices = np.argsort(eigenvalues)[::-1]
+    sorted_eigenvectors = eigenvectors[:, sorted_indices]
+    selected_eigenvectors = sorted_eigenvectors[:, :n_components]
+    pca_df = np.dot(standard_scaled_df, selected_eigenvectors)
+    pca_df = pd.DataFrame(pca_df, index=df.index, columns=[f'PC{i+1}' for i in range(n_components)])
+    return pca_df
+
+# Apply PCA
+pca_df = pca(capped_df, n_components=2)
+pca_df = pca_df.reset_index()
+print("PCA Transformed Data:\n", pca_df.head())
+
+~~~
+{: .python}
+
+
+~~~
+PCA Transformed Data:
+        Country  Year       PC1       PC2
+0  Afghanistan  1964 -4.190772 -0.236485
+1  Afghanistan  1965 -4.164832 -0.253027
+2  Afghanistan  1966 -4.139561 -0.270211
+3  Afghanistan  1967 -4.113615 -0.287778
+4  Afghanistan  1968 -4.087462 -0.306225
+~~~
+{: .output}
+
+To create a bubble plot of the 20 most populous countries in the capped_df, we can use matplotlib for visualization. We'll select the top 20 countries based on population, then create a scatter plot where the size of each bubble represents the population size
+
+
+~~~
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Load the dataset and set 'Country' as the index
+path = "https://raw.githubusercontent.com/mesfind/datasets/master/gapminder_tidy.csv"
+df = pd.read_csv(path, index_col='Country')
+
+# Ensure that the index is unique by resetting the index
+df = df.reset_index()
+
+# Filter only numerical variables
+numerical_df = df.select_dtypes(include=['number'])
+
+# Calculate the IQR for each numerical column
+Q1 = numerical_df.quantile(0.25)
+Q3 = numerical_df.quantile(0.75)
+IQR = Q3 - Q1
+
+# Determine outlier bounds
+lower_bound = Q1 - 1.5 * IQR
+upper_bound = Q3 + 1.5 * IQR
+
+# Cap outliers at the bounds of the IQR range
+capped_df = numerical_df.clip(lower=lower_bound, upper=upper_bound, axis=1)
+
+# Add the 'Country' and 'Year' columns back to the capped DataFrame
+capped_df['Country'] = df['Country']
+capped_df['Year'] = df['Year']
+
+# Ensure that the DataFrame has a unique index by setting a multi-index
+capped_df = capped_df.set_index(['Country', 'Year'])
+
+# Impute missing values with the median
+capped_df = capped_df.fillna(capped_df.median())
+
+# Ensure no infinite values
+capped_df = capped_df.replace([np.inf, -np.inf], np.nan).dropna()
+
+# Aggregate to get the most recent population data for each country
+latest_population = capped_df.groupby('Country')['population'].last().nlargest(20)
+
+# Get corresponding GDP and life expectancy data for these countries
+latest_data = capped_df.loc[(capped_df.index.get_level_values('Country').isin(latest_population.index))]
+
+# Plotting the bubble plot
+plt.figure(figsize=(14, 10))
+
+# Create bubble plot
+for country in latest_population.index:
+    country_data = latest_data.loc[country]
+    plt.scatter(country_data['gdp'], country_data['life'], 
+                s=country_data['population'] / 1e6,  # scale population for bubble size
+                alpha=0.5, label=country)
+
+# Labeling the plot
+plt.xlabel('GDP per Capita')
+plt.ylabel('Life Expectancy')
+plt.title('Top 20 Most Populous Countries')
+plt.legend(loc='best', bbox_to_anchor=(1, 0.5), title='Country', fontsize='small')
+plt.grid(True)
+plt.show()
+~~~
+{: .python}
+
+
+To modify the size of the scatter plot bubbles based on the population rank, you can scale the bubble sizes inversely with the population rank. This way, higher-ranked (more populous) countries will have larger bubbles.
+
+~~~
+
+# Import libraries
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Load the dataset and set 'Country' as the index
+path = "https://raw.githubusercontent.com/mesfind/datasets/master/gapminder_tidy.csv"
+df = pd.read_csv(path)
+
+# Ensure that the index is unique by resetting the index
+df = df.reset_index()
+
+# Filter only numerical variables
+numerical_df = df.select_dtypes(include=['number'])
+
+# Calculate the IQR for each numerical column
+Q1 = numerical_df.quantile(0.25)
+Q3 = numerical_df.quantile(0.75)
+IQR = Q3 - Q1
+
+# Determine outlier bounds
+lower_bound = Q1 - 1.5 * IQR
+upper_bound = Q3 + 1.5 * IQR
+
+# Cap outliers at the bounds of the IQR range
+capped_df = numerical_df.clip(lower=lower_bound, upper=upper_bound, axis=1)
+
+# Add the 'Country' and 'Year' columns back to the capped DataFrame
+capped_df['Country'] = df['Country']
+capped_df['Year'] = df['Year']
+
+# Ensure that the DataFrame has a unique index by setting a multi-index
+capped_df = capped_df.set_index(['Country', 'Year'])
+
+# Impute missing values with the median
+capped_df = capped_df.fillna(capped_df.median())
+data = capped_df.reset_index()
+
+# Filter to 2007 data
+data_2007 = data[data['Year'] == 2007]
+
+# Create bubble plot
+sns.scatterplot(
+    data=data_2007, 
+    x="gdp", 
+    y="life",
+    size="population",
+    hue="Country",
+    palette="viridis",
+    legend=False,
+    sizes=(20, 2000)
+)
+
+# Customize plot
+plt.title('Gapminder 2007')
+plt.xlabel('GDP per capita')
+plt.ylabel('Life expectancy')
+plt.xscale('log') 
+plt.tight_layout()
+plt.show()
+~~~
+{: .python}
+
+
+
+
+
+
+
+## Dataframe Melt
 
 ```python
 df2 = df.reset_index()
