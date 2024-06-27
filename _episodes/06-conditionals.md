@@ -2,20 +2,21 @@
 title: Conditionals
 teaching: 10
 exercises: 15
----
-
-::::::::::::::::::::::::::::::::::::::: objectives
-
+bjectives:
 - Correctly write programs that use if and else statements and simple Boolean expressions (without logical operators).
 - Trace the execution of unnested conditionals and conditionals inside loops.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::: questions
-
+questions:
 - How can programs do different things for different data?
+keypoints:
+- Use `if` statements to control whether or not a block of code is executed.
+- Conditionals are often used inside loops.
+- Use `else` to execute a block of code when an `if` condition is *not* true.
+- Use `elif` to specify additional tests.
+- Conditions are tested once, in order.
+- Create a table showing variables' values to trace a program's execution.
 
-::::::::::::::::::::::::::::::::::::::::::::::::::
+---
+
 
 ## Use `if` statements to control whether or not a block of code is executed.
 
@@ -325,87 +326,69 @@ for filename in glob.glob('data/*.csv'):
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-:::::::::::::::::::::::::::::::::::::::  challenge
 
-## Initializing
+> ## Initializing
+> 
+> Modify this program so that it finds the largest and smallest values in the list no matter what the range of values originally is.
+> 
+> ```python
+> values = [...some test data...]
+> smallest, largest = None, None
+> for v in values:
+>     if ____:
+>         smallest, largest = v, v
+>     ____:
+>         smallest = min(____, v)
+>         largest = max(____, v)
+> print(smallest, largest)
+> ```
+> 
+>  What are the advantages and disadvantages of using this method to find the range of the data?
+> 
+> > ## Solution
+> > 
+> > ```python
+> > values = [-2,1,65,78,-54,-24,100]
+> > smallest, largest = None, None
+> > for v in values:
+> >     if smallest is None and largest is None:
+> >         smallest, largest = v, v
+> >     else:
+> >         smallest = min(smallest, v)
+> >         largest = max(largest, v)
+> > print(smallest, largest)
+> > ```
+> > 
+> > If you wrote `== None` instead of `is None`, that works too, but Python programmers always
+> > write `is None` because of the special way `None` works in the language.
+> > 
+> > It can be argued that an advantage of using this method would be to make the code more readable.
+> > However, a disadvantage is that this code is not efficient because within each iteration of the`for` loop statement, there are two more loops that run over two numbers each (the `min` and
+> > `max` functions). It would be more efficient to iterate over each number just once:
+> > 
+> > ```python
+> > values = [-2,1,65,78,-54,-24,100]
+> > smallest, largest = None, None
+> > for v in values:
+> >     if smallest is None or v < smallest:
+> >         smallest = v
+> >     if largest is None or v > largest:
+> >         largest = v
+> > print(smallest, largest)
+> > ```
+> > 
+> > Now we have one loop, but four comparison tests. There are two ways we could improve it further:
+> > either use fewer comparisons in each iteration, or use two loops that each contain only one
+> > comparison test. The simplest solution is often the best:
+> > 
+> > ```python
+> > values = [-2,1,65,78,-54,-24,100]
+> > smallest = min(values)
+> > largest = max(values)
+> > print(smallest, largest)
+> > ```
+> {: .solution}
+{: challenge}
 
-Modify this program so that it finds the largest and smallest values in the list
-no matter what the range of values originally is.
-
-```python
-values = [...some test data...]
-smallest, largest = None, None
-for v in values:
-    if ____:
-        smallest, largest = v, v
-    ____:
-        smallest = min(____, v)
-        largest = max(____, v)
-print(smallest, largest)
-```
-
-What are the advantages and disadvantages of using this method
-to find the range of the data?
-
-:::::::::::::::  solution
-
-## Solution
-
-```python
-values = [-2,1,65,78,-54,-24,100]
-smallest, largest = None, None
-for v in values:
-    if smallest is None and largest is None:
-        smallest, largest = v, v
-    else:
-        smallest = min(smallest, v)
-        largest = max(largest, v)
-print(smallest, largest)
-```
-
-If you wrote `== None` instead of `is None`, that works too, but Python programmers always
-write `is None` because of the special way `None` works in the language.
-
-It can be argued that an advantage of using this method would be to make the code more readable.
-However, a disadvantage is that this code is not efficient because within each iteration of the
-`for` loop statement, there are two more loops that run over two numbers each (the `min` and
-`max` functions). It would be more efficient to iterate over each number just once:
-
-```python
-values = [-2,1,65,78,-54,-24,100]
-smallest, largest = None, None
-for v in values:
-    if smallest is None or v < smallest:
-        smallest = v
-    if largest is None or v > largest:
-        largest = v
-print(smallest, largest)
-```
-
-Now we have one loop, but four comparison tests. There are two ways we could improve it further:
-either use fewer comparisons in each iteration, or use two loops that each contain only one
-comparison test. The simplest solution is often the best:
-
-```python
-values = [-2,1,65,78,-54,-24,100]
-smallest = min(values)
-largest = max(values)
-print(smallest, largest)
-```
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::: keypoints
-
-- Use `if` statements to control whether or not a block of code is executed.
-- Conditionals are often used inside loops.
-- Use `else` to execute a block of code when an `if` condition is *not* true.
-- Use `elif` to specify additional tests.
-- Conditions are tested once, in order.
-- Create a table showing variables' values to trace a program's execution.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 
