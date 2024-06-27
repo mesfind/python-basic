@@ -28,5 +28,5 @@ More details about the files we'll use and where to download them are available 
 {: .prereq}
 
 ### Getting Started
-To get started with installing Python, follow the directions given in the [Python section of the course Software page](https://mesfind.github.io/ml-physical).
+To get started with installing Python, follow the directions given in the [Python section of the course Software page](https://mesfind.github.io/python-basic).
 In addition to installing Python on your own computer, you will also need to download the data files used in the tutorials. Details for doing this are found in the [Setup](setup/) page.

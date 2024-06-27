@@ -55,7 +55,7 @@ So, for example, if you wanted to see which versions of Scikit-learn, a popular 
 
 
 ~~~
-admin@MacBook~ $ conda search xarray
+admin@MacBook~ $ conda search pandas
 ~~~
 {: .bash}
 
@@ -63,12 +63,14 @@ In order to create a new environment you use the conda create command as follows
 
 
 ~~~
-admin@MacBook~ $ conda create --name pygmt \
- scikit-learn \
- geopandas \
- cartopy \
- torch \
- xarray
+admin@MacBook~ $ conda create --name ESS \
+ numpy\
+ pandas \
+ matplotlib \
+ scipy \
+ seaborn \
+ statsmodels
+
 
 ~~~
 {: .bash}
@@ -78,7 +80,7 @@ admin@MacBook~ $ conda create --name pygmt \
 Now let’s do the reverse operation and create an environment from a yaml file. You will find these files often in GitHub repositories, so it is handy to know how to use them. Let’s open a text editor and make some changes to our myenv.yaml file, so that it looks like this:
 
 ~~~
-name: pygmt
+name: ESS
 channels:
   - defaults
   - https://repo.anaconda.com/pkgs/main
@@ -86,25 +88,27 @@ channels:
 dependencies:
   - numpy
   - python=3.12
-  - xarray
-  - geopandas
-  - pysal
-  - gmt
-  - gdal
-  - dask
-  - hdf5
-  - hvplot
+  - pandas 
+  - matplotlib 
+  - scipy 
+  - seaborn 
+  - statsmodels
 ~~~
 {: .yaml}
 
 ### Deactivating environments
 
+~~~
+$ conda deactivate 
+~~~
+{: .bash}
+
 ### Exporting environments
 
-The next command we will cover in this workshop lets us export the configuration of an environment to a file, so that we can share it with others. Instead of bundling the packages themselves, `conda` exports a list of the package names and their versions, as we have them on our system. In addition to package details, the file contains also the list of all channels we defined in our configuration, both globally and environment-specific. Finally, the file is written in `YAML`, a human-readable text format that we can inspect manually and edit if necessary. Let’s export the `pygmt` environment to a file:
+The next command we will cover in this workshop lets us export the configuration of an environment to a file, so that we can share it with others. Instead of bundling the packages themselves, `conda` exports a list of the package names and their versions, as we have them on our system. In addition to package details, the file contains also the list of all channels we defined in our configuration, both globally and environment-specific. Finally, the file is written in `YAML`, a human-readable text format that we can inspect manually and edit if necessary. Let’s export the `ess` environment to a file:
 
 ~~~
-admin@MacBook~ $ conda env export --no-builds --file pygmt.yaml
+admin@MacBook~ $ conda env export --no-builds --file ess.yaml
 ~~~
 {: .bash}
 
@@ -157,7 +161,7 @@ admin@MacBook~ $ cd Documents/myproject
 - Execute the `python3 -m venv` command with your chosen environment name:
 
 ~~~
-admin@MacBook~ $ python3 -m venv pygmt
+admin@MacBook~ $ python3 -m venv ESS
 ~~~
 {: .bash}
 
@@ -255,6 +259,188 @@ admin@MacBook~ $ deactivate
 This command deactivates the virtual environment, restoring the original environment settings and paths. After deactivation, your terminal will return to using the system-wide Python installation and its associated packages.
 
 
-## Creating Environments on Windows with conda (Recommended)
+## Creating Environments on Windows with conda 
 
+
+
+This guide provides step-by-step instructions on setting up a **Python environment** for machine learning training in **Windows Command Prompt**.
+
+A virtual environment isolates project-specific packages and dependencies, ensuring a clean and organized workflow.
+
+Prerequisites:
+
+- Windows Operating System: This guide assumes you're using a Windows machine.
+
+- Administrator Privileges (Optional): Certain commands might require administrator rights to create directories and install software. Right-click on "Command Prompt" and select "Run as administrator" if necessary.
+
+## Steps 
+
+### 1. Open Command Prompt
+
+- Open the Command Prompt on your Windows machine. You can do this by pressing `Win + R`, typing `cmd,` and pressing `Enter`.
+
+### 2. Navigate to Drive D: (replace with your desired drive)
+- Switch to drive D: by typing the following command and pressing Enter:
+
+`cd C:`
+
+### 3. Create a New Directory
+- Create a new directory named `python` or any name you want by typing in the command line and pressing `Enter`:
+
+`mkdir python`
+
+### 4. Navigate to the New Directory
+- Change the current directory to `python` by typing the following command and pressing `Enter`:
+
+`cd python`
+
+### 5. Create a Virtual Environment
+- Create a new virtual environment named `py_env` by typing the following command and pressing `Enter`:
+
+`python -m venv py_env`
+
+### 6. Activate the Virtual Environment
+- Activate the virtual environment by typing the following command and pressing `Enter`:
+
+`py_env\Scripts\activate`
+
+
+### 7. Upgrade pip (optional)
+- Upgrade pip (the Python package installer) to the latest version by typing the following command and pressing `Enter`:
+
+`python.exe -m pip install --upgrade pip`
+
+### 8. Install Jupyter Notebook
+- Install Jupyter Notebook by typing the following command and pressing `Enter`:
+
+`pip install notebook`
+
+### 9. Verify Installation
+- To verify that Jupyter Notebook is installed correctly, you can start it by typing the following command and pressing `Enter`:
+
+`jupyter-notebook`
+
+This will open Jupyter Notebook in your default web browser, and you can start creating and running Jupyter notebooks.
+
+### 10) Deactivate the Environment (Optional)
+
+When you're finished, deactivate the environment by typing:
+
+`deactivate`
+
+- This exits the virtual environment and returns you to your system's default Python environment.
+
+
+
+
+# Setting Up a Python virtual environment on Ubuntu 
+
+
+## Method 1: Using venv Module 
+
+### 1) Open a Terminal
+
+- Press `Ctrl + Alt + T` or search for `Terminal` in your application launcher.
+
+### 2) Navigate to the Desired Directory
+
+- Use the `cd` command to navigate to the location where you want to create the virtual environment. For example:
+
+`cd Documents/python`
+
+### 3) Create the Virtual Environment
+
+- Use the `python3 -m venv` command followed by your desired environment name:
+
+`python3 -m venv py_env`
+
+- This creates a virtual environment directory named `py_env` in the current location.
+
+### 4) Activate the Virtual Environment
+
+- Activate the environment by running the following command (replace py_env accordingly):
+
+`source py_env/bin/activate`
+
+### 5) Install Required Packages
+
+- Once the environment is activated, use pip to install the packages you need for your project:
+
+`pip install <package_name>`
+
+### 6) Deactivate the Environment (Optional)
+
+When you're finished, deactivate the environment by typing:
+
+`deactivate`
+
+- This exits the virtual environment and returns you to your system's default Python environment.
+
+---
+
+## Method 2: Using virtualenv (Optional)
+
+This method might require installing virtualenv first:
+
+### 1) Update package lists
+
+`sudo apt update`  
+
+### 2) Install virtualenv
+
+`sudo apt install python3-venv`
+
+### 3) Create the Virtual Environment
+
+- Use the `virtualenv` command followed by your desired environment name:
+
+`virtualenv py_env`
+
+- This creates a virtual environment directory named `py_env` in the current location.
+
+### 4) Activate the Virtual Environment
+
+- Activate the environment by running the following command (replace my_env accordingly):
+
+`source py_env/bin/activate`
+
+### 5) Install Required Packages
+
+- Once the environment is activated, use pip to install the packages you need for your project:
+
+`pip install <package_name>`
+
+### 6) Deactivate the Environment (Optional)
+
+When you're finished, deactivate the environment by typing:
+
+`deactivate`
+
+- This exits the virtual environment and returns you to your system's default Python environment.
+
+## Method 3: Python virtual environment using the conda package manager
+
+### 1. Create the Environment
+
+- Open a terminal window. Use the conda create command followed by the desired environment name and the Python version you want.
+
+- Replace "my_env" with your preferred name and "3.9" with the Python version
+
+`conda create -n py_env python=3.9`
+
+- This command creates a new environment named my_env with Python version 3.9 (adjust the version as needed).
+  
+- The -n flag specifies the environment name.
+
+### 2. Activate the Environment
+
+Once created, activate the environment using the following command (adjust the environment name if needed):
+
+`conda activate py_env`
+
+### 3. Deactivate the Environment
+
+When finished, deactivate the environment by typing:
+
+`conda deactivate`
 
