@@ -181,150 +181,130 @@ final velocity: 30.0
   to show the final value of `velocity`,
   since its value is updated by the last iteration of the loop.
 
-:::::::::::::::::::::::::::::::::::::::::  callout
-
-## Compound Relations Using `and`, `or`, and Parentheses
-
-Often, you want some combination of things to be true.  You can combine
-relations within a conditional using `and` and `or`.  Continuing the example
-above, suppose you have
-
-```python
-mass     = [ 3.54,  2.07,  9.22,  1.86,  1.71]
-velocity = [10.00, 20.00, 30.00, 25.00, 20.00]
-
-i = 0
-for i in range(5):
-    if mass[i] > 5 and velocity[i] > 20:
-        print("Fast heavy object.  Duck!")
-    elif mass[i] > 2 and mass[i] <= 5 and velocity[i] <= 20:
-        print("Normal traffic")
-    elif mass[i] <= 2 and velocity[i] <= 20:
-        print("Slow light object.  Ignore it")
-    else:
-        print("Whoa!  Something is up with the data.  Check it")
-```
-
-Just like with arithmetic, you can and should use parentheses whenever there
-is possible ambiguity.  A good general rule is to *always* use parentheses
-when mixing `and` and `or` in the same condition.  That is, instead of:
-
-```python
-if mass[i] <= 2 or mass[i] >= 5 and velocity[i] > 20:
-```
-
-write one of these:
-
-```python
-if (mass[i] <= 2 or mass[i] >= 5) and velocity[i] > 20:
-if mass[i] <= 2 or (mass[i] >= 5 and velocity[i] > 20):
-```
-
-so it is perfectly clear to a reader (and to Python) what you really mean.
 
 
-::::::::::::::::::::::::::::::::::::::::::::::::::
+> ## Compound Relations Using `and`, `or`, and Parentheses
+> 
+> Often, you want some combination of things to be true.  You can combinerelations within a conditional using `and` and `or`.  Continuing the example
+> above, suppose you have
+> 
+> ```python
+> mass     = [ 3.54,  2.07,  9.22,  1.86,  1.71]
+> velocity = [10.00, 20.00, 30.00, 25.00, 20.00]
+> 
+> i = 0
+> for i in range(5):
+>     if mass[i] > 5 and velocity[i] > 20:
+>         print("Fast heavy object.  Duck!")
+>     elif mass[i] > 2 and mass[i] <= 5 and velocity[i] <= 20:
+>         print("Normal traffic")
+>     elif mass[i] <= 2 and velocity[i] <= 20:
+>         print("Slow light object.  Ignore it")
+>     else:
+>         print("Whoa!  Something is up with the data.  Check it")
+> ```
+> 
+> Just like with arithmetic, you can and should use parentheses whenever there is possible ambiguity.  A good general rule is to *always* use parentheses
+> when mixing `and` and `or` in the same condition.  That is, instead of:
+> 
+> ```python
+> if mass[i] <= 2 or mass[i] >= 5 and velocity[i] > 20:
+> ```
+> 
+> write one of these:
+> 
+> ```python
+>  if (mass[i] <= 2 or mass[i] >= 5) and velocity[i] > 20:
+> if mass[i] <= 2 or (mass[i] >= 5 and velocity[i] > 20):
+> ```
+> 
+> so it is perfectly clear to a reader (and to Python) what you really mean.
+{: .callout}
 
-:::::::::::::::::::::::::::::::::::::::  challenge
 
-## Tracing Execution
+> ## Tracing Execution
+> 
+> What does this program print?
+> 
+> ```python
+> pressure = 71.9
+> if pressure > 50.0:
+>     pressure = 25.0
+> elif pressure <= 50.0:
+>     pressure = 0.0
+> print(pressure)
+>```
+>
+> > ## Solution
+> > 
+> > ```output
+> > 25.0
+> > ```
+> {: .solution}
+{: .challenge}
 
-What does this program print?
 
-```python
-pressure = 71.9
-if pressure > 50.0:
-    pressure = 25.0
-elif pressure <= 50.0:
-    pressure = 0.0
-print(pressure)
-```
+> ## Trimming Values
+>
+> Fill in the blanks so that this program creates a new list containing zeroes where the original list's values were negative
+> and ones where the original list's values were positive.
+> 
+> ```python
+> original = [-1.5, 0.2, 0.4, 0.0, -1.3, 0.4]
+> result = ____
+> for value in original:
+>     if ____:
+>        result.append(0)
+>     else:
+>        ____
+> print(result)
+> ```
+>
+>```output
+> [0, 1, 1, 1, 0, 1]
+> ```
+>
+> > ## Solution
+> > 
+> > ```python
+> > original = [-1.5, 0.2, 0.4, 0.0, -1.3, 0.4]
+> > result = []
+> > for value in original:
+> >     if value < 0.0:
+> >         result.append(0)
+> >     else:
+> >         result.append(1)
+> > print(result)
+> > ```
+> {: .solution}
+{: .challenge}
 
-:::::::::::::::  solution
 
-## Solution
-
-```output
-25.0
-```
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Trimming Values
-
-Fill in the blanks so that this program creates a new list
-containing zeroes where the original list's values were negative
-and ones where the original list's values were positive.
-
-```python
-original = [-1.5, 0.2, 0.4, 0.0, -1.3, 0.4]
-result = ____
-for value in original:
-    if ____:
-        result.append(0)
-    else:
-        ____
-print(result)
-```
-
-```output
-[0, 1, 1, 1, 0, 1]
-```
-
-:::::::::::::::  solution
-
-## Solution
-
-```python
-original = [-1.5, 0.2, 0.4, 0.0, -1.3, 0.4]
-result = []
-for value in original:
-    if value < 0.0:
-        result.append(0)
-    else:
-        result.append(1)
-print(result)
-```
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Processing Small Files
-
-Modify this program so that it only processes files with fewer than 50 records.
-
-```python
-import glob
-import pandas as pd
-for filename in glob.glob('data/*.csv'):
-    contents = pd.read_csv(filename)
-    ____:
-        print(filename, len(contents))
-```
-
-:::::::::::::::  solution
-
-## Solution
-
-```python
-import glob
-import pandas as pd
-for filename in glob.glob('data/*.csv'):
-    contents = pd.read_csv(filename)
-    if len(contents) < 50:
-        print(filename, len(contents))
-```
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+> ## Processing Small Files
+> 
+> Modify this program so that it only processes files with fewer than 50 records.
+> 
+> ```python
+> import glob
+> import pandas as pd
+> for filename in glob.glob('data/*.csv'):
+>    contents = pd.read_csv(filename)
+>    ____:
+>        print(filename, len(contents))
+>```
+>
+> > ## Solution
+> > 
+> > ```python
+> > import glob
+> > import pandas as pd
+> > for filename in glob.glob('data/*.csv'):
+> >     contents = pd.read_csv(filename)
+> >     if len(contents) < 50:
+> >         print(filename, len(contents))
+> > ```
+> {: .solution}
+{: .challenge}
 
 
 > ## Initializing
