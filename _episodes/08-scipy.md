@@ -1,5 +1,5 @@
 ---
-title: stats with scipy and statsmodels
+title: Scipy and statsmodels
 teaching: 30
 exercises: 0
 objectivs:
