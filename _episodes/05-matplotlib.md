@@ -1,5 +1,5 @@
 ---
-title: Data Visualization with Matplotlib
+title: Data Visualization
 teaching: 30
 exercises: 20
 objectives:
@@ -16,7 +16,7 @@ keypoints:
 - [`matplotlib`](https://matplotlib.org/) is the most widely used scientific plotting library in Python.
 - Plot data directly from a Pandas dataframe.
 - Select and transform data, then plot it.
-- Many styles of plot are available: see the [Python Graph Gallery](https://python-graph-gallery.com/matplotlib/) for more options.
+- Many styles of plot are available- see the [Python Graph Gallery](https://python-graph-gallery.com/matplotlib/) for more options.
 - Can plot many sets of data together.
 ---
 
