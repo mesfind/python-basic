@@ -53,13 +53,14 @@ df.head()
 
 With an additional parameter  in the `pd.read_csv()`` function, it  is possible to load the same  dataset. Using the `index_col` parameter allows you to specify which column should be used as the index for the DataFrame. In this case, setting index_col='Country' tells Pandas to use the "Country" column as the index:
 
-```python
+~~~
 import pandas as pd
 
 path = "https://raw.githubusercontent.com/mesfind/datasets/master/gapminder_tidy.csv"
 df= pd.read_csv(path, index_col='Country')
 df.head()
-```
+~~~
+{: .python}
 
 ```output
              Year  fertility    life  population  child_mortality     gdp      region
@@ -73,9 +74,10 @@ Afghanistan  1968      7.671  35.674  11411022.0            318.1  1187.0  South
 
 Printing the column names is a common first step in data exploration, as it gives you a high-level overview of the data structure and helps you navigate the dataset more effectively.
 
-```python
+~~~
 print(df.columns)
-```
+~~~
+{: .python}
 
 ```output
 Index(['Country', 'Year', 'fertility', 'life', 'population', 'child_mortality',
@@ -98,18 +100,20 @@ uniquely identifies its *entry* in the DataFrame.
 
 ## Use `DataFrame.iloc[..., ...]` to select values by their (entry) position
 
-```python
+~~~
 print(df.iloc[0,1])
-```
+~~~
+{: .python}
 
 ```output
 7.671
 ```
 
 
-```python
+~~~
 print(df.iloc[[0,1]])
-```
+~~~
+{: .python}
 
 ```
              Year  fertility    life  population  child_mortality     gdp      region
@@ -122,9 +126,10 @@ Afghanistan  1965      7.671  34.152  10697983.0            334.1  1182.0  South
 
 - Can specify location by row and/or column name.
 
-```python
+~~~
 print(df.loc["Ethiopia", "gdp"])
-```
+~~~
+{: .python}
 
 ```output
 Country
@@ -353,11 +358,12 @@ By creating a separate DataFrame with only the numerical columns, you can:
 
 The following  code snippet identifies the numerical columns in the DataFrame and creates a new DataFrame containing only those columns. The `select_dtypes(include=['number'])` method is used to filter the DataFrame and keep only the columns with numerical data types, such as integers and floats. This is a common data preprocessing step, as it allows you to focus on the quantitative aspects of the data and perform numerical analysis more easily.
 
-```python
+~~~
 # numerical columns
 numerical_df = df.select_dtypes(include=['number'])
 numerical_df.head()
-```
+~~~
+{: .python}
 
 ```output
    Year  fertility    life  population  child_mortality     gdp
@@ -455,7 +461,7 @@ dtype: int64
 
 To treat outliers identified using the Interquartile Range (IQR) method, you have several options depending on the context and the nature of your data. Common methods include removing the outliers, replacing them with a statistical value (such as the median), or capping them at the bounds of the IQR range. Below are examples of each approach:
 
-```python
+~~~
 # Calculate the IQR for each numerical column
 Q1 = numerical_df.quantile(0.25)
 Q3 = numerical_df.quantile(0.75)
@@ -466,7 +472,8 @@ upper_bound = Q3 + 1.5 * IQR
 
 outliers = (numerical_df < lower_bound) | ( numerical_df > upper_bound)
 print("Potential outliers based on IQR:\n",outliers)
-```
+~~~
+{: .python}
 
 ```output
 Potential outliers based on IQR:
@@ -542,7 +549,7 @@ Vietnam      2013      1.743  75.945  90656550.0             22.9  5125.0
 
 Capping outliers involves adjusting extreme values in a dataset to the nearest boundary of the interquartile range (IQR). This technique effectively reduces the impact of outliers, ensuring that statistical analyses are not unduly influenced by anomalous data points. By capping values at the IQR bounds, researchers maintain data integrity while enhancing the robustness of their statistical models.
 
-```python
+~~~
 # Calculate the IQR for each numerical column
 Q1 = numerical_df.quantile(0.25)
 Q3 = numerical_df.quantile(0.75)
@@ -554,7 +561,8 @@ upper_bound = Q3 + 1.5 * IQR
 capped_df = numerical_df.clip(lower=lower_bound, upper=upper_bound, axis=1)
 
 print("DataFrame after capping outliers:\n", capped_df)
-```
+~~~
+{: .python}
 
 ```python
 DataFrame after capping outliers:
@@ -580,7 +588,7 @@ Zimbabwe     2013      3.486  59.871  13327925.0             83.3  1773.0
 
 Logarithmic transformation is useful when the data spans several orders of magnitude. It can compress the range and make the distribution more symmetric.
 
-```python
+~~~
 import numpy as np
 cols = ['fertility', 'life', 'population',
         'child_mortality', 'gdp']
@@ -588,7 +596,9 @@ log_transformed_df = np.log1p(numerical_df[cols]) # log1p is used to handle zero
 log_transformed_df['year'] = numerical_df["Year"]
 print("DataFrame after logarithmic transformation:\n", log_transformed_df)
 
-```
+~~~
+{: .python}
+
 
 ```output
 DataFrame after logarithmic transformation:
@@ -613,7 +623,7 @@ Zimbabwe      1.500961  4.108757   16.405372         4.434382  7.480992  2013
 > Square root transformation is another method to reduce the impact of large values. It's less aggressive than logarithmic transformation. apply square root transformation on `numerical_df`
 >
 > > ## Solution
-> > ```python
+> > ~~~
 > > import numpy as np
 > > cols = ['fertility', 'life', 'population',
 > >       'child_mortality', 'gdp']
@@ -638,15 +648,15 @@ Zimbabwe      1.500961  4.108757   16.405372         4.434382  7.480992  2013
 > > Zimbabwe      1.867083  7.737635  3650.743075         9.126883  42.107007  2013
 > > 
 > > [8836 rows x 6 columns]
-> > ```
-> >
+> > ~~~
+> > {: .python}
 > {: .solution}
 {: .challenge}
 
 > ## Box-Cox Transformation
 > Box-Cox transformation is a more flexible method that can transform data to follow a normal distribution. It requires the data to be positive.  Apply square root transformation on `numerical_df`
 > 
-> > ```python
+> > ~~~
 > > from scipy import stats
 > > # Apply Box-Cox transformation to each column
 > > boxcox_transformed_df = numerical_df[cols].apply(lambda x: stats.boxcox(x + 1)[0] if (x > 0).all() else x)  # Adding 1 to handle zero values
@@ -672,7 +682,8 @@ Zimbabwe      1.500961  4.108757   16.405372         4.434382  7.480992  2013
 > > 
 > > [8836 rows x 6 columns]
 > > 
-> > ```
+> > ~~~
+> > {: .python}
 > {: .solution}
 {: .challenge}
 
@@ -716,11 +727,11 @@ split themselves according to their GDP.
 2. We then estimate a *wealthy score* based on the historical (from 1962 to 2007) values,
   where we account how many times a country has participated in the groups of *lower* or *higher* GDP
 
-```python
+~~~
 mask_higher = numerical_df > numerical_df.mean()
 wealth_score = mask_higher.aggregate('sum', axis=1) / len(numerical_df.columns)
 print(wealth_score)
-```
+~~~
 
 ```output
 country
@@ -760,9 +771,10 @@ dtype: float64
 Finally, for each group in the `wealth_score` table, we sum their (financial) contribution
 across the years surveyed using chained methods:
 
-```python
+~~~
 print(numerical_df.groupby(wealth_score).sum())
-```
+~~~
+{: .python}
 
 ```output
           gdpPercap_1952  gdpPercap_1957  gdpPercap_1962  gdpPercap_1967  \
@@ -956,19 +968,19 @@ print(numerical_df.groupby(wealth_score).sum())
 > > 1:
 > > 
 > > ```python
-> > data['gdpPercap_1982']
+> > data['gdp']
 > > ```
 > > 
 > > 2:
 > > 
 > > ```python
-> > data.loc['Denmark',:]
+> > data.loc['Ethiopia',:]
 > > ```
 > > 
 > > 3:
 > > 
 > > ```python
-> > data.loc[:,'gdpPercap_1985':]
+> > data.loc[:,'gdp':]
 > > ```
 > > 
 > > Pandas is smart enough to recognize the number at the end of the column label and does not give you an error, although no column named `gdpPercap_1985` actually exists. This is useful if new columns are added to the CSV file later.
@@ -1181,10 +1193,11 @@ print(numerical_df.groupby(wealth_score).sum())
 1. apply()
 This function is used to apply a function to each element or row/column of a DataFrame or Series.
 
-```python
+~~~
 numerical_df["population_million"] = penguins_df["population"].apply(lambda x: x/1000000)
 numerical_df.head()
-```
+~~~
+{: .python}
 
 ```output
              Year  fertility    life  population  child_mortality     gdp  population_million
@@ -1199,10 +1212,11 @@ Afghanistan  1968      7.671  35.674  11411022.0            318.1  1187.0       
 2. nunique()
 This function is used to count the number of unique values in a column of a DataFrame.
 
-```python
+~~~
 numerical_df2 = numerical_df.reset_index()
 numerical_df2["Country"].nunique()
-```
+~~~
+{: .python}
 
 
 ```output
@@ -1211,18 +1225,19 @@ numerical_df2["Country"].nunique()
 
 
 
-## 
+## The groupby operation (split-apply-combine)
 
 
 The groupby operation in pandas is useful for performing split-apply-combine operations on your DataFrame. This involves splitting the data into groups based on some criteria, applying a function to each group independently, and then combining the results back into a DataFrame.
 
 
-```python
+~~~
 df = df.reset_index()
 grouped_df = df.groupby("region").mean()
 grouped_df.head() # groups data by species and calculate the mean for each group
+~~~
+{: .python}
 
-```
 
 ```output
                                    Year  fertility       life    population  child_mortality           gdp
@@ -1237,7 +1252,7 @@ South Asia                  1988.500000   5.004162  57.137710  1.406782e+08     
 Let's perform the groupby operation on capped_df and calculate some aggregate statistics (mean, sum, etc.) for each country.
 
 
-```python
+~~~
 
 import pandas as pd
 
@@ -1296,8 +1311,9 @@ agg_df = grouped.agg({
 
 print("Aggregated DataFrame:\n", agg_df.head())
 
+~~~
+{: .python}
 
-```
 
 
 ~~~
