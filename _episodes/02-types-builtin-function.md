@@ -17,8 +17,7 @@ questions:
 - How can I use built-in functions?
 - How can I find out what they do?
 - What kind of errors can occur in programs?
-keypoints
-
+keypoints:
 - Every value has a type.
 - Use the built-in function `type` to find the type of a value.
 - Types control what operations can be done on values.
