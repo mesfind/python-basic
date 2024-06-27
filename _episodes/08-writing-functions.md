@@ -1,5 +1,5 @@
 ---
-title: stats with scipy and statsmodels
+title: Writing functions
 teaching: 30
 exercises: 0
 objectivs:
