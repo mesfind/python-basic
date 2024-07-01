@@ -442,8 +442,10 @@ $ sudo apt install python3-venv
 
 - Use the `virtualenv` command followed by your desired environment name:
 
-`virtualenv py_env`
-
+~~~
+$ virtualenv py_env
+~~~
+{: .bash}
 - This creates a virtual environment directory named `py_env` in the current location.
 
 ### 4) Activate the Virtual Environment
@@ -455,6 +457,7 @@ $ sudo apt install python3-venv
 ### 5) Install Required Packages
 
 - Once the environment is activated, use pip to install the packages you need for your project:
+
 ~~~
 $ pip install <package_name>
 ~~~
@@ -485,7 +488,7 @@ $ conda create -n py_env python=3.11
 {: .bash}
 - This command creates a new environment named my_env with Python version 3.11 (adjust the version as needed).
   
-- The -n flag specifies the environment name.
+- The `-n` flag specifies the environment name.
 
 ### 2. Activate the Environment
 
