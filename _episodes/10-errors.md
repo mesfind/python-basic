@@ -465,23 +465,27 @@ often reveals common reasons why you might get that error.
 > 3. Fix the error.
 > 4. Repeat steps 2 and 3, until you have fixed all the errors.
 > 
-> ```python
+> ~~~
 > def another_function
 >   print('Syntax errors are annoying.')
 >    print('But at least Python tells us about them!')
 >   print('So they are usually not too hard to fix.')
-> ```
+> ~~~
+> {: .python}
+> 
 > > ## Solution
 > > 
 > > `SyntaxError` for missing `():` at end of first line, `IndentationError` for mismatch between second and third lines. A fixed version is:
 > > 
-> > ```python
+> > ~~~
 > > def another_function():
 > >     print('Syntax errors are annoying.')
 > >     print('But at least Python tells us about them!')
 > >     print('So they are usually not too hard to fix.')
-> > ```
-> {: .challenge}
+> > ~~~
+> {: .python}
+> {: .solution}
+{: .challenge}
 
 
 > ## Identifying Variable Name Errors
