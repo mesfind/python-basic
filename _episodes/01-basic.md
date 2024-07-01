@@ -609,10 +609,7 @@ it is not updated when we change `weight_kg`.
 > > `mass` still has a value of 95.0, `age` now holds 102
 > > ```
 > {: .solution}
-{: .challenge}
-
-
-
+>
 > ## Sorting Out References
 > 
 > Python allows you to assign multiple values to multiple variables in one line by separating
@@ -629,8 +626,8 @@ it is not updated when we change `weight_kg`.
 > > ```output
 > > Hopper Grace
 > > ```
-
-
+> {: .solution}
+>
 > ## Seeing Data Types
 > 
 > What are the data types of the following variables?
