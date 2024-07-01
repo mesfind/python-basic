@@ -55,11 +55,12 @@ need for each program.
 
 Once we've imported the library, we can ask the library to read our data file for us:
 
-```python
+~~~
 np.loadtxt(fname='data/inflammation-01.csv', delimiter=',')
-```
+~~~
+{: .python}
 
-```output
+~~~
 array([[ 0.,  0.,  1., ...,  3.,  0.,  0.],
        [ 0.,  1.,  2., ...,  1.,  0.,  1.],
        [ 0.,  1.,  1., ...,  2.,  1.,  1.],
@@ -67,7 +68,8 @@ array([[ 0.,  0.,  1., ...,  3.,  0.,  0.],
        [ 0.,  1.,  1., ...,  1.,  1.,  1.],
        [ 0.,  0.,  0., ...,  0.,  2.,  0.],
        [ 0.,  0.,  1., ...,  1.,  1.,  0.]])
-```
+~~~
+{: .output}
 
 The expression `numpy.loadtxt(...)` is a
 [function call](../learners/reference.md#function-call)
@@ -76,9 +78,7 @@ belongs to the `numpy` library.
 The dot notation in Python is used most of all as an object attribute/property specifier or for invoking its method. `object.property` will give you the object.property value,
 `object_name.method()` will invoke on object\_name method.
 
-As an example, John Smith is the John that belongs to the Smith family.
-We could use the dot notation to write his name `smith.john`,
-just as `loadtxt` is a function that belongs to the `numpy` library.
+As an example, Abebe Bekele is the John that belongs to the Smith family. We could use the dot notation to write his name `abebe.bekele`, just as `loadtxt` is a function that belongs to the `numpy` library.
 
 `numpy.loadtxt` has two [parameters](../learners/reference.md#parameter): the name of the file
 we want to read and the [delimiter](../learners/reference.md#delimiter) that separates values
@@ -87,34 +87,25 @@ on a line. These both need to be character strings
 
 Since we haven't told it to do anything else with the function's output,
 the [notebook](../learners/reference.md#notebook) displays it.
-In this case,
-that output is the data we just loaded.
-By default,
-only a few rows and columns are shown
-(with `...` to omit elements when displaying big arrays).
-Note that, to save space when displaying NumPy arrays, Python does not show us trailing zeros,
-so `1.0` becomes `1.`.
+In this case, that output is the data we just loaded. By default, only a few rows and columns are shown (with `...` to omit elements when displaying big arrays). Note that, to save space when displaying NumPy arrays, Python does not show us trailing zeros, so `1.0` becomes `1.`.
 
-Our call to `numpy.loadtxt` read our file
-but didn't save the data in memory.
-To do that,
-we need to assign the array to a variable. In a similar manner to how we assign a single
-value to a variable, we can also assign an array of values to a variable using the same syntax.
-Let's re-run `numpy.loadtxt` and save the returned data:
+Our call to `numpy.loadtxt` read our file but didn't save the data in memory. To do that, we need to assign the array to a variable. In a similar manner to how we assign a single value to a variable, we can also assign an array of values to a variable using the same syntax. Let's re-run `np.loadtxt` and save the returned data:
 
-```python
+~~~
 data = np.loadtxt(fname='data/inflammation-01.csv', delimiter=',')
-```
+~~~
+{: .python}
 
 This statement doesn't produce any output because we've assigned the output to the variable `data`.
 If we want to check that the data have been loaded,
 we can print the variable's value:
 
-```python
+~~~
 print(data)
-```
+~~~
+{: .python}
 
-```output
+~~~
 [[ 0.  0.  1. ...,  3.  0.  0.]
  [ 0.  1.  2. ...,  1.  0.  1.]
  [ 0.  1.  1. ...,  2.  1.  1.]
@@ -122,26 +113,25 @@ print(data)
  [ 0.  1.  1. ...,  1.  1.  1.]
  [ 0.  0.  0. ...,  0.  2.  0.]
  [ 0.  0.  1. ...,  1.  1.  0.]]
-```
+~~~
+{: .output}
 
 Now that the data are in memory,
 we can manipulate them.
 First,
 let's ask what [type](../learners/reference.md#type) of thing `data` refers to:
 
-```python
+~~~
 print(type(data))
-```
+~~~
+{: .python}
 
-```output
+~~~
 <class 'numpy.ndarray'>
-```
+~~~
+{: .output}
 
-The output tells us that `data` currently refers to
-an N-dimensional array, the functionality for which is provided by the NumPy library.
-These data correspond to arthritis patients' inflammation.
-The rows are the individual patients, and the columns
-are their daily inflammation measurements.
+The output tells us that `data` currently refers to an N-dimensional array, the functionality for which is provided by the NumPy library. These data correspond to arthritis patients' inflammation. The rows are the individual patients, and the columns are their daily inflammation measurements.
 
 
 
@@ -165,9 +155,10 @@ thing inside the array. We can find out the type of the data contained in the Nu
 
 With the following command, we can see the array's [shape](../learners/reference.md#shape):
 
-```python
+~~~
 print(data.shape)
-```
+~~~
+{: .python}
 
 ```output
 (60, 40)
@@ -186,17 +177,19 @@ If we want to get a single number from the array, we must provide an
 do in math when referring to an element of a matrix.  Our inflammation data has two dimensions, so
 we will need to use two indices to refer to one specific value:
 
-```python
+~~~
 print('first value in data:', data[0, 0])
-```
+~~~
+{: .python}
 
 ```output
 first value in data: 0.0
 ```
 
-```python
+~~~
 print('middle value in data:', data[29, 19])
-```
+~~~
+{: .python}
 
 ```output
 middle value in data: 16.0
@@ -223,9 +216,10 @@ For example,
 we can select the first ten days (columns) of values
 for the first four patients (rows) like this:
 
-```python
+~~~
 print(data[0:4, 0:10])
-```
+~~~
+{: .python}
 
 ```output
 [[ 0.  0.  1.  3.  1.  2.  4.  7.  8.  3.]
@@ -241,9 +235,10 @@ the slice.
 
 We don't have to start slices at 0:
 
-```python
+~~~
 print(data[5:10, 0:10])
-```
+~~~
+{: .python}
 
 ```output
 [[ 0.  0.  1.  2.  2.  4.  2.  1.  6.  4.]
@@ -258,11 +253,12 @@ bound, Python uses 0 by default; if we don't include the upper, the slice runs t
 axis, and if we don't include either (i.e., if we use ':' on its own), the slice includes
 everything:
 
-```python
+~~~
 small = data[:3, 36:]
 print('small is:')
 print(small)
-```
+~~~
+{: .python}
 
 The above example selects rows 0 through 2 and columns 36 through to the end of the array.
 
@@ -278,15 +274,14 @@ small is:
 NumPy has several useful functions that take an array as input to perform operations on its values. If we want to find the average inflammation for all patients on all days, for example, we can ask NumPy to compute `data`'s mean value:
 
 ```python
-print(numpy.mean(data))
+print(np.mean(data))
 ```
 
 ```output
 6.14875
 ```
 
-`mean` is a [function](../learners/reference.md#function) that takes
-an array as an [argument](../learners/reference.md#argument).
+`mean` is a [function](../learners/reference.md#function) that takes an array as an [argument](../learners/reference.md#argument).
 
 
 
@@ -310,16 +305,17 @@ an array as an [argument](../learners/reference.md#argument).
 
 Let's use three other NumPy functions to get some descriptive values about the dataset. We'll also use multiple assignment, a convenient Python feature that will enable us to do this all in one line.
 
-```python
-maxval, minval, stdval = numpy.amax(data), np.amin(data), np.std(data)
+~~~
+maxval, minval, stdval = np.amax(data), np.amin(data), np.std(data)
 
 print('maximum inflammation:', maxval)
 print('minimum inflammation:', minval)
 print('standard deviation:', stdval)
-```
+~~~
+{: .python}
 
-Here we've assigned the return value from `numpy.amax(data)` to the variable `maxval`, the value
-from `numpy.amin(data)` to `minval`, and so on.
+Here we've assigned the return value from `np.amax(data)` to the variable `maxval`, the value
+from `np.amin(data)` to `minval`, and so on.
 
 ```output
 maximum inflammation: 20.0
@@ -377,9 +373,10 @@ most array functions allow us to specify the axis we want to work on.
 If we ask for the average across axis 0 (rows in our 2D example),
 we get:
 
-```python
+~~~
 print(np.mean(data, axis=0))
-```
+~~~
+{: .python}
 
 ```output
 [  0.           0.45         1.11666667   1.75         2.43333333   3.15
@@ -395,9 +392,10 @@ print(np.mean(data, axis=0))
 As a quick check,
 we can ask this array what its shape is:
 
-```python
+~~~
 print(np.mean(data, axis=0).shape)
-```
+~~~
+{: .python}
 
 ```output
 (40,)
@@ -407,9 +405,10 @@ The expression `(40,)` tells us we have an N×1 vector,
 so this is the average inflammation per day for all patients.
 If we average across axis 1 (columns in our 2D example), we get:
 
-```python
+~~~
 print(np.mean(data, axis=1))
-```
+~~~
+{: .python}
 
 ```output
 [ 5.45   5.425  6.1    5.9    5.55   6.225  5.975  6.65   6.625  6.525
@@ -632,9 +631,10 @@ which is the average inflammation per patient across all days.
 > > 
 > > Since the row axis (0) is patients, it does not make sense to get the difference between two arbitrary patients. The column axis (1) is in days, so the difference is the change in inflammation -- a meaningful concept.
 > >  
-> > ```python
+> > ~~~
 > >  np.diff(data, axis=1)
-> > ```
+> > ~~~
+> > {: .python}
 > {: .solution}
 > 
 > If the shape of an individual data file is `(60, 40)` (60 rows and 40 columns), what would the shape of the array be after you run the `diff()` function and why?
@@ -651,35 +651,39 @@ which is the average inflammation per patient across all days.
 > > 
 > > By using the `np.amax()` function after you apply the `np.diff()` function, you will get the largest difference between days.
 > > 
-> > ```python
+> > ~~~
 > > np.amax(np.diff(data, axis=1), axis=1)
-> > ```
+> > ~~~
+> > {: .python}
 > > 
-> > ```python
+> > ~~~
 > > array([  7.,  12.,  11.,  10.,  11.,  13.,  10.,   8.,  10.,  10.,   7.,
 > >          7.,  13.,   7.,  10.,  10.,   8.,  10.,   9.,  10.,  13.,   7.,
 > >         12.,   9.,  12.,  11.,  10.,  10.,   7.,  10.,  11.,  10.,   8.,
 > >         11.,  12.,  10.,   9.,  10.,  13.,  10.,   7.,   7.,  10.,  13.,
 > >         12.,   8.,   8.,  10.,  10.,   9.,   8.,  13.,  10.,   7.,  10.,
 > >          8.,  12.,  10.,   7.,  12.])
-> > ```
+> > ~~~
+> > {: .python}
 > > 
 > > If inflammation values *decrease* along an axis, then the difference from one element to the next will be negative. If you are interested in the **magnitude** of the change and not the direction, the `np.absolute()` function will provide that.
 > > 
 > > Notice the difference if you get the largest *absolute* difference between readings.
 > > 
-> > ```python
+> > ~~~
 > > np.amax(np.absolute(np.diff(data, axis=1)), axis=1)
-> > ```
+> > ~~~
+> > {: .python}
 > > 
-> > ```python
+> > ~~~
 > > array([ 12.,  14.,  11.,  13.,  11.,  13.,  10.,  12.,  10.,  10.,  10.,
 > >         12.,  13.,  10.,  11.,  10.,  12.,  13.,   9.,  10.,  13.,   9.,
 > >         12.,   9.,  12.,  11.,  10.,  13.,   9.,  13.,  11.,  11.,   8.,
 > >         11.,  12.,  13.,   9.,  10.,  13.,  11.,  11.,  13.,  11.,  13.,
 > >         13.,  10.,   9.,  10.,  10.,   9.,   9.,  13.,  10.,   9.,  10.,
 > >         11.,  13.,  10.,  10.,  12.])
-> > ```
+> > ~~~
+> > {: .python}
 > {: .solution}
 {: .challenge}
 
@@ -795,7 +799,7 @@ flare-ups at all throughout the trial, suggesting that they may not even suffer 
 > 
 > > ## Solution
 > > 
-> > ```python
+> > ~~~
 > > from glob import glob
 > > import numpy
 > > import matplotlib.pyplot as plt
@@ -812,7 +816,8 @@ flare-ups at all throughout the trial, suggesting that they may not even suffer 
 > > 
 > > fig.tight_layout()
 > > plt.show()
-> > ```
+> > ~~~
+> > {: .python}
 > {: .solution}
 {: .challenge}
 
@@ -822,7 +827,7 @@ flare-ups at all throughout the trial, suggesting that they may not even suffer 
 > 
 > Use each of the files once to generate a dataset containing values averaged over all patients by completing the code inside the loop given below:
 > 
-> ```python
+> ~~~
 > filenames = glob('data/inflammation*.csv')
 > composite_data = numpy.zeros((60, 40))
 > for filename in filenames:
@@ -830,13 +835,14 @@ flare-ups at all throughout the trial, suggesting that they may not even suffer 
 >    #
 > # and then divide the composite_data by number of samples
 > composite_data = composite_data / len(filenames)
-> ```
+> ~~~
+> {: .python}
 > 
 > Then use pyplot to generate average, max, and min for all patients.
 > 
 > > ## Solution
 > > 
-> > ```python
+> > ~~~
 > > from glob import glob
 > > import numpy as np
 > > import matplotlib.pyplot as plt
@@ -868,7 +874,8 @@ flare-ups at all throughout the trial, suggesting that they may not even suffer 
 > > fig.tight_layout()
 > > 
 > > plt.show()
-> > ```
+> > ~~~
+> > {: .python}
 > {: .solution}
 {: .chellenge}
 
