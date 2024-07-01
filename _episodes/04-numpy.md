@@ -21,18 +21,14 @@ keypoints:
 - Array indices start at 0, not 1.
 - Use `low:high` to specify a `slice` that includes the indices from `low` to `high-1`.
 - Use `# some kind of explanation` to add comments to programs.
-- Use `np.mean(array)`, `np.amax(array)`, and `numpy.amin(array)` to calculate simple statistics.
-- Use `np.mean(array, axis=0)` or `numpy.mean(array, axis=1)` to calculate statistics across the specified axis.
-- Use `glob.glob(pattern)` to create a list of files whose names match a pattern.
+- Use `np.mean(array)`, `np.amax(array)`, and `np.amin(array)` to calculate simple statistics.
+- Use `np.mean(array, axis=0)` or `np.mean(array, axis=1)` to calculate statistics across the specified axis.
+- Use `glob(pattern)` to create a list of files whose names match a pattern.
 - Use `*` in a pattern to match zero or more characters, and `?` to match any single character.
 ---
 
 
-Words are useful, but what's more useful are the sentences and stories we build with them.
-Similarly, while a lot of powerful, general tools are built into Python,
-specialized tools built up from these basic units live in
-[libraries](../learners/reference.md#library)
-that can be called upon when needed.
+Words are useful, but what's more useful are the sentences and stories we build with them. Similarly, while a lot of powerful, general tools are built into Python,specialized tools built up from these basic units live in [libraries](../learners/reference.md#library) that can be called upon when needed.
 
 ## Loading data into Python
 
@@ -839,7 +835,7 @@ flare-ups at all throughout the trial, suggesting that they may not even suffer 
 > > 
 > > fig = plt.figure(figsize=(10.0, 3.0))
 > > 
-> > matplotlib.pyplot.ylabel('Difference in average')
+> > plt.ylabel('Difference in average')
 > > plt.plot(np.mean(data0, axis=0) - np.mean(data1, axis=0))
 > > 
 > > fig.tight_layout()
