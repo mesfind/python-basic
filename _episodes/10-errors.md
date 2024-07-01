@@ -238,7 +238,7 @@ Both `SyntaxError` and `IndentationError` indicate a problem with the syntax of 
 but an `IndentationError` is more specific:
 it *always* means that there is a problem with how your code is indented.
 
-:::::::::::::::::::::::::::::::::::::::::  callout
+
 
 > ## Tabs and Spaces
 > 
