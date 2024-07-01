@@ -252,34 +252,34 @@ print(ewr_422_yY, 'is', flabadab, 'years old')
 - Use meaningful variable names to help other people understand what the program does.
 - The most important "other person" is your future self.
 
-:::::::::::::::::::::::::::::::::::::::  challenge
 
-## Swapping Values
-
-Fill the table showing the values of the variables in this program
-*after* each statement is executed.
-
-```python
-# Command  # Value of x   # Value of y   # Value of swap #
-x = 1.0    #              #              #               #
-y = 3.0    #              #              #               #
-swap = x   #              #              #               #
-x = y      #              #              #               #
-y = swap   #              #              #               #
-```
-
-:::::::::::::::  solution
-
-## Solution
-
-```output
-# Command  # Value of x   # Value of y   # Value of swap #
-x = 1.0    # 1.0          # not defined  # not defined   #
-y = 3.0    # 1.0          # 3.0          # not defined   #
-swap = x   # 1.0          # 3.0          # 1.0           #
-x = y      # 3.0          # 3.0          # 1.0           #
-y = swap   # 3.0          # 1.0          # 1.0           #
-```
+> ## Swapping Values
+>
+> Fill the table showing the values of the variables in this program *after* each statement is executed.
+> 
+> ~~~
+> # Command  # Value of x   # Value of y   # Value of swap #
+> x = 1.0    #              #              #               #
+> y = 3.0    #              #              #               #
+> swap = x   #              #              #               #
+> x = y      #              #              #               #
+> y = swap   #              #              #               #
+> ~~~
+> {: .python}
+> 
+> > ## Solution
+> > 
+> > ~~~
+> > # Command  # Value of x   # Value of y   # Value of swap #
+> > x = 1.0    # 1.0          # not defined  # not defined   #
+> > y = 3.0    # 1.0          # 3.0          # not defined   #
+> > swap = x   # 1.0          # 3.0          # 1.0           #
+> > x = y      # 3.0          # 3.0          # 1.0           #
+> > y = swap   # 3.0          # 1.0          # 1.0           #
+> > ~~~
+> > {: .output}
+> {: .solution}
+{: .challenge}
 
 These three lines exchange the values in `x` and `y` using the `swap`
 variable for temporary storage. This is a fairly common programming idiom.
@@ -370,7 +370,6 @@ of `'left'`.
 
 
 
-:::::::::::::::::::::::::::::::::::::::  challenge
 
 > ## Slicing practice
 >
@@ -382,11 +381,11 @@ of `'left'`.
 > ```
 > 
 >
-> ## Solution
-> 
-> ```output
-> atom_name[1:3] is: ar
-> ```
+> > ## Solution
+> >
+> >```output
+> >atom_name[1:3] is: ar
+> >```
 > {: .solution}
 {: .challenge}
 
@@ -544,33 +543,31 @@ weight in kilograms is now: 65.0
 
 :::::::::::::::::::::::::::::::::::::::::  callout
 
-## Variables as Sticky Notes
-
-A variable in Python is analogous to a sticky note with a name written on it:
-assigning a value to a variable is like putting that sticky note on a particular value.
-
-![](fig/python-sticky-note-variables-01.svg){alt='Value of 65.0 with weight\_kg label stuck on it'}
-
-Using this analogy, we can investigate how assigning a value to one variable
-does **not** change values of other, seemingly related, variables.  For
-example, let's store the subject's weight in pounds in its own variable:
-
-```python
-# There are 2.2 pounds per kilogram
-weight_lb = 2.2 * weight_kg
-print('weight in kilograms:', weight_kg, 'and in pounds:', weight_lb)
-```
-
-```output
-weight in kilograms: 65.0 and in pounds: 143.0
-```
+> ## Variables as Sticky Notes
+> 
+> A variable in Python is analogous to a sticky note with a name written on it: assigning a value to a variable is like putting that sticky note on a particular value.
+> 
+> ![](../fig/python-sticky-note-variables-01.svg){alt='Value of 65.0 with weight\_kg label stuck on it'}
+> 
+> Using this analogy, we can investigate how assigning a value to one variable does **not** change values of other, seemingly related, variables.  For example, let's store the subject's weight in pounds in its own variable:
+> 
+> ```python
+> # There are 2.2 pounds per kilogram
+> weight_lb = 2.2 * weight_kg
+> print('weight in kilograms:', weight_kg, 'and in pounds:', weight_lb)
+> ```
+> 
+> ```output
+> weight in kilograms: 65.0 and in pounds: 143.0
+> ```
+{: .callout}
 
 Everything in a line of code following the '#' symbol is a
 [comment](../learners/reference.md#comment) that is ignored by Python.
 Comments allow programmers to leave explanatory notes for other
 programmers or their future selves.
 
-![](fig/python-sticky-note-variables-02.svg){alt='Value of 65.0 with weight\_kg label stuck on it, and value of 143.0 with weight\_lb label stuck on it'}
+![](../fig/python-sticky-note-variables-02.svg){alt='Value of 65.0 with weight\_kg label stuck on it, and value of 143.0 with weight\_lb label stuck on it'}
 
 Similar to above, the expression `2.2 * weight_kg` is evaluated to `143.0`,
 and then this value is assigned to the variable `weight_lb` (i.e. the sticky
@@ -588,7 +585,7 @@ print('weight in kilograms is now:', weight_kg, 'and weight in pounds is still:'
 weight in kilograms is now: 100.0 and weight in pounds is still: 143.0
 ```
 
-![](fig/python-sticky-note-variables-03.svg){alt='Value of 100.0 with label weight\_kg stuck on it, and value of 143.0 with label weight\_lbstuck on it'}
+![](../fig/python-sticky-note-variables-03.svg){alt='Value of 100.0 with label weight\_kg stuck on it, and value of 143.0 with label weight\_lbstuck on it'}
 
 Since `weight_lb` doesn't "remember" where its value comes from,
 it is not updated when we change `weight_kg`.
