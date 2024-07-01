@@ -143,7 +143,7 @@ These data correspond to arthritis patients' inflammation.
 The rows are the individual patients, and the columns
 are their daily inflammation measurements.
 
-:::::::::::::::::::::::::::::::::::::::::  callout
+
 
 > ## Data Type
 > 
@@ -358,7 +358,7 @@ We don't actually need to store the row in a variable of its own.
 Instead, we can combine the selection and the function call:
 
 ```python
-print('maximum inflammation for patient 2:', numpy.amax(data[2, :]))
+print('maximum inflammation for patient 2:', np.amax(data[2, :]))
 ```
 
 ```output
@@ -463,294 +463,226 @@ which is the average inflammation per patient across all days.
 > >e
 > >```
 > {: .solution}
+> 
+> Given those answers,
+> explain what `element[1:-1]` does.
+> 
+> > ## Solution
+> > 
+> Creates a substring from index 1 up to (not including) the final index, effectively removing the first and last letters from 'oxygen'
+> > 
+> > 
+> >
+> > How can we rewrite the slice for getting the last three characters of `element`, so that it works even if we assign a different string to `element`? Test your solution with the following strings: `carpentry`, `clone`, `hi`.
+> > 
+> > 
+> > ## Solution
+> > 
+> > ```python
+> > element = 'oxygen'
+> > print('last three characters:', element[-3:])
+> > element = 'carpentry'
+> > print('last three characters:', element[-3:])
+> > element = 'clone'
+> > print('last three characters:', element[-3:])
+> > element = 'hi'
+> > print('last three characters:', element[-3:])
+> > ```
+> >
+> > ```output
+> > last three characters: gen
+> > last three characters: try
+> > last three characters: one
+> > last three characters: hi
+> ```
+> {: .solution}
 {: .challenge}
 
-Given those answers,
-explain what `element[1:-1]` does.
 
-:::::::::::::::  solution
-
-## Solution
-
-Creates a substring from index 1 up to (not including) the final index,
-effectively removing the first and last letters from 'oxygen'
-
-
-:::::::::::::::::::::::::
-
-How can we rewrite the slice for getting the last three characters of `element`,
-so that it works even if we assign a different string to `element`?
-Test your solution with the following strings: `carpentry`, `clone`, `hi`.
-
-:::::::::::::::  solution
-
-## Solution
-
-```python
-element = 'oxygen'
-print('last three characters:', element[-3:])
-element = 'carpentry'
-print('last three characters:', element[-3:])
-element = 'clone'
-print('last three characters:', element[-3:])
-element = 'hi'
-print('last three characters:', element[-3:])
-```
-
-```output
-last three characters: gen
-last three characters: try
-last three characters: one
-last three characters: hi
-```
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Thin Slices
-
-The expression `element[3:3]` produces an
-[empty string](../learners/reference.md#empty-string),
-i.e., a string that contains no characters.
-If `data` holds our array of patient data,
-what does `data[3:3, 4:4]` produce?
-What about `data[3:3, :]`?
-
-:::::::::::::::  solution
-
-## Solution
-
-```output
-array([], shape=(0, 0), dtype=float64)
-array([], shape=(0, 40), dtype=float64)
-```
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Stacking Arrays
-
-Arrays can be concatenated and stacked on top of one another,
-using NumPy's `vstack` and `hstack` functions for vertical and horizontal stacking, respectively.
-
-```python
-import numpy
-
-A = numpy.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
-print('A = ')
-print(A)
-
-B = numpy.hstack([A, A])
-print('B = ')
-print(B)
-
-C = numpy.vstack([A, A])
-print('C = ')
-print(C)
-```
-
-```output
-A =
-[[1 2 3]
- [4 5 6]
- [7 8 9]]
-B =
-[[1 2 3 1 2 3]
- [4 5 6 4 5 6]
- [7 8 9 7 8 9]]
-C =
-[[1 2 3]
- [4 5 6]
- [7 8 9]
- [1 2 3]
- [4 5 6]
- [7 8 9]]
-```
-
-Write some additional code that slices the first and last columns of `A`,
-and stacks them into a 3x2 array.
-Make sure to `print` the results to verify your solution.
-
-:::::::::::::::  solution
-
-## Solution
-
-A 'gotcha' with array indexing is that singleton dimensions
-are dropped by default. That means `A[:, 0]` is a one dimensional
-array, which won't stack as desired. To preserve singleton dimensions,
-the index itself can be a slice or array. For example, `A[:, :1]` returns
-a two dimensional array with one singleton dimension (i.e. a column
-vector).
-
-```python
-D = numpy.hstack((A[:, :1], A[:, -1:]))
-print('D = ')
-print(D)
-```
-
-```output
-D =
-[[1 3]
- [4 6]
- [7 9]]
-```
-
-:::::::::::::::::::::::::
-
-:::::::::::::::  solution
-
-## Solution
-
-An alternative way to achieve the same result is to use Numpy's
-delete function to remove the second column of A. If you're not
-sure what the parameters of numpy.delete mean, use the help files.
-
-```python
-D = numpy.delete(arr=A, obj=1, axis=1)
-print('D = ')
-print(D)
-```
-
-```output
-D =
-[[1 3]
- [4 6]
- [7 9]]
-```
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Change In Inflammation
-
-The patient data is *longitudinal* in the sense that each row represents a
-series of observations relating to one individual.  This means that
-the change in inflammation over time is a meaningful concept.
-Let's find out how to calculate changes in the data contained in an array
-with NumPy.
-
-The `numpy.diff()` function takes an array and returns the differences
-between two successive values. Let's use it to examine the changes
-each day across the first week of patient 3 from our inflammation dataset.
-
-```python
-patient3_week1 = data[3, :7]
-print(patient3_week1)
-```
-
-```output
- [0. 0. 2. 0. 4. 2. 2.]
-```
-
-Calling `numpy.diff(patient3_week1)` would do the following calculations
-
-```python
-[ 0 - 0, 2 - 0, 0 - 2, 4 - 0, 2 - 4, 2 - 2 ]
-```
-
-and return the 6 difference values in a new array.
-
-```python
-numpy.diff(patient3_week1)
-```
-
-```output
-array([ 0.,  2., -2.,  4., -2.,  0.])
-```
-
-Note that the array of differences is shorter by one element (length 6).
-
-When calling `numpy.diff` with a multi-dimensional array, an `axis` argument may
-be passed to the function to specify which axis to process. When applying
-`numpy.diff` to our 2D inflammation array `data`, which axis would we specify?
-
-:::::::::::::::  solution
-
-## Solution
-
-Since the row axis (0) is patients, it does not make sense to get the
-difference between two arbitrary patients. The column axis (1) is in
-days, so the difference is the change in inflammation -- a meaningful
-concept.
-
-```python
-numpy.diff(data, axis=1)
-```
-
-:::::::::::::::::::::::::
-
-If the shape of an individual data file is `(60, 40)` (60 rows and 40
-columns), what would the shape of the array be after you run the `diff()`
-function and why?
-
-:::::::::::::::  solution
-
-## Solution
-
-The shape will be `(60, 39)` because there is one fewer difference between
-columns than there are columns in the data.
-
-
-:::::::::::::::::::::::::
-
-How would you find the largest change in inflammation for each patient? Does
-it matter if the change in inflammation is an increase or a decrease?
-
-:::::::::::::::  solution
-
-## Solution
-
-By using the `numpy.amax()` function after you apply the `numpy.diff()`
-function, you will get the largest difference between days.
-
-```python
-numpy.amax(numpy.diff(data, axis=1), axis=1)
-```
-
-```python
-array([  7.,  12.,  11.,  10.,  11.,  13.,  10.,   8.,  10.,  10.,   7.,
-         7.,  13.,   7.,  10.,  10.,   8.,  10.,   9.,  10.,  13.,   7.,
-        12.,   9.,  12.,  11.,  10.,  10.,   7.,  10.,  11.,  10.,   8.,
-        11.,  12.,  10.,   9.,  10.,  13.,  10.,   7.,   7.,  10.,  13.,
-        12.,   8.,   8.,  10.,  10.,   9.,   8.,  13.,  10.,   7.,  10.,
-         8.,  12.,  10.,   7.,  12.])
-```
-
-If inflammation values *decrease* along an axis, then the difference from
-one element to the next will be negative. If
-you are interested in the **magnitude** of the change and not the
-direction, the `numpy.absolute()` function will provide that.
-
-Notice the difference if you get the largest *absolute* difference
-between readings.
-
-```python
-numpy.amax(numpy.absolute(numpy.diff(data, axis=1)), axis=1)
-```
-
-```python
-array([ 12.,  14.,  11.,  13.,  11.,  13.,  10.,  12.,  10.,  10.,  10.,
-        12.,  13.,  10.,  11.,  10.,  12.,  13.,   9.,  10.,  13.,   9.,
-        12.,   9.,  12.,  11.,  10.,  13.,   9.,  13.,  11.,  11.,   8.,
-        11.,  12.,  13.,   9.,  10.,  13.,  11.,  11.,  13.,  11.,  13.,
-        13.,  10.,   9.,  10.,  10.,   9.,   9.,  13.,  10.,   9.,  10.,
-        11.,  13.,  10.,  10.,  12.])
-```
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-
+> ## Thin Slices
+> 
+> The expression `element[3:3]` produces an [empty string](../learners/reference.md#empty-string),
+> i.e., a string that contains no characters. If `data` holds our array of patient data,
+> what does `data[3:3, 4:4]` produce? What about `data[3:3, :]`?
+> 
+> > ## Solution
+> > 
+> > ```output
+> > array([], shape=(0, 0), dtype=float64)
+> > array([], shape=(0, 40), dtype=float64)
+> ```
+> {: .solution}
+{: .challenge}
+
+
+> ## Stacking Arrays
+> 
+> Arrays can be concatenated and stacked on top of one another, using NumPy's `vstack` and `hstack` functions for vertical and horizontal stacking, respectively.
+> 
+> ```python
+> import numpy as np
+> 
+> A = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+> print('A = ')
+> print(A)
+> 
+> B = np.hstack([A, A])
+> print('B = ')
+> print(B)
+> 
+> C = np.vstack([A, A])
+> print('C = ')
+> print(C)
+> ```
+> 
+> ```output
+> A =
+> [[1 2 3]
+> [4 5 6]
+> [7 8 9]]
+> B =
+> [[1 2 3 1 2 3]
+>  [4 5 6 4 5 6]
+>  [7 8 9 7 8 9]]
+> C =
+> [[1 2 3]
+> [4 5 6]
+> [7 8 9]
+> [1 2 3]
+> [4 5 6]
+> [7 8 9]]
+>```
+> 
+> Write some additional code that slices the first and last columns of `A`, and stacks them into a 3x2 array. Make sure to `print` the results to verify your solution.
+> 
+> 
+> > ## Solution
+> > 
+> > A 'gotcha' with array indexing is that singleton dimensions are dropped by default. That means `A[:, 0]` is a one dimensional array, which won't stack as desired. To preserve singleton dimensions,the index itself can be a slice or array. For example, `A[:, :1]` returns a two dimensional array with one singleton dimension (i.e. a column vector).
+> >
+> > ```python
+> > D = np.hstack((A[:, :1], A[:, -1:]))
+> > print('D = ')
+> > print(D)
+> > ```
+> > 
+> > ```output
+> > D =
+> > [[1 3]
+> >  [4 6]
+> >  [7 9]]
+> ```
+> {: .solution}
+> 
+> > ## Solution
+> > 
+> > An alternative way to achieve the same result is to use Numpy's delete function to remove the second column of A. If you're not sure what the parameters of numpy.delete mean, use the help files.
+> > 
+> > ```python
+> > D = np.delete(arr=A, obj=1, axis=1)
+> > print('D = ')
+> > print(D)
+> > ```
+> > 
+> > ```output
+> > D =
+> > [[1 3]
+> > [4 6]
+> > [7 9]]
+> > ```
+> {: .solution}
+
+
+> ## Change In Inflammation
+> 
+> The patient data is *longitudinal* in the sense that each row represents a series of observations relating to one individual.  This means that the change in inflammation over time is a meaningful concept. Let's find out how to calculate changes in the data contained in an array with NumPy.
+
+> The `numpy.diff()` function takes an array and returns the differences between two successive values. Let's use it to examine the changes each day across the first week of patient 3 from our inflammation dataset.
+> 
+> ```python
+> patient3_week1 = data[3, :7]
+> print(patient3_week1)
+> ```
+> 
+> ```output
+>  [0. 0. 2. 0. 4. 2. 2.]
+> ```
+> 
+> Calling `np.diff(patient3_week1)` would do the following calculations
+> 
+> ```python
+> [ 0 - 0, 2 - 0, 0 - 2, 4 - 0, 2 - 4, 2 - 2 ]
+> ```
+> 
+> and return the 6 difference values in a new array.
+> 
+> ```python
+> np.diff(patient3_week1)
+> ```
+> 
+> ```output
+> array([ 0.,  2., -2.,  4., -2.,  0.])
+> ```
+> 
+> Note that the array of differences is shorter by one element (length 6).
+> 
+> When calling `np.diff` with a multi-dimensional array, an `axis` argument may be passed to the function to specify which axis to process. When applying `np.diff` to our 2D inflammation array `data`, which axis would we specify?
+> 
+> 
+> > ## Solution
+> > 
+> > Since the row axis (0) is patients, it does not make sense to get the difference between two arbitrary patients. The column axis (1) is in days, so the difference is the change in inflammation -- a meaningful concept.
+> >  
+> > ```python
+> >  np.diff(data, axis=1)
+> > ```
+> {: .solution}
+> 
+> If the shape of an individual data file is `(60, 40)` (60 rows and 40 columns), what would the shape of the array be after you run the `diff()` function and why?
+> 
+> 
+> > ## Solution
+> > 
+> > The shape will be `(60, 39)` because there is one fewer difference between columns than there are columns in the data.
+> {: .solution}
+> 
+> How would you find the largest change in inflammation for each patient? Does it matter if the change in inflammation is an increase or a decrease?
+> 
+> > ## Solution
+> > 
+> > By using the `np.amax()` function after you apply the `np.diff()` function, you will get the largest difference between days.
+> > 
+> > ```python
+> > np.amax(np.diff(data, axis=1), axis=1)
+> > ```
+> > 
+> > ```python
+> > array([  7.,  12.,  11.,  10.,  11.,  13.,  10.,   8.,  10.,  10.,   7.,
+> >          7.,  13.,   7.,  10.,  10.,   8.,  10.,   9.,  10.,  13.,   7.,
+> >         12.,   9.,  12.,  11.,  10.,  10.,   7.,  10.,  11.,  10.,   8.,
+> >         11.,  12.,  10.,   9.,  10.,  13.,  10.,   7.,   7.,  10.,  13.,
+> >         12.,   8.,   8.,  10.,  10.,   9.,   8.,  13.,  10.,   7.,  10.,
+> >          8.,  12.,  10.,   7.,  12.])
+> > ```
+> > 
+> > If inflammation values *decrease* along an axis, then the difference from one element to the next will be negative. If you are interested in the **magnitude** of the change and not the direction, the `np.absolute()` function will provide that.
+> > 
+> > Notice the difference if you get the largest *absolute* difference between readings.
+> > 
+> > ```python
+> > np.amax(np.absolute(np.diff(data, axis=1)), axis=1)
+> > ```
+> > 
+> > ```python
+> > array([ 12.,  14.,  11.,  13.,  11.,  13.,  10.,  12.,  10.,  10.,  10.,
+> >         12.,  13.,  10.,  11.,  10.,  12.,  13.,   9.,  10.,  13.,   9.,
+> >         12.,   9.,  12.,  11.,  10.,  13.,   9.,  13.,  11.,  11.,   8.,
+> >         11.,  12.,  13.,   9.,  10.,  13.,  11.,  11.,  13.,  11.,  13.,
+> >         13.,  10.,   9.,  10.,  10.,   9.,   9.,  13.,  10.,   9.,  10.,
+> >         11.,  13.,  10.,  10.,  12.])
+> > ```
+> {: .solution}
+{: .challenge}
 
 ## Analyzing multiple data
 
@@ -760,7 +692,7 @@ in our `data` directory whose names start with `inflammation-` and end with `.cs
 The following library will help us to achieve this:
 
 ```python
-import glob
+from glob import glob
 ```
 
 The `glob` library contains a function, also called `glob`,
@@ -771,7 +703,7 @@ while `?` matches any one character.
 We can use this to get the names of all the CSV files in the current directory:
 
 ```python
-print(glob.glob('data/inflammation*.csv'))
+print(glob('data/inflammation*.csv'))
 ```
 
 ```output
@@ -781,21 +713,21 @@ print(glob.glob('data/inflammation*.csv'))
 ```
 
 As these examples show,
-`glob.glob`'s result is a list of file and directory paths in arbitrary order.
+`glob`'s result is a list of file and directory paths in arbitrary order.
 This means we can loop over it
 to do something with each filename in turn.
 In our case,
 the "something" we want to do is generate a set of plots for each file in our inflammation dataset.
 
 If we want to start by analyzing just the first three files in alphabetical order, we can use the
-`sorted` built-in function to generate a new sorted list from the `glob.glob` output:
+`sorted` built-in function to generate a new sorted list from the `glob` output:
 
 ```python
-import glob
+from glob import glob
 import numpy as np
 import matplotlib.pyplot as plt
 
-filenames = sorted(glob.glob('data/inflammation*.csv'))
+filenames = sorted(glob('data/inflammation*.csv'))
 filenames = filenames[0:3]
 for filename in filenames:
     print(filename)
@@ -825,19 +757,19 @@ for filename in filenames:
 inflammation-01.csv
 ```
 
-![](fig/03-loop_49_1.png){alt='Output from the first iteration of the for loop. Three line graphs showing the daily average, maximum and minimum inflammation over a 40-day period for all patients in the first dataset.'}
+![](../fig/03-loop_49_1.png){alt='Output from the first iteration of the for loop. Three line graphs showing the daily average, maximum and minimum inflammation over a 40-day period for all patients in the first dataset.'}
 
 ```output
 inflammation-02.csv
 ```
 
-![](fig/03-loop_49_3.png){alt='Output from the second iteration of the for loop. Three line graphs showing the daily average, maximum and minimum inflammation over a 40-day period for all patients in the seconddataset.'}
+![](../fig/03-loop_49_3.png){alt='Output from the second iteration of the for loop. Three line graphs showing the daily average, maximum and minimum inflammation over a 40-day period for all patients in the seconddataset.'}
 
 ```output
 inflammation-03.csv
 ```
 
-![](fig/03-loop_49_5.png){alt='Output from the third iteration of the for loop. Three line graphs showing the daily average, maximum and minimum inflammation over a 40-day period for all patients in the thirddataset.'}
+![](../fig/03-loop_49_5.png){alt='Output from the third iteration of the for loop. Three line graphs showing the daily average, maximum and minimum inflammation over a 40-day period for all patients in the thirddataset.'}
 
 The plots generated for the second clinical trial file look very similar to the plots for
 the first file: their average plots show similar "noisy" rises and falls; their maxima plots
@@ -849,107 +781,97 @@ the first two datasets, however the minima plot shows that the third dataset min
 consistently zero across every day of the trial. If we produce a heat map for the third data file
 we see the following:
 
-![](fig/inflammation-03-imshow.svg){alt='Heat map of the third inflammation dataset. Note that there are sporadic zero values throughoutthe entire dataset, and the last patient only has zero values over the 40 day study.'}
+![](../fig/inflammation-03-imshow.svg){alt='Heat map of the third inflammation dataset. Note that there are sporadic zero values throughoutthe entire dataset, and the last patient only has zero values over the 40 day study.'}
 
 We can see that there are zero values sporadically distributed across all patients and days of the
 clinical trial, suggesting that there were potential issues with data collection throughout the
 trial. In addition, we can see that the last patient in the study didn't have any inflammation
 flare-ups at all throughout the trial, suggesting that they may not even suffer from arthritis!
 
-:::::::::::::::::::::::::::::::::::::::  challenge
 
-## Plotting Differences
+> ## Plotting Differences
+> 
+> Plot the difference between the average inflammations reported in the first and second datasets
+> (stored in `inflammation-01.csv` and `inflammation-02.csv`, correspondingly), i.e., the difference between the leftmost plots of the first two figures.
+> 
+> > ## Solution
+> > 
+> > ```python
+> > from glob import glob
+> > import numpy
+> > import matplotlib.pyplot as plt
+> > 
+> > filenames = sorted(glob('data/inflammation*.csv'))
+> > 
+> > data0 = np.loadtxt(fname=filenames[0], delimiter=',')
+> > data1 = np.loadtxt(fname=filenames[1], delimiter=',')
+> > 
+> > fig = plt.figure(figsize=(10.0, 3.0))
+> > 
+> > matplotlib.pyplot.ylabel('Difference in average')
+> > plt.plot(np.mean(data0, axis=0) - np.mean(data1, axis=0))
+> > 
+> > fig.tight_layout()
+> > plt.show()
+> > ```
+> {: .solution}
+{: .challenge}
 
-Plot the difference between the average inflammations reported in the first and second datasets
-(stored in `inflammation-01.csv` and `inflammation-02.csv`, correspondingly),
-i.e., the difference between the leftmost plots of the first two figures.
 
-:::::::::::::::  solution
 
-## Solution
-
-```python
-import glob
-import numpy
-import matplotlib.pyplot
-
-filenames = sorted(glob.glob('inflammation*.csv'))
-
-data0 = numpy.loadtxt(fname=filenames[0], delimiter=',')
-data1 = numpy.loadtxt(fname=filenames[1], delimiter=',')
-
-fig = matplotlib.pyplot.figure(figsize=(10.0, 3.0))
-
-matplotlib.pyplot.ylabel('Difference in average')
-matplotlib.pyplot.plot(numpy.mean(data0, axis=0) - numpy.mean(data1, axis=0))
-
-fig.tight_layout()
-matplotlib.pyplot.show()
-```
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Generate Composite Statistics
-
-Use each of the files once to generate a dataset containing values averaged over all patients by completing the code inside the loop given below:
-
-```python
-filenames = glob.glob('inflammation*.csv')
-composite_data = numpy.zeros((60, 40))
-for filename in filenames:
-    # sum each new file's data into composite_data as it's read
-    #
-# and then divide the composite_data by number of samples
-composite_data = composite_data / len(filenames)
-```
-
-Then use pyplot to generate average, max, and min for all patients.
-
-:::::::::::::::  solution
-
-## Solution
-
-```python
-import glob
-import numpy
-import matplotlib.pyplot
-
-filenames = glob.glob('inflammation*.csv')
-composite_data = numpy.zeros((60, 40))
-
-for filename in filenames:
-    data = numpy.loadtxt(fname = filename, delimiter=',')
-    composite_data = composite_data + data
-
-composite_data = composite_data / len(filenames)
-
-fig = matplotlib.pyplot.figure(figsize=(10.0, 3.0))
-
-axes1 = fig.add_subplot(1, 3, 1)
-axes2 = fig.add_subplot(1, 3, 2)
-axes3 = fig.add_subplot(1, 3, 3)
-
-axes1.set_ylabel('average')
-axes1.plot(numpy.mean(composite_data, axis=0))
-
-axes2.set_ylabel('max')
-axes2.plot(numpy.amax(composite_data, axis=0))
-
-axes3.set_ylabel('min')
-axes3.plot(numpy.amin(composite_data, axis=0))
-
-fig.tight_layout()
-
-matplotlib.pyplot.show()
-```
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+> ## Generate Composite Statistics
+> 
+> Use each of the files once to generate a dataset containing values averaged over all patients by completing the code inside the loop given below:
+> 
+> ```python
+> filenames = glob('data/inflammation*.csv')
+> composite_data = numpy.zeros((60, 40))
+> for filename in filenames:
+>    # sum each new file's data into composite_data as it's read
+>    #
+> # and then divide the composite_data by number of samples
+> composite_data = composite_data / len(filenames)
+> ```
+> 
+> Then use pyplot to generate average, max, and min for all patients.
+> 
+> > ## Solution
+> > 
+> > ```python
+> > from glob import glob
+> > import numpy as np
+> > import matplotlib.pyplot as plt
+> > 
+> > filenames = glob('data/inflammation*.csv')
+> > composite_data = np.zeros((60, 40))
+> > 
+> > for filename in filenames:
+> >     data = np.loadtxt(fname = filename, delimiter=',')
+> >     composite_data = composite_data + data
+> > 
+> > composite_data = composite_data / len(filenames)
+> > 
+> > fig = plt.figure(figsize=(10.0, 3.0))
+> > 
+> > axes1 = fig.add_subplot(1, 3, 1)
+> > axes2 = fig.add_subplot(1, 3, 2)
+> > axes3 = fig.add_subplot(1, 3, 3)
+> > 
+> > axes1.set_ylabel('average')
+> > axes1.plot(np.mean(composite_data, axis=0))
+> > 
+> > axes2.set_ylabel('max')
+> > axes2.plot(np.amax(composite_data, axis=0))
+> > 
+> > axes3.set_ylabel('min')
+> > axes3.plot(np.amin(composite_data, axis=0))
+> > 
+> > fig.tight_layout()
+> > 
+> > plt.show()
+> > ```
+> {: .solution}
+{: .chellenge}
 
 After spending some time investigating the heat map and statistical plots, as well as
 doing the above exercises to plot differences between datasets and to generate composite
