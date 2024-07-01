@@ -32,7 +32,7 @@ Errors in Python have a very specific form,
 called a [traceback](../learners/reference.md#traceback).
 Let's examine one:
 
-```python
+~~~
 # This code has an intentional error. You can type it directly or
 # use it for reference to understand the error message below.
 def favorite_ice_cream():
@@ -44,9 +44,11 @@ def favorite_ice_cream():
     print(ice_creams[3])
 
 favorite_ice_cream()
-```
+~~~
+{: .python}
 
-```error
+
+~~~
 ---------------------------------------------------------------------------
 IndexError                                Traceback (most recent call last)
 <ipython-input-1-70bd89baa4df> in <module>()
@@ -62,7 +64,8 @@ IndexError                                Traceback (most recent call last)
       11 favorite_ice_cream()
 
 IndexError: list index out of range
-```
+~~~
+{: .error}
 
 This particular traceback has two levels.
 You can determine the number of levels by looking for the number of arrows on the left hand side.
@@ -81,7 +84,6 @@ So, in this case, the program first performed a
 Inside this function,
 the program encountered an error on Line 6, when it tried to run the code `print(ice_creams[3])`.
 
-:::::::::::::::::::::::::::::::::::::::::  callout
 
 > ## Long Tracebacks
 >
@@ -99,81 +101,76 @@ However,note that you may not always be able to find the error there,as it is po
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Reading Error Messages
-
-Read the Python code and the resulting traceback below, and answer the following questions:
-
-1. How many levels does the traceback have?
-2. What is the function name where the error occurred?
-3. On which line number in this function did the error occur?
-4. What is the type of error?
-5. What is the error message?
-
-```python
-# This code has an intentional error. Do not type it directly;
-# use it for reference to understand the error message below.
-def print_message(day):
-    messages = [
-        'Hello, world!',
-        'Today is Tuesday!',
-        'It is the middle of the week.',
-        'Today is Donnerstag in German!',
-        'Last day of the week!',
-        'Hooray for the weekend!',
-        'Aw, the weekend is almost over.'
-    ]
-    print(messages[day])
-
-def print_sunday_message():
-    print_message(7)
-
-print_sunday_message()
-```
-
-```error
----------------------------------------------------------------------------
-IndexError                                Traceback (most recent call last)
-<ipython-input-7-3ad455d81842> in <module>
-     16     print_message(7)
-     17 
----> 18 print_sunday_message()
-     19 
-
-<ipython-input-7-3ad455d81842> in print_sunday_message()
-     14 
-     15 def print_sunday_message():
----> 16     print_message(7)
-     17 
-     18 print_sunday_message()
-
-<ipython-input-7-3ad455d81842> in print_message(day)
-     11         'Aw, the weekend is almost over.'
-     12     ]
----> 13     print(messages[day])
-     14 
-     15 def print_sunday_message():
-
-IndexError: list index out of range
-```
-
-:::::::::::::::  solution
-
-## Solution
-
-1. 3 levels
-2. `print_message`
-3. 13
-4. `IndexError`
-5. `list index out of range` You can then infer that
-  `7` is not the right index to use with `messages`.
-  
-  
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-
+> ## Reading Error Messages
+> 
+> Read the Python code and the resulting traceback below, and answer the following questions:
+>
+> 1. How many levels does the traceback have?
+> 2. What is the function name where the error occurred?
+> 3. On which line number in this function did the error occur?
+> 4. What is the type of error?
+> 5. What is the error message?
+> 
+> ~~~
+> # This code has an intentional error. Do not type it directly;
+> # use it for reference to understand the error message below.
+> def print_message(day):
+>     messages = [
+>         'Hello, world!',
+>         'Today is Tuesday!',
+>         'It is the middle of the week.',
+>         'Today is Donnerstag in German!',
+>         'Last day of the week!',
+>         'Hooray for the weekend!',
+>         'Aw, the weekend is almost over.'
+>     ]
+>     print(messages[day])
+> 
+> def print_sunday_message():
+>     print_message(7)
+> 
+> print_sunday_message()
+> ~~~
+> {: .python}
+> 
+> 
+> ~~~
+> ---------------------------------------------------------------------------
+> IndexError                                Traceback (most recent call last)
+> <ipython-input-7-3ad455d81842> in <module>
+>      16     print_message(7)
+>      17 
+> ---> 18 print_sunday_message()
+>      19 
+> 
+> <ipython-input-7-3ad455d81842> in print_sunday_message()
+>      14 
+>      15 def print_sunday_message():
+> ---> 16     print_message(7)
+>      17 
+>      18 print_sunday_message()
+> 
+> <ipython-input-7-3ad455d81842> in print_message(day)
+>      11         'Aw, the weekend is almost over.'
+>      12     ]
+> ---> 13     print(messages[day])
+>      14 
+>      15 def print_sunday_message():
+> 
+> IndexError: list index out of range
+> ~~~
+> {: .error}
+> 
+> > ## Solution
+> >
+> > 1. 3 levels
+> > 2. `print_message`
+> > 3. 13
+> > 4. `IndexError`
+> > 5. `list index out of range` You can then infer that
+> >  `7` is not the right index to use with `messages`.
+> {: .solution}
+{: .challenge}
 
 > ## Better errors on newer Pythons
 > 
@@ -244,35 +241,26 @@ it *always* means that there is a problem with how your code is indented.
 
 :::::::::::::::::::::::::::::::::::::::::  callout
 
-## Tabs and Spaces
-
-Some indentation errors are harder to spot than others.
-In particular, mixing spaces and tabs can be difficult to spot
-because they are both [whitespace](../learners/reference.md#whitespace).
-In the example below, the first two lines in the body of the function
-`some_function` are indented with tabs, while the third line — with spaces.
-If you're working in a Jupyter notebook, be sure to copy and paste this example
-rather than trying to type it in manually because Jupyter automatically replaces
-tabs with spaces.
-
-```python
-def some_function():
-	msg = 'hello, world!'
-	print(msg)
-        return msg
-```
-
-Visually it is impossible to spot the error.
-Fortunately, Python does not allow you to mix tabs and spaces.
-
-```error
-  File "<ipython-input-5-653b36fbcd41>", line 4
-    return msg
-              ^
-TabError: inconsistent use of tabs and spaces in indentation
-```
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+> ## Tabs and Spaces
+> 
+> Some indentation errors are harder to spot than others. In particular, mixing spaces and tabs can be difficult to spot because they are both [whitespace](../learners/reference.md#whitespace). In the example below, the first two lines in the body of the function `some_function` are indented with tabs, while the third line — with spaces. If you're working in a Jupyter notebook, be sure to copy and paste this example rather than trying to type it in manually because Jupyter automatically replaces tabs with spaces.
+> 
+> ```python
+> def some_function():
+> 	msg = 'hello, world!'
+> 	print(msg)
+>         return msg
+> ```
+> 
+> Visually it is impossible to spot the error. Fortunately, Python does not allow you to mix tabs and spaces.
+> 
+> ```error
+>   File "<ipython-input-5-653b36fbcd41>", line 4
+>     return msg
+>               ^
+> TabError: inconsistent use of tabs and spaces in indentation
+> ```
+{: .callout}
 
 ## Variable Name Errors
 
@@ -470,117 +458,88 @@ If you get an error that you've never seen before,
 searching the Internet for that error type
 often reveals common reasons why you might get that error.
 
-:::::::::::::::::::::::::::::::::::::::  challenge
 
-## Identifying Syntax Errors
+> ## Identifying Syntax Errors
+> 
+> 1. Read the code below, and (without running it) try to identify what the errors are.
+> 2. Run the code, and read the error message. Is it a `SyntaxError` or an `IndentationError`?
+> 3. Fix the error.
+> 4. Repeat steps 2 and 3, until you have fixed all the errors.
+> 
+> ```python
+> def another_function
+>   print('Syntax errors are annoying.')
+>    print('But at least Python tells us about them!')
+>   print('So they are usually not too hard to fix.')
+> ```
+> > ## Solution
+> > 
+> > `SyntaxError` for missing `():` at end of first line, `IndentationError` for mismatch between second and third lines. A fixed version is:
+> > 
+> > ```python
+> > def another_function():
+> >     print('Syntax errors are annoying.')
+> >     print('But at least Python tells us about them!')
+> >     print('So they are usually not too hard to fix.')
+> > ```
+> {: .challenge}
 
-1. Read the code below, and (without running it) try to identify what the errors are.
-2. Run the code, and read the error message. Is it a `SyntaxError` or an `IndentationError`?
-3. Fix the error.
-4. Repeat steps 2 and 3, until you have fixed all the errors.
 
-```python
-def another_function
-  print('Syntax errors are annoying.')
-   print('But at least Python tells us about them!')
-  print('So they are usually not too hard to fix.')
-```
-
-:::::::::::::::  solution
-
-## Solution
-
-`SyntaxError` for missing `():` at end of first line,
-`IndentationError` for mismatch between second and third lines.
-A fixed version is:
-
-```python
-def another_function():
-    print('Syntax errors are annoying.')
-    print('But at least Python tells us about them!')
-    print('So they are usually not too hard to fix.')
-```
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Identifying Variable Name Errors
-
-1. Read the code below, and (without running it) try to identify what the errors are.
-2. Run the code, and read the error message.
-  What type of `NameError` do you think this is?
-  In other words, is it a string with no quotes,
-  a misspelled variable,
-  or a variable that should have been defined but was not?
-3. Fix the error.
-4. Repeat steps 2 and 3, until you have fixed all the errors.
-
-```python
-for number in range(10):
-    # use a if the number is a multiple of 3, otherwise use b
-    if (Number % 3) == 0:
-        message = message + a
-    else:
-        message = message + 'b'
-print(message)
-```
-
-:::::::::::::::  solution
-
-## Solution
-
-3 `NameError`s for `number` being misspelled, for `message` not defined,
-and for `a` not being in quotes.
-
-Fixed version:
-
-```python
-message = ''
-for number in range(10):
-    # use a if the number is a multiple of 3, otherwise use b
-    if (number % 3) == 0:
-        message = message + 'a'
-    else:
-        message = message + 'b'
-print(message)
-```
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Identifying Index Errors
-
-1. Read the code below, and (without running it) try to identify what the errors are.
-2. Run the code, and read the error message. What type of error is it?
-3. Fix the error.
-
-```python
-seasons = ['Spring', 'Summer', 'Fall', 'Winter']
-print('My favorite season is ', seasons[4])
-```
-
-:::::::::::::::  solution
-
-## Solution
-
-`IndexError`; the last entry is `seasons[3]`, so `seasons[4]` doesn't make sense.
-A fixed version is:
-
-```python
-seasons = ['Spring', 'Summer', 'Fall', 'Winter']
-print('My favorite season is ', seasons[-1])
-```
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+> ## Identifying Variable Name Errors
+> 
+> 1. Read the code below, and (without running it) try to identify what the errors are.
+> 2. Run the code, and read the error message.
+>   What type of `NameError` do you think this is? In other words, is it a string with no quotes, a misspelled variable, or a variable that should have been defined but was not?
+>  3. Fix the error.
+>  4. Repeat steps 2 and 3, until you have fixed all the errors.
+> 
+> ```python
+> for number in range(10):
+>     # use a if the number is a multiple of 3, otherwise use b
+>     if (Number % 3) == 0:
+>         message = message + a
+>     else:
+>         message = message + 'b'
+> print(message)
+> ```
+> 
+> > ## Solution
+> > 
+> > 3 `NameError`s for `number` being misspelled, for `message` not defined, and for `a` not being in quotes. Fixed version:
+> > 
+> > ```python
+> > message = ''
+> > for number in range(10):
+> >     # use a if the number is a multiple of 3, otherwise use b
+> >     if (number % 3) == 0:
+> >         message = message + 'a'
+> >     else:
+> >         message = message + 'b'
+> > print(message)
+> > ```
+> {: .solution}
+{: .challenge}
 
 
 
-
+> ## Identifying Index Errors
+> 
+> 1. Read the code below, and (without running it) try to identify what the errors are.
+> 2. Run the code, and read the error message. What type of error is it?
+> 3. Fix the error.
+> 
+> ```python
+> seasons = ['Spring', 'Summer', 'Fall', 'Winter']
+> print('My favorite season is ', seasons[4])
+> ```
+>
+> > ## Solution
+> >
+> `IndexError`; the last entry is `seasons[3]`, so `seasons[4]` doesn't make sense. A fixed version is:
+> > 
+> > ```python
+> > seasons = ['Spring', 'Summer', 'Fall', 'Winter']
+> > print('My favorite season is ', seasons[-1])
+> >```
+> {: .solution}
+{: .challenge}
