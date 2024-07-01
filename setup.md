@@ -282,43 +282,67 @@ Prerequisites:
 ### 2. Navigate to Drive D: (replace with your desired drive)
 - Switch to drive D: by typing the following command and pressing Enter:
 
-`cd C:`
+~~~
+$ cd C:
+~~~
+{: .bash}
 
 ### 3. Create a New Directory
 - Create a new directory named `python` or any name you want by typing in the command line and pressing `Enter`:
 
-`mkdir python`
+~~~
+$ mkdir python
+~~~
+{: .bash}
 
 ### 4. Navigate to the New Directory
 - Change the current directory to `python` by typing the following command and pressing `Enter`:
 
-`cd python`
+~~~
+$ cd python
+~~~
+{: .bash}
 
 ### 5. Create a Virtual Environment
 - Create a new virtual environment named `py_env` by typing the following command and pressing `Enter`:
 
-`python -m venv py_env`
+~~~
+$ python -m venv py_env
+~~~
+{: .bash}
 
 ### 6. Activate the Virtual Environment
 - Activate the virtual environment by typing the following command and pressing `Enter`:
 
-`py_env\Scripts\activate`
-
+~~~
+$ py_env\Scripts\activate
+~~~
+{: .bash}
 
 ### 7. Upgrade pip (optional)
 - Upgrade pip (the Python package installer) to the latest version by typing the following command and pressing `Enter`:
 
-`python.exe -m pip install --upgrade pip`
+~~~
+$ python.exe -m pip install --upgrade pip
+~~~
+{: .bash}
 
 ### 8. Install Jupyter Notebook
 - Install Jupyter Notebook by typing the following command and pressing `Enter`:
 
-`pip install notebook`
+~~~
+$ pip install notebook
+~~~
+{: .bash}
+
 
 ### 9. Verify Installation
 - To verify that Jupyter Notebook is installed correctly, you can start it by typing the following command and pressing `Enter`:
 
-`jupyter-notebook`
+~~~
+$ jupyter-notebook
+~~~
+{: .bash}
 
 This will open Jupyter Notebook in your default web browser, and you can start creating and running Jupyter notebooks.
 
@@ -326,11 +350,12 @@ This will open Jupyter Notebook in your default web browser, and you can start c
 
 When you're finished, deactivate the environment by typing:
 
-`deactivate`
+~~~
+$ deactivate
+~~~
+{: .bash}
 
 - This exits the virtual environment and returns you to your system's default Python environment.
-
-
 
 
 # Setting Up a Python virtual environment on Ubuntu 
@@ -346,13 +371,20 @@ When you're finished, deactivate the environment by typing:
 
 - Use the `cd` command to navigate to the location where you want to create the virtual environment. For example:
 
-`cd Documents/python`
+~~~
+$ cd Documents/python
+~~~
+{: .bash}
+
 
 ### 3) Create the Virtual Environment
 
 - Use the `python3 -m venv` command followed by your desired environment name:
 
-`python3 -m venv py_env`
+~~~
+$ python3 -m venv py_env
+~~~
+{: .bash}
 
 - This creates a virtual environment directory named `py_env` in the current location.
 
@@ -360,19 +392,29 @@ When you're finished, deactivate the environment by typing:
 
 - Activate the environment by running the following command (replace py_env accordingly):
 
-`source py_env/bin/activate`
+~~~
+$ source py_env/bin/activate
+~~~
+{: .bash}
 
 ### 5) Install Required Packages
 
 - Once the environment is activated, use pip to install the packages you need for your project:
 
-`pip install <package_name>`
+~~~
+$ pip install <package_name>
+~~~
+{: .bash}
 
 ### 6) Deactivate the Environment (Optional)
 
 When you're finished, deactivate the environment by typing:
 
-`deactivate`
+~~~
+$ deactivate
+~~~
+{: .bash}
+
 
 - This exits the virtual environment and returns you to your system's default Python environment.
 
@@ -384,11 +426,17 @@ This method might require installing virtualenv first:
 
 ### 1) Update package lists
 
-`sudo apt update`  
+~~~
+$ sudo apt update
+~~~
+{: .bash} 
 
 ### 2) Install virtualenv
 
-`sudo apt install python3-venv`
+~~~
+$ sudo apt install python3-venv
+~~~
+{: .bash}
 
 ### 3) Create the Virtual Environment
 
@@ -407,14 +455,19 @@ This method might require installing virtualenv first:
 ### 5) Install Required Packages
 
 - Once the environment is activated, use pip to install the packages you need for your project:
-
-`pip install <package_name>`
+~~~
+$ pip install <package_name>
+~~~
+{: .bash}
 
 ### 6) Deactivate the Environment (Optional)
 
 When you're finished, deactivate the environment by typing:
 
-`deactivate`
+~~~
+$ deactivate
+~~~
+{: .bash}
 
 - This exits the virtual environment and returns you to your system's default Python environment.
 
@@ -424,11 +477,13 @@ When you're finished, deactivate the environment by typing:
 
 - Open a terminal window. Use the conda create command followed by the desired environment name and the Python version you want.
 
-- Replace "my_env" with your preferred name and "3.9" with the Python version
+- Replace "py_env" with your preferred name and "3.11" with the Python version
 
-`conda create -n py_env python=3.9`
-
-- This command creates a new environment named my_env with Python version 3.9 (adjust the version as needed).
+~~~
+$ conda create -n py_env python=3.11
+~~~
+{: .bash}
+- This command creates a new environment named my_env with Python version 3.11 (adjust the version as needed).
   
 - The -n flag specifies the environment name.
 
@@ -436,11 +491,16 @@ When you're finished, deactivate the environment by typing:
 
 Once created, activate the environment using the following command (adjust the environment name if needed):
 
-`conda activate py_env`
+~~~
+$ conda activate py_env
+~~~
+{: .bash}
 
 ### 3. Deactivate the Environment
 
 When finished, deactivate the environment by typing:
 
-`conda deactivate`
-
+~~~
+$ conda deactivate
+~~~
+{: .bash}
