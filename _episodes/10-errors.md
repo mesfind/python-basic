@@ -99,7 +99,6 @@ If you do encounter an error you don't recognize,try looking at the
 [official documentation on errors](https://docs.python.org/3/library/exceptions.html).
 However,note that you may not always be able to find the error there,as it is possible to create custom errors. In that case, hopefully the custom error message is informative enough to help you figure out what went wrong.
 
-:::::::::::::::::::::::::::::::::::::::  challenge
 
 > ## Reading Error Messages
 > 
