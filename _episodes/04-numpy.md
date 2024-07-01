@@ -571,7 +571,7 @@ which is the average inflammation per patient across all days.
 > > [[1 3]
 > >  [4 6]
 > >  [7 9]]
-> ```
+> > ```
 > {: .solution}
 > 
 > > ## Solution
@@ -591,12 +591,11 @@ which is the average inflammation per patient across all days.
 > > [7 9]]
 > > ```
 > {: .solution}
-
-
+> 
 > ## Change In Inflammation
 > 
 > The patient data is *longitudinal* in the sense that each row represents a series of observations relating to one individual.  This means that the change in inflammation over time is a meaningful concept. Let's find out how to calculate changes in the data contained in an array with NumPy.
-
+> 
 > The `numpy.diff()` function takes an array and returns the differences between two successive values. Let's use it to examine the changes each day across the first week of patient 3 from our inflammation dataset.
 > 
 > ```python
