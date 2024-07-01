@@ -322,12 +322,8 @@ of `'left'`.
 > If you assign `a = 123`,
 > what happens if you try to get the second digit of `a` via `a[1]`?
 > 
-> >  ## Solution
-> > 
-> > Numbers are not strings or sequences and Python will raise an error if you try to perform an index operation on a
-> > number. In the [next lesson on types and type conversion](03-types-conversion.md)
-> > we will learn more about types and how to convert between different types. If you want the Nth digit of a number you
-> > can convert it into a string using the `str` built-in function and then perform an index operation on that string.
+> > ## Solution
+> > Numbers are not strings or sequences and Python will raise an error if you try to perform an index operation on a number. we will learn more about types and how to convert between different types. If you want the Nth digit of a number you can convert it into a string using the `str` built-in function and then perform an index operation on that string.
 > > 
 > > ```python
 > > a = 123
