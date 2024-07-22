@@ -496,7 +496,7 @@ often reveals common reasons why you might get that error.
 >  3. Fix the error.
 >  4. Repeat steps 2 and 3, until you have fixed all the errors.
 > 
-> ```python
+> ~~~
 > for number in range(10):
 >     # use a if the number is a multiple of 3, otherwise use b
 >     if (Number % 3) == 0:
@@ -504,13 +504,14 @@ often reveals common reasons why you might get that error.
 >     else:
 >         message = message + 'b'
 > print(message)
-> ```
+> ~~~
+> {: .python}
 > 
 > > ## Solution
 > > 
 > > 3 `NameError`s for `number` being misspelled, for `message` not defined, and for `a` not being in quotes. Fixed version:
 > > 
-> > ```python
+> > ~~~
 > > message = ''
 > > for number in range(10):
 > >     # use a if the number is a multiple of 3, otherwise use b
@@ -519,7 +520,8 @@ often reveals common reasons why you might get that error.
 > >     else:
 > >         message = message + 'b'
 > > print(message)
-> > ```
+> > ~~~
+> > {: .python}
 > {: .solution}
 {: .challenge}
 
