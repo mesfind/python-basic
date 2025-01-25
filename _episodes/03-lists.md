@@ -476,42 +476,40 @@ Omitting ending index: ['sep', 'oct', 'nov', 'dec']
 ```
 
 :::::::::::::::::::::::::::::::::::::::  challenge
-
-## Overloading
-
-`+` usually means addition, but when used on strings or lists, it means "concatenate".
-Given that, what do you think the multiplication operator `*` does on lists?
-In particular, what will be the output of the following code?
-
-```python
-counts = [2, 4, 6, 8, 10]
-repeats = counts * 2
-print(repeats)
-```
-
-1. `[2, 4, 6, 8, 10, 2, 4, 6, 8, 10]`
-2. `[4, 8, 12, 16, 20]`
-3. `[[2, 4, 6, 8, 10], [2, 4, 6, 8, 10]]`
-4. `[2, 4, 6, 8, 10, 4, 8, 12, 16, 20]`
-
-The technical term for this is *operator overloading*:
-a single operator, like `+` or `*`,
-can do different things depending on what it's applied to.
-
-
-
-> ## Solution
+> # Callenge
+> ## Overloading
 > 
-> The multiplication operator `*` used on a list replicates elements of the list and concatenates them together:
-> 
-> ```output
-> [2, 4, 6, 8, 10, 2, 4, 6, 8, 10]
-> ```
-> 
-> It's equivalent to:
+> `+` usually means addition, but when used on strings or lists, it means "concatenate".
+> Given that, what do you think the multiplication operator `*` does on lists?
+> In particular, what will be the output of the following code?
 > 
 > ```python
-> counts + counts
+> counts = [2, 4, 6, 8, 10]
+> repeats = counts * 2
+> print(repeats)
 > ```
-{: .solution}
-
+> 
+> 1. `[2, 4, 6, 8, 10, 2, 4, 6, 8, 10]`
+> 2. `[4, 8, 12, 16, 20]`
+> 3. `[[2, 4, 6, 8, 10], [2, 4, 6, 8, 10]]`
+> 4. `[2, 4, 6, 8, 10, 4, 8, 12, 16, 20]`
+> 
+> The technical term for this is *operator overloading*:
+> a single operator, like `+` or `*`,
+> can do different things depending on what it's applied to.
+> 
+> > ## Solution
+> > 
+> > The multiplication operator `*` used on a list replicates elements of the list and concatenates them together:
+> > 
+> > ```output
+> > [2, 4, 6, 8, 10, 2, 4, 6, 8, 10]
+> > ```
+> > 
+> > It's equivalent to:
+> > 
+> > ```python
+> > counts + counts
+> > ```
+> {: .solution}
+{: .challenge}
