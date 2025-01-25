@@ -416,28 +416,25 @@ of the string)?
 I notpssgre ntesae
 ```
 
-:::::::::::::::  solution
 
-## Solution
+> ## Solution
+>
+> To obtain every other character you need to provide a slice with the step
+> size of 2:
+> 
+> ```python
+> beatles[0:35:2]
+> ```
+> 
+> You can also leave out the beginning and end of the slice to take the whole string
+> and provide only the step argument to go every second
+> element:
+> 
+> ```python
+> beatles[::2]
+> ```
+> {: .solution}
 
-To obtain every other character you need to provide a slice with the step
-size of 2:
-
-```python
-beatles[0:35:2]
-```
-
-You can also leave out the beginning and end of the slice to take the whole string
-and provide only the step argument to go every second
-element:
-
-```python
-beatles[::2]
-```
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 If you want to take a slice from the beginning of a sequence, you can omit the first index in the
 range:
