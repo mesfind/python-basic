@@ -498,21 +498,20 @@ The technical term for this is *operator overloading*:
 a single operator, like `+` or `*`,
 can do different things depending on what it's applied to.
 
-:::::::::::::::  solution
 
-## Solution
 
-The multiplication operator `*` used on a list replicates elements of the list and concatenates
-them together:
-
-```output
-[2, 4, 6, 8, 10, 2, 4, 6, 8, 10]
-```
-
-It's equivalent to:
-
-```python
-counts + counts
-```
-
+> ## Solution
+> 
+> The multiplication operator `*` used on a list replicates elements of the list and concatenates them together:
+> 
+> ```output
+> [2, 4, 6, 8, 10, 2, 4, 6, 8, 10]
+> ```
+> 
+> It's equivalent to:
+> 
+> ```python
+> counts + counts
+> ```
+{: .solution}
 
