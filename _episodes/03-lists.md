@@ -102,8 +102,7 @@ TypeError: 'str' object does not support item assignment
 
 does not.
 
-:::::::::::::::::::::::::::::::::::::::::  callout
-
+> # callout
 > ## Ch-Ch-Ch-Ch-Changes
 >
 > Data which can be modified in place is called [mutable](../learners/reference.md#mutable),
